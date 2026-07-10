@@ -55,7 +55,7 @@ export default function Footer() {
                 〒107-0061 東京都港区北青山一丁目3番1号<br />
                 アールキューブ青山3階
               </p>
-              <a href="tel:03-6868-4786" className="block hover:text-s3-blue transition-colors duration-200">
+              <a href="tel:0368684786" className="block hover:text-s3-blue transition-colors duration-200">
                 03-6868-4786
               </a>
               <a href="mailto:contact@s3dot.net" className="block hover:text-s3-blue transition-colors duration-200">

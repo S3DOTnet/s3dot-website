@@ -9,6 +9,12 @@ const organization = {
   legalName: "エススリードット株式会社",
   alternateName: ["S3DOT", "S3DOT Inc."],
   url: SITE_URL,
+  foundingDate: "2026-07",
+  founder: {
+    "@type": "Person",
+    name: "木村 健一郎",
+    jobTitle: "代表取締役",
+  },
   logo: {
     "@type": "ImageObject",
     url: `${SITE_URL}/images/logo.png`,
