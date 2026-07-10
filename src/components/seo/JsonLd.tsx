@@ -1,4 +1,4 @@
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://s3dot.co.jp";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
 
 /* ── Organization Schema ──────────────────── */
 const organization = {
@@ -6,7 +6,8 @@ const organization = {
   "@type": "Organization",
   "@id": `${SITE_URL}/#organization`,
   name: "エススリードット株式会社",
-  alternateName: "S3DOT",
+  legalName: "エススリードット株式会社",
+  alternateName: ["S3DOT", "S3DOT Inc."],
   url: SITE_URL,
   logo: {
     "@type": "ImageObject",
@@ -16,9 +17,21 @@ const organization = {
   },
   description:
     "AIを、もっと身近にする会社。AI導入相談・業務改善・業務自動化・AI制作・AIシステム開発を通じて、あなたの会社に合った最適なAI活用をご提案します。",
+  address: {
+    "@type": "PostalAddress",
+    postalCode: "107-0061",
+    addressCountry: "JP",
+    addressRegion: "東京都",
+    addressLocality: "港区",
+    streetAddress: "北青山一丁目3番1号 アールキューブ青山3階",
+  },
+  telephone: "03-6868-4786",
+  email: "contact@s3dot.net",
   sameAs: [],  /* 公式SNSアカウントURLを確定後に追加 */
   contactPoint: {
     "@type": "ContactPoint",
+    telephone: "03-6868-4786",
+    email: "contact@s3dot.net",
     contactType: "customer service",
     availableLanguage: "Japanese",
   },

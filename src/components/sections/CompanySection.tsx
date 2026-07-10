@@ -2,16 +2,24 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Building2, Globe, Calendar, User2, MapPin, Briefcase, Mail } from "lucide-react";
+import { Building2, Globe, Calendar, User2, MapPin, Briefcase, Mail, Phone } from "lucide-react";
 
-const info = [
-  { icon: Building2, label: "会社名",   value: "エススリードット株式会社",                                     span: 2, color: "#00C8FF" },
-  { icon: Globe,     label: "英語表記", value: "S3DOT Inc.",                                                   span: 1, color: "#7B5EFF" },
-  { icon: Calendar,  label: "設立",     value: "—",                                                            span: 1, color: "#00E5A0" },
-  { icon: User2,     label: "代表者",   value: "—",                                                            span: 1, color: "#00C8FF" },
-  { icon: MapPin,    label: "所在地",   value: "—",                                                            span: 1, color: "#7B5EFF" },
-  { icon: Briefcase, label: "事業内容", value: "AI導入相談 / 業務改善 / 自動化 / AI制作 / AIシステム開発",    span: 2, color: "#00E5A0" },
-  { icon: Mail,      label: "連絡先",   value: "—",                                                            span: 2, color: "#00C8FF" },
+const info: Array<{
+  icon: React.ElementType;
+  label: string;
+  value: string;
+  span: 1 | 2;
+  color: string;
+  href?: string;
+}> = [
+  { icon: Building2, label: "会社名",   value: "エススリードット株式会社",                                        span: 2, color: "#00C8FF" },
+  { icon: Globe,     label: "英語表記", value: "S3DOT Inc.",                                                      span: 1, color: "#7B5EFF" },
+  { icon: Calendar,  label: "設立",     value: "—",                                                               span: 1, color: "#00E5A0" },
+  { icon: User2,     label: "代表者",   value: "—",                                                               span: 1, color: "#00C8FF" },
+  { icon: MapPin,    label: "所在地",   value: "〒107-0061 東京都港区北青山一丁目3番1号 アールキューブ青山3階",  span: 2, color: "#7B5EFF" },
+  { icon: Briefcase, label: "事業内容", value: "AI導入相談 / 業務改善 / 自動化 / AI制作 / AIシステム開発",       span: 2, color: "#00E5A0" },
+  { icon: Mail,      label: "メール",   value: "contact@s3dot.net",  href: "mailto:contact@s3dot.net",            span: 1, color: "#00C8FF" },
+  { icon: Phone,     label: "電話",     value: "03-6868-4786",       href: "tel:03-6868-4786",                    span: 1, color: "#7B5EFF" },
 ];
 
 export default function CompanySection() {
@@ -68,9 +76,19 @@ export default function CompanySection() {
                   >
                     {item.label}
                   </p>
-                  <p style={{ fontSize: "0.88rem", color: "rgba(232,237,242,0.92)", lineHeight: "1.75", letterSpacing: "0.01em" }}>
-                    {item.value}
-                  </p>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      style={{ fontSize: "0.88rem", color: "rgba(232,237,242,0.92)", lineHeight: "1.75", letterSpacing: "0.01em" }}
+                      className="hover:text-s3-blue transition-colors duration-200 break-all"
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <p style={{ fontSize: "0.88rem", color: "rgba(232,237,242,0.92)", lineHeight: "1.75", letterSpacing: "0.01em" }}>
+                      {item.value}
+                    </p>
+                  )}
                 </div>
               </motion.div>
             );

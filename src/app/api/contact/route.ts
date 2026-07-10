@@ -129,13 +129,13 @@ function replyHtml(d: FormData): string {
     </table>
     <div style="background:#f0f9ff;border-left:4px solid #00C8FF;padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:8px">
       <p style="margin:0;font-size:14px;line-height:1.7;color:#2d3748">お急ぎの場合は、公式LINEからもお気軽にお問い合わせください。<br>
-      <a href="https://s3dot.com" style="color:#00C8FF;font-weight:600;text-decoration:none">https://s3dot.com</a></p>
+      <a href="https://www.s3dot.com" style="color:#00C8FF;font-weight:600;text-decoration:none">https://www.s3dot.com</a></p>
     </div>
   </div>
   <div style="padding:18px 32px;background:#f7fafc;text-align:center">
     <p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#2d3748">S3DOT</p>
     <p style="margin:0 0 4px;font-size:12px;color:#a0aec0">AIを、もっと身近にする会社です。</p>
-    <a href="https://s3dot.com" style="font-size:12px;color:#00C8FF;text-decoration:none">https://s3dot.com</a>
+    <a href="https://www.s3dot.com" style="font-size:12px;color:#00C8FF;text-decoration:none">https://www.s3dot.com</a>
   </div>
 </div></body></html>`;
 }
@@ -165,7 +165,7 @@ ${d.requests ? `\nご希望・ご質問:\n${d.requests}` : ""}
 
 S3DOT
 AIを、もっと身近にする会社です。
-https://s3dot.com
+https://www.s3dot.com
 `;
 }
 
@@ -212,7 +212,7 @@ export async function POST(request: NextRequest) {
 
   // ⑥ Resend でメール送信（Resend インスタンスは try の中で生成）
   const submittedAt = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  const sourceUrl   = request.headers.get("origin") ?? "https://s3dot.com";
+  const sourceUrl   = request.headers.get("origin") ?? "https://www.s3dot.com";
 
   try {
     const resend = new Resend(env.apiKey);

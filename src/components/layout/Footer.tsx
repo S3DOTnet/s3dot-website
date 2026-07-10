@@ -50,6 +50,18 @@ export default function Footer() {
               AIを、もっと身近にする会社。<br />
               エススリードット株式会社
             </p>
+            <div style={{ marginTop: "0.875rem", fontSize: "0.78rem", color: "rgba(143,164,184,0.7)", lineHeight: "1.85" }}>
+              <p style={{ marginBottom: "0.25rem" }}>
+                〒107-0061 東京都港区北青山一丁目3番1号<br />
+                アールキューブ青山3階
+              </p>
+              <a href="tel:03-6868-4786" className="block hover:text-s3-blue transition-colors duration-200">
+                03-6868-4786
+              </a>
+              <a href="mailto:contact@s3dot.net" className="block hover:text-s3-blue transition-colors duration-200">
+                contact@s3dot.net
+              </a>
+            </div>
           </div>
 
           {/* Services */}
@@ -108,7 +120,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-5">
           <p style={{ fontSize: "0.72rem", color: "rgba(74,96,112,0.9)", letterSpacing: "0.02em" }}>
-            © 2025 エススリードット株式会社 (S3DOT Inc.) All rights reserved.
+            © 2026 エススリードット株式会社 (S3DOT Inc.) All rights reserved.
           </p>
           <div className="flex items-center gap-7">
             <a
