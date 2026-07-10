@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Building2, Globe, Tag, User2, Calendar, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
+import { Building2, Globe, User2, Calendar, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
 
 type InfoItem = {
   icon: React.ElementType;
@@ -10,23 +10,44 @@ type InfoItem = {
   value: string;
   color: string;
   href?: string;
-  /** sm(tablet)で2列全幅になる。lg(desktop)では通常の1列幅に戻る */
-  smFull?: boolean;
+  multiline?: boolean;
+  colClass?: string;
 };
 
+/*
+  Desktop (lg: 3-col grid) のレイアウト:
+  Row 1 ── 会社名       | 英語表記   | 代表取締役   ← 情報量ほぼ同等
+  Row 2 ── 設立         | 電話番号   | メールアドレス ← 情報量ほぼ同等
+  Row 3 ── 所在地(×2)              | ホームページ  ← 所在地を2列幅に展開
+
+  Tablet (md: 2-col):
+  会社名|英語表記 / 代表取締役|設立 / 電話番号|メール / 所在地(full) / HP(full)
+
+  Mobile (1-col): 縦並び8枚
+*/
 const info: InfoItem[] = [
-  // ─── デスクトップ Row 1 ────────────────────────────────────────
-  { icon: Building2,    label: "会社名",         value: "エススリードット株式会社",                                       color: "#00C8FF", smFull: true  },
-  { icon: Globe,        label: "英語表記",       value: "S3DOT Inc.",                                                     color: "#7B5EFF"               },
-  { icon: Tag,          label: "ブランド名",     value: "S3DOT",                                                          color: "#00E5A0"               },
-  // ─── デスクトップ Row 2 ────────────────────────────────────────
-  { icon: User2,        label: "代表取締役",     value: "木村 健一郎",                                                    color: "#00C8FF"               },
-  { icon: Calendar,     label: "設立",           value: "2026年7月",                                                      color: "#7B5EFF"               },
-  { icon: MapPin,       label: "所在地",         value: "〒107-0061 東京都港区北青山一丁目3番1号 アールキューブ青山3階", color: "#00E5A0", smFull: true  },
-  // ─── デスクトップ Row 3 ────────────────────────────────────────
-  { icon: Phone,        label: "電話番号",       value: "03-6868-4786",      href: "tel:0368684786",                      color: "#00C8FF"               },
-  { icon: Mail,         label: "メールアドレス", value: "contact@s3dot.net", href: "mailto:contact@s3dot.net",            color: "#7B5EFF"               },
-  { icon: ExternalLink, label: "ホームページ",   value: "www.s3dot.com",     href: "https://www.s3dot.com",              color: "#00E5A0", smFull: true  },
+  { icon: Building2,    label: "会社名",         value: "エススリードット株式会社",                                                  color: "#00C8FF" },
+  { icon: Globe,        label: "英語表記",       value: "S3DOT Inc.",                                                                color: "#7B5EFF" },
+  { icon: User2,        label: "代表取締役",     value: "木村 健一郎",                                                              color: "#00E5A0" },
+  { icon: Calendar,     label: "設立",           value: "2026年7月",                                                                color: "#00C8FF" },
+  { icon: Phone,        label: "電話番号",       value: "03-6868-4786",      href: "tel:0368684786",                                color: "#7B5EFF" },
+  { icon: Mail,         label: "メールアドレス", value: "contact@s3dot.net", href: "mailto:contact@s3dot.net",                      color: "#00E5A0" },
+  {
+    icon: MapPin,
+    label: "所在地",
+    value: "〒107-0061 東京都港区北青山一丁目3番1号\nアールキューブ青山3階",
+    color: "#00C8FF",
+    multiline: true,
+    colClass: "md:col-span-2 lg:col-span-2",
+  },
+  {
+    icon: ExternalLink,
+    label: "ホームページ",
+    value: "www.s3dot.com",
+    href: "https://www.s3dot.com",
+    color: "#7B5EFF",
+    colClass: "md:col-span-2 lg:col-span-1",
+  },
 ];
 
 export default function CompanySection() {
@@ -74,17 +95,11 @@ export default function CompanySection() {
           </motion.p>
         </div>
 
-        {/*
-          ── グリッドレイアウト ──
-          mobile(default): 1列 × 9行
-          tablet(sm 640px+): 2列。smFull 項目は col-span-2 で全幅展開
-          desktop(lg 1024px+): 3列 × 3行。smFull を lg:col-span-1 でリセットし 9項目が 3×3 に収まる
-        */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        {/* ── グリッド ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 max-w-4xl mx-auto">
           {info.map((item, i) => {
             const Icon       = item.icon;
             const isExternal = item.href?.startsWith("http");
-            const spanCls    = item.smFull ? " sm:col-span-2 lg:col-span-1" : "";
 
             return (
               <motion.div
@@ -93,7 +108,7 @@ export default function CompanySection() {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
-                className={`card-luxury rounded-xl flex items-start gap-4${spanCls}`}
+                className={`card-luxury rounded-xl flex items-start gap-4${item.colClass ? ` ${item.colClass}` : ""}`}
                 style={{ padding: "1.25rem 1.5rem" }}
               >
                 {/* アイコンバッジ */}
@@ -111,11 +126,11 @@ export default function CompanySection() {
                   />
                 </div>
 
-                {/* ラベル + 値 */}
+                {/* テキスト */}
                 <div className="min-w-0 flex-1">
                   <p
                     className="font-semibold uppercase mb-1"
-                    style={{ fontSize: "0.64rem", letterSpacing: "0.13em", color: item.color }}
+                    style={{ fontSize: "0.64rem", letterSpacing: "0.14em", color: item.color }}
                   >
                     {item.label}
                   </p>
@@ -125,10 +140,11 @@ export default function CompanySection() {
                       href={item.href}
                       {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       style={{
-                        fontSize:      "0.86rem",
+                        fontSize:      "0.875rem",
                         color:         "rgba(232,237,242,0.92)",
                         lineHeight:    "1.7",
                         letterSpacing: "0.01em",
+                        display:       "block",
                       }}
                       className="hover:text-s3-blue transition-colors duration-200 break-all"
                     >
@@ -137,10 +153,11 @@ export default function CompanySection() {
                   ) : (
                     <p
                       style={{
-                        fontSize:      "0.86rem",
+                        fontSize:      "0.875rem",
                         color:         "rgba(232,237,242,0.92)",
                         lineHeight:    "1.7",
                         letterSpacing: "0.01em",
+                        whiteSpace:    item.multiline ? "pre-line" : undefined,
                       }}
                     >
                       {item.value}
