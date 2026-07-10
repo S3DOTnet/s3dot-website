@@ -10,7 +10,7 @@ const LineIcon = () => (
   </svg>
 );
 
-const MAIL_HREF = `mailto:contact@s3dot.net?subject=${encodeURIComponent("【S3DOT】お問い合わせ")}&body=${encodeURIComponent("お名前：\n会社名：\nお問い合わせ内容：")}`;
+const MAIL_HREF = `mailto:contact@s3dot.net?subject=${encodeURIComponent("【S3DOT】無料相談・お問い合わせ")}&body=${encodeURIComponent("お名前：\n会社名・屋号：\n\nご相談内容：\nAI導入・業務改善・ホームページ制作・LINE連携・その他\n\n現在お困りのこと：\n\nご希望の内容：\n相談したい・費用を知りたい・導入を検討している\n\nご希望の連絡方法：\nメール・電話・LINE\n\nその他：")}`;
 
 const options = [
   {
