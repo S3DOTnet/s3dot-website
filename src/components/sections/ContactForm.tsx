@@ -188,23 +188,41 @@ export default function ContactForm() {
     setStatus("submitting");
     setServerError("");
 
+    let res: Response;
     try {
-      const res = await fetch("/api/contact", {
+      res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, consent: true }),
       });
-      const json = await res.json() as { success?: boolean; error?: string };
-      if (!res.ok || !json.success) {
-        setServerError(json.error ?? "送信に失敗しました。もう一度お試しください。");
-        setStatus("error");
-        return;
-      }
-      setStatus("success");
     } catch {
-      setServerError("ネットワークエラーが発生しました。接続を確認してから再試行してください。");
+      // fetch 自体が失敗（オフライン・DNSエラー等）
+      setServerError("インターネット接続を確認してから再試行してください。");
       setStatus("error");
+      return;
     }
+
+    // JSON パースを fetch とは別に try-catch（サーバーが HTML を返す場合に対応）
+    let json: { success?: boolean; error?: string; code?: string };
+    try {
+      json = await res.json() as typeof json;
+    } catch {
+      // サーバーが JSON ではないレスポンスを返した（設定エラー等）
+      setServerError(
+        `サーバーエラーが発生しました（HTTP ${res.status}）。` +
+        "しばらく経ってから再試行するか、contact@s3dot.net まで直接ご連絡ください。"
+      );
+      setStatus("error");
+      return;
+    }
+
+    if (!res.ok || !json.success) {
+      setServerError(json.error ?? "送信に失敗しました。もう一度お試しください。");
+      setStatus("error");
+      return;
+    }
+
+    setStatus("success");
   };
 
   if (status === "success") return <SuccessView />;

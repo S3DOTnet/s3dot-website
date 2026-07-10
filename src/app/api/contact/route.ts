@@ -6,8 +6,8 @@ import { z } from "zod";
 const rl = new Map<string, { count: number; resetAt: number }>();
 function checkRate(ip: string): boolean {
   const now = Date.now();
-  const win = 60_000;
-  const max = 3;
+  const win = 60_000; // 1 minute window
+  const max = 3;      // 3 requests per window
   const e = rl.get(ip);
   if (!e || now > e.resetAt) { rl.set(ip, { count: 1, resetAt: now + win }); return true; }
   if (e.count >= max) return false;
@@ -23,15 +23,37 @@ const schema = z.object({
   company:            z.string().max(200).optional(),
   email:              z.string().min(1, "メールアドレスを入力してください").email("正しいメールアドレスを入力してください").max(200),
   phone:              z.string().max(50).optional(),
-  industry:           z.enum(INDUSTRIES, { error: "業種を選択してください" }),
+  industry:           z.enum(INDUSTRIES),
   consultationTopics: z.array(z.string().min(1)).min(1, "ご相談内容を1つ以上選択してください"),
   currentIssues:      z.string().min(1, "現在お困りのことを入力してください").max(3000),
   requests:           z.string().max(3000).optional(),
-  consent:            z.literal(true, { error: "個人情報の取り扱いに同意してください" }),
+  consent:            z.literal(true),
   honeypot:           z.string().max(0).optional(),
 });
 
 type FormData = z.infer<typeof schema>;
+
+/* ── 環境変数チェック ── */
+function checkEnv(): { ok: true; apiKey: string; toEmail: string; fromEmail: string } | { ok: false; message: string; missing: string[] } {
+  const missing: string[] = [];
+  const apiKey    = process.env.RESEND_API_KEY;
+  const toEmail   = process.env.CONTACT_TO_EMAIL   ?? "contact@s3dot.net";
+  const fromEmail = process.env.CONTACT_FROM_EMAIL;
+
+  if (!apiKey)    missing.push("RESEND_API_KEY");
+  if (!fromEmail) missing.push("CONTACT_FROM_EMAIL");
+
+  if (missing.length > 0) {
+    console.error("[contact] Missing environment variables:", missing.join(", "));
+    return {
+      ok: false,
+      message: `サーバーの設定が未完了です。以下の環境変数が設定されていません: ${missing.join(", ")}。Vercelの環境変数設定を確認してください。`,
+      missing,
+    };
+  }
+
+  return { ok: true, apiKey: apiKey!, toEmail, fromEmail: fromEmail! };
+}
 
 /* ── HTML email builders ── */
 const row = (label: string, value: string) =>
@@ -149,55 +171,63 @@ https://s3dot.com
 
 /* ── Route Handler ── */
 export async function POST(request: NextRequest) {
+  // ① 環境変数チェック（最優先 — Resend インスタンス生成前に行う）
+  const env = checkEnv();
+  if (!env.ok) {
+    return Response.json({ error: env.message, code: "ENV_MISSING" }, { status: 503 });
+  }
+
+  // ② レートリミット
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   if (!checkRate(ip)) {
     return Response.json(
-      { error: "リクエストが多すぎます。しばらくしてから再試行してください。" },
+      { error: "リクエストが多すぎます。しばらくしてから再試行してください。", code: "RATE_LIMIT" },
       { status: 429 }
     );
   }
 
+  // ③ リクエストボディ取得
   let raw: unknown;
   try {
     raw = await request.json();
   } catch {
-    return Response.json({ error: "リクエストが不正です。" }, { status: 400 });
+    return Response.json({ error: "リクエストの形式が不正です。", code: "BAD_REQUEST" }, { status: 400 });
   }
 
+  // ④ Zod バリデーション
   const result = schema.safeParse(raw);
   if (!result.success) {
     return Response.json(
-      { error: "入力内容を確認してください。", fieldErrors: result.error.flatten().fieldErrors },
+      { error: "入力内容を確認してください。", fieldErrors: result.error.flatten().fieldErrors, code: "VALIDATION_ERROR" },
       { status: 422 }
     );
   }
 
   const data = result.data;
 
-  // Honeypot: silently succeed if bot filled hidden field
+  // ⑤ ハニーポット：ボットは黙って成功扱い
   if (data.honeypot && data.honeypot.length > 0) {
     return Response.json({ success: true });
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const toEmail   = process.env.CONTACT_TO_EMAIL   ?? "contact@s3dot.net";
-  const fromEmail = process.env.CONTACT_FROM_EMAIL ?? "noreply@s3dot.net";
-
+  // ⑥ Resend でメール送信（Resend インスタンスは try の中で生成）
   const submittedAt = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
   const sourceUrl   = request.headers.get("origin") ?? "https://s3dot.com";
 
   try {
-    await Promise.all([
+    const resend = new Resend(env.apiKey);
+
+    const [adminResult, replyResult] = await Promise.all([
       resend.emails.send({
-        from:    `S3DOT お問い合わせ <${fromEmail}>`,
-        to:      [toEmail],
+        from:    `S3DOT お問い合わせ <${env.fromEmail}>`,
+        to:      [env.toEmail],
         replyTo: data.email,
         subject: "【S3DOT】無料相談フォームからのお問い合わせ",
         html:    adminHtml(data, submittedAt, sourceUrl),
         text:    adminText(data, submittedAt, sourceUrl),
       }),
       resend.emails.send({
-        from:    `S3DOT <${fromEmail}>`,
+        from:    `S3DOT <${env.fromEmail}>`,
         to:      [data.email],
         subject: "【S3DOT】お問い合わせありがとうございます",
         html:    replyHtml(data),
@@ -205,11 +235,46 @@ export async function POST(request: NextRequest) {
       }),
     ]);
 
+    // Resend がエラーオブジェクトを返す場合（throwではなく返り値エラー）
+    const adminErr = adminResult.error;
+    const replyErr = replyResult.error;
+
+    if (adminErr) {
+      console.error("[contact] Resend admin email error:", adminErr);
+      // 送信元ドメイン未認証など設定起因エラーを判定
+      const isConfig = "statusCode" in adminErr && (adminErr as { statusCode?: number }).statusCode === 403;
+      return Response.json(
+        {
+          error: isConfig
+            ? `メール送信の設定が未完了です。Resendでドメイン「${env.fromEmail.split("@")[1]}」を認証してください。`
+            : "管理者へのメール送信に失敗しました。設定を確認してください。",
+          code: "RESEND_ADMIN_ERROR",
+          detail: adminErr.message,
+        },
+        { status: 500 }
+      );
+    }
+
+    if (replyErr) {
+      // 自動返信の失敗は管理者には届いているので警告のみ
+      console.warn("[contact] Resend reply email error:", replyErr);
+    }
+
     return Response.json({ success: true });
-  } catch (err) {
-    console.error("[contact] Resend error:", err);
+
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("[contact] Unexpected error:", message);
+
+    // Resend API キーが無効な場合のメッセージ
+    const isAuthError = message.toLowerCase().includes("api key") || message.toLowerCase().includes("unauthorized");
     return Response.json(
-      { error: "メールの送信に失敗しました。時間をおいてもう一度お試しください。" },
+      {
+        error: isAuthError
+          ? "Resend APIキーが無効です。Vercelの環境変数 RESEND_API_KEY を確認してください。"
+          : "メールの送信に失敗しました。時間をおいてもう一度お試しいただくか、contact@s3dot.net まで直接ご連絡ください。",
+        code: isAuthError ? "INVALID_API_KEY" : "SEND_ERROR",
+      },
       { status: 500 }
     );
   }
