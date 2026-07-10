@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { MessageSquare, Mail, ArrowRight } from "lucide-react";
+import ContactForm from "@/components/sections/ContactForm";
 
 const LineIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -20,7 +21,7 @@ const options = [
     cta: "相談フォームへ",
     color: "#00C8FF",
     isLine: false,
-    href: "#",
+    href: "#contact-form",
   },
   {
     icon: Mail,
@@ -38,7 +39,7 @@ const options = [
     cta: "LINEで相談する",
     color: "#06C755",
     isLine: true,
-    href: "#",
+    href: "#", // LINE URLは後から設定
   },
 ];
 
@@ -103,16 +104,16 @@ export default function ContactSection() {
             </p>
           </motion.div>
 
-          {/* ── ② CTAボタン — メイン/セカンダリ ── */}
+          {/* ── ② CTAボタン ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            {/* Primary — 発光強化 */}
+            {/* Primary → フォームへスクロール */}
             <a
-              href="#"
+              href="#contact-form"
               className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white overflow-hidden transition-all duration-300 hover:scale-[1.04] hover:brightness-115 w-full sm:w-auto"
               style={{
                 padding: "1.1rem 3rem",
@@ -130,7 +131,7 @@ export default function ContactSection() {
               <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
             </a>
 
-            {/* Secondary — LINE */}
+            {/* Secondary — LINE（後から設定） */}
             <a
               href="#"
               className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white/30 hover:scale-[1.02] w-full sm:w-auto"
@@ -153,12 +154,12 @@ export default function ContactSection() {
           </p>
         </div>
 
-        {/* ── ③ Contactカード — 統一デザイン ── */}
+        {/* ── ③ Contactカード ── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-3xl mx-auto">
           {options.map((opt, i) => {
             const Icon = opt.icon;
             return (
-              /* native <a> でリンクを保証。motion.a はルーターと干渉するため使用しない */
+              /* native <a> でリンクを保証 */
               <a
                 key={opt.label}
                 href={opt.href}
@@ -179,7 +180,7 @@ export default function ContactSection() {
                       : undefined,
                   }}
                 >
-                  {/* アイコン — 統一サイズ */}
+                  {/* アイコン */}
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                     style={{
@@ -223,6 +224,48 @@ export default function ContactSection() {
             );
           })}
         </div>
+
+        {/* ── ④ 無料相談フォーム ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="mt-16 md:mt-24 max-w-2xl mx-auto"
+        >
+          {/* セクションヘッダー */}
+          <div className="text-center mb-10">
+            <div
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs tracking-[0.22em] font-medium text-s3-blue uppercase mb-5"
+              style={{ background: "rgba(0,200,255,0.07)", border: "1px solid rgba(0,200,255,0.18)" }}
+            >
+              Free Consultation
+            </div>
+            <h3
+              className="font-bold text-white mb-3"
+              style={{ fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)" }}
+            >
+              無料相談フォーム
+            </h3>
+            <p className="text-s3-muted text-sm leading-relaxed">
+              内容を確認後、通常1営業日以内にご連絡いたします。売り込みは一切しません。
+            </p>
+          </div>
+
+          {/* フォーム本体 */}
+          <div
+            className="rounded-2xl"
+            style={{
+              background: "rgba(15,21,25,0.6)",
+              border: "1px solid rgba(30,45,61,0.8)",
+              backdropFilter: "blur(20px)",
+              boxShadow: "0 0 0 1px rgba(0,200,255,0.04), 0 24px 80px rgba(0,0,0,0.4), 0 0 60px rgba(0,200,255,0.04)",
+              padding: "clamp(1.5rem, 4vw, 2.5rem)",
+            }}
+          >
+            <ContactForm />
+          </div>
+        </motion.div>
       </div>
 
       <div className="section-divider mt-14 md:mt-28" />
