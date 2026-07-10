@@ -10,6 +10,8 @@ const LineIcon = () => (
   </svg>
 );
 
+const MAIL_HREF = `mailto:contact@s3dot.net?subject=${encodeURIComponent("【S3DOT】お問い合わせ")}&body=${encodeURIComponent("お名前：\n会社名：\nお問い合わせ内容：")}`;
+
 const options = [
   {
     icon: MessageSquare,
@@ -18,6 +20,7 @@ const options = [
     cta: "相談フォームへ",
     color: "#00C8FF",
     isLine: false,
+    href: "#",
   },
   {
     icon: Mail,
@@ -26,6 +29,7 @@ const options = [
     cta: "メールを送る",
     color: "#7B5EFF",
     isLine: false,
+    href: MAIL_HREF,
   },
   {
     icon: null,
@@ -34,6 +38,7 @@ const options = [
     cta: "LINEで相談する",
     color: "#06C755",
     isLine: true,
+    href: "#",
   },
 ];
 
@@ -155,7 +160,7 @@ export default function ContactSection() {
             return (
               <motion.a
                 key={opt.label}
-                href="#"
+                href={opt.href}
                 initial={{ opacity: 0, y: 32, scale: 0.97 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
