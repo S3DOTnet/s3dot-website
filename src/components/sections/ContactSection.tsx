@@ -158,63 +158,68 @@ export default function ContactSection() {
           {options.map((opt, i) => {
             const Icon = opt.icon;
             return (
-              <motion.a
+              /* native <a> でリンクを保証。motion.a はルーターと干渉するため使用しない */
+              <a
                 key={opt.label}
                 href={opt.href}
-                initial={{ opacity: 0, y: 32, scale: 0.97 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.55, delay: i * 0.1 }}
-                className="group card-luxury card-shine rounded-xl flex flex-col gap-5 transition-all duration-300 hover:-translate-y-1"
-                style={{
-                  padding: "1.75rem",
-                  minHeight: "190px",
-                  borderColor: i === 0 ? `${opt.color}28` : undefined,
-                  boxShadow: i === 0
-                    ? `0 0 28px ${opt.color}10, inset 0 1px 0 rgba(255,255,255,0.07)`
-                    : undefined,
-                }}
+                className="group block"
               >
-                {/* アイコン — 統一サイズ */}
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                <motion.div
+                  initial={{ opacity: 0, y: 32, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.55, delay: i * 0.1 }}
+                  className="card-luxury card-shine rounded-xl flex flex-col gap-5 transition-all duration-300 hover:-translate-y-1 h-full"
                   style={{
-                    background: `radial-gradient(circle, ${opt.color}22 0%, ${opt.color}08 100%)`,
-                    border: `1px solid ${opt.color}30`,
-                    boxShadow: `0 0 16px ${opt.color}1C, inset 0 1px 0 rgba(255,255,255,0.07)`,
+                    padding: "1.75rem",
+                    minHeight: "190px",
+                    borderColor: i === 0 ? `${opt.color}28` : undefined,
+                    boxShadow: i === 0
+                      ? `0 0 28px ${opt.color}10, inset 0 1px 0 rgba(255,255,255,0.07)`
+                      : undefined,
                   }}
                 >
-                  {opt.isLine
-                    ? <span style={{ color: opt.color }}><LineIcon /></span>
-                    : Icon && <Icon size={20} style={{ color: opt.color, filter: `drop-shadow(0 0 5px ${opt.color}cc)` }} />
-                  }
-                </div>
-
-                {/* テキスト */}
-                <div className="flex-1">
-                  <p
-                    className="font-bold text-white mb-2 leading-snug"
-                    style={{ fontSize: "0.95rem", letterSpacing: "0.01em" }}
+                  {/* アイコン — 統一サイズ */}
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                    style={{
+                      background: `radial-gradient(circle, ${opt.color}22 0%, ${opt.color}08 100%)`,
+                      border: `1px solid ${opt.color}30`,
+                      boxShadow: `0 0 16px ${opt.color}1C, inset 0 1px 0 rgba(255,255,255,0.07)`,
+                    }}
                   >
-                    {opt.label}
-                  </p>
-                  <p
-                    className="leading-relaxed"
-                    style={{ fontSize: "0.78rem", color: "rgba(143,164,184,0.9)" }}
-                  >
-                    {opt.desc}
-                  </p>
-                </div>
+                    {opt.isLine
+                      ? <span style={{ color: opt.color }}><LineIcon /></span>
+                      : Icon && <Icon size={20} style={{ color: opt.color, filter: `drop-shadow(0 0 5px ${opt.color}cc)` }} />
+                    }
+                  </div>
 
-                {/* CTA テキスト */}
-                <span
-                  className="text-xs font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-200"
-                  style={{ color: opt.color }}
-                >
-                  {opt.cta}
-                  <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform duration-200" />
-                </span>
-              </motion.a>
+                  {/* テキスト */}
+                  <div className="flex-1">
+                    <p
+                      className="font-bold text-white mb-2 leading-snug"
+                      style={{ fontSize: "0.95rem", letterSpacing: "0.01em" }}
+                    >
+                      {opt.label}
+                    </p>
+                    <p
+                      className="leading-relaxed"
+                      style={{ fontSize: "0.78rem", color: "rgba(143,164,184,0.9)" }}
+                    >
+                      {opt.desc}
+                    </p>
+                  </div>
+
+                  {/* CTA テキスト */}
+                  <span
+                    className="text-xs font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-200"
+                    style={{ color: opt.color }}
+                  >
+                    {opt.cta}
+                    <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+                  </span>
+                </motion.div>
+              </a>
             );
           })}
         </div>
