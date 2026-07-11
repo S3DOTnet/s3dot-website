@@ -172,7 +172,7 @@ export default function HeroSection() {
           <h1
             className="font-black text-white"
             style={{
-              fontSize: "clamp(1.4rem, 6.5vw, 2.6rem)",
+              fontSize: "clamp(1.2rem, 5.8vw, 2.6rem)",
               lineHeight: 1.08,
               letterSpacing: "-0.028em",
               fontFeatureSettings: '"palt"',
