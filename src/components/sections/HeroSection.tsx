@@ -9,8 +9,9 @@ import TransparentLogo from "@/components/ui/TransparentLogo";
 function Aurora() {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {/* Vast blue — top-center */}
+      {/* aurora orbs — モバイルでは非表示 (filter:blur + animation は iOS で重い) */}
       <div
+        className="hidden sm:block"
         style={{
           position: "absolute",
           width: "130vw", height: "90vh",
@@ -22,8 +23,8 @@ function Aurora() {
           willChange: "transform",
         }}
       />
-      {/* Purple — upper right */}
       <div
+        className="hidden sm:block"
         style={{
           position: "absolute",
           width: "72vw", height: "68vh",
@@ -36,8 +37,8 @@ function Aurora() {
           willChange: "transform",
         }}
       />
-      {/* Blue-purple support — bottom */}
       <div
+        className="hidden sm:block"
         style={{
           position: "absolute",
           width: "80vw", height: "55vh",

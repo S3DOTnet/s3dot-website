@@ -78,8 +78,9 @@ export default function ProcessSection() {
         style={{ background: "linear-gradient(90deg,transparent,rgba(0,200,255,0.22),transparent)" }}
       />
 
-      {/* BG glow */}
+      {/* BG glow — desktop only */}
       <div
+        className="hidden sm:block"
         style={{
           position: "absolute", left: "50%", top: "35%",
           transform: "translate(-50%,-50%)",

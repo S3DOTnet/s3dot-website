@@ -212,8 +212,8 @@ export default function FAQSection({ hideHeading = false }: { hideHeading?: bool
       />
 
       {/* BG glow */}
-      <div style={{ position:"absolute", right:"-5%", top:"25%", width:500, height:500, background:"radial-gradient(ellipse, rgba(123,94,255,0.055) 0%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
-      <div style={{ position:"absolute", left:"-5%", bottom:"20%", width:400, height:400, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
+      <div className="hidden sm:block" style={{ position:"absolute", right:"-5%", top:"25%", width:500, height:500, background:"radial-gradient(ellipse, rgba(123,94,255,0.055) 0%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
+      <div className="hidden sm:block" style={{ position:"absolute", left:"-5%", bottom:"20%", width:400, height:400, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
 
       <div className="relative max-w-[760px] mx-auto px-6">
 

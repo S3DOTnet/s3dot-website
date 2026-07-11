@@ -138,8 +138,8 @@ export default function ServiceSection({ hideHeading = false }: { hideHeading?: 
   return (
     <section id="service" className="relative py-16 md:py-28 bg-s3-bg overflow-hidden section-grid noise-overlay">
       {/* BG — Purple 左グロー (Conceptと差別化) */}
-      <div style={{ position:"absolute", left:"-10%", top:"50%", transform:"translateY(-50%)", width:700, height:700, background:"radial-gradient(ellipse, rgba(123,94,255,0.07) 0%, rgba(123,94,255,0.015) 50%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
-      <div style={{ position:"absolute", right:"-5%", bottom:"10%", width:400, height:400, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
+      <div className="hidden sm:block" style={{ position:"absolute", left:"-10%", top:"50%", transform:"translateY(-50%)", width:700, height:700, background:"radial-gradient(ellipse, rgba(123,94,255,0.07) 0%, rgba(123,94,255,0.015) 50%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
+      <div className="hidden sm:block" style={{ position:"absolute", right:"-5%", bottom:"10%", width:400, height:400, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
       {/* 上部アクセントライン */}
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background:"linear-gradient(90deg,transparent,rgba(123,94,255,0.3),transparent)" }} />
 

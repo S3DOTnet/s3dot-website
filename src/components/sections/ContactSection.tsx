@@ -51,8 +51,8 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
     <section id="contact" className="relative py-16 md:py-28 bg-s3-bg overflow-hidden section-grid noise-overlay">
       {/* Aurora */}
       <div className="absolute inset-0 pointer-events-none">
-        <div style={{ position:"absolute", width:"80vw", height:"70vh", top:"-20%", left:"10%", background:"radial-gradient(ellipse at center, rgba(0,200,255,0.08) 0%, rgba(0,200,255,0.022) 45%, transparent 70%)", filter:"blur(60px)", animation:"aurora-drift 22s ease-in-out infinite" }} />
-        <div style={{ position:"absolute", width:"60vw", height:"50vh", bottom:"-10%", right:"5%", background:"radial-gradient(ellipse at center, rgba(123,94,255,0.06) 0%, transparent 70%)", filter:"blur(80px)", animation:"aurora-drift 28s ease-in-out infinite reverse", animationDelay:"-10s" }} />
+        <div className="hidden sm:block" style={{ position:"absolute", width:"80vw", height:"70vh", top:"-20%", left:"10%", background:"radial-gradient(ellipse at center, rgba(0,200,255,0.08) 0%, rgba(0,200,255,0.022) 45%, transparent 70%)", filter:"blur(60px)", animation:"aurora-drift 22s ease-in-out infinite" }} />
+        <div className="hidden sm:block" style={{ position:"absolute", width:"60vw", height:"50vh", bottom:"-10%", right:"5%", background:"radial-gradient(ellipse at center, rgba(123,94,255,0.06) 0%, transparent 70%)", filter:"blur(80px)", animation:"aurora-drift 28s ease-in-out infinite reverse", animationDelay:"-10s" }} />
       </div>
       <div className="absolute inset-0 hero-grid" style={{ opacity: 0.2 }} />
 

@@ -73,8 +73,8 @@ export default function PickUpSection({ hideHeading = false }: { hideHeading?: b
   return (
     <section className="relative py-16 md:py-28 bg-s3-surface overflow-hidden section-grid noise-overlay">
       {/* BG — Green/Teal 右グロー (Serviceと差別化) */}
-      <div style={{ position:"absolute", right:"-5%", top:"30%", width:600, height:600, background:"radial-gradient(ellipse, rgba(0,229,160,0.06) 0%, rgba(0,229,160,0.012) 50%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
-      <div style={{ position:"absolute", left:"5%", bottom:"10%", width:500, height:500, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
+      <div className="hidden sm:block" style={{ position:"absolute", right:"-5%", top:"30%", width:600, height:600, background:"radial-gradient(ellipse, rgba(0,229,160,0.06) 0%, rgba(0,229,160,0.012) 50%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
+      <div className="hidden sm:block" style={{ position:"absolute", left:"5%", bottom:"10%", width:500, height:500, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
       {/* 上部アクセントライン */}
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background:"linear-gradient(90deg,transparent,rgba(0,229,160,0.28),transparent)" }} />
 

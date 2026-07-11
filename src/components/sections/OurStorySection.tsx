@@ -5,9 +5,10 @@ import { useRef, useEffect } from "react";
 import TransparentLogo from "@/components/ui/TransparentLogo";
 
 /* ── AIネットワーク + パーティクル Canvas ── */
-function StoryCanvas() {
+function StoryCanvas({ isActive }: { isActive: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
+    if (!isActive) return;
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -87,6 +88,7 @@ function StoryCanvas() {
     return () => cancelAnimationFrame(raf);
   }, []);
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" style={{ opacity: 0.85 }} />;
+
 }
 
 const paragraphs = [
@@ -101,9 +103,9 @@ export default function OurStorySection() {
 
   return (
     <section id="story" className="relative py-16 md:py-24 bg-s3-bg overflow-hidden section-grid noise-overlay">
-      {/* Decorative orbs */}
+      {/* Decorative orbs — desktop only (filter:blur は iOS で高コスト) */}
       <div
-        className="absolute left-1/4 top-1/3 pointer-events-none"
+        className="hidden sm:block absolute left-1/4 top-1/3 pointer-events-none"
         style={{
           width: 400,
           height: 400,
@@ -112,7 +114,7 @@ export default function OurStorySection() {
         }}
       />
       <div
-        className="absolute right-1/4 bottom-1/3 pointer-events-none"
+        className="hidden sm:block absolute right-1/4 bottom-1/3 pointer-events-none"
         style={{
           width: 300,
           height: 300,
@@ -138,8 +140,8 @@ export default function OurStorySection() {
             </motion.p>
 
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-3xl md:text-4xl font-bold leading-tight mb-8"
             >
@@ -171,8 +173,8 @@ export default function OurStorySection() {
             </div>
 
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.6 }}
               className="mt-10 text-xl font-semibold gradient-text"
             >
@@ -193,8 +195,8 @@ export default function OurStorySection() {
               className="relative w-full max-w-sm aspect-square rounded-2xl flex items-center justify-center overflow-hidden"
               style={{ background:"rgba(8,12,16,0.7)", border:"1px solid rgba(0,200,255,0.14)", boxShadow:"0 0 0 1px rgba(0,200,255,0.06), 0 24px 80px rgba(0,0,0,0.5), 0 0 60px rgba(0,200,255,0.08)" }}
             >
-              {/* AIネットワークCanvas */}
-              <StoryCanvas />
+              {/* AIネットワークCanvas — inView後のみ起動してバッテリーを節約 */}
+              <StoryCanvas isActive={inView} />
 
               {/* Logo — 最前面 */}
               <div className="relative z-10 w-36 h-36 animate-float">

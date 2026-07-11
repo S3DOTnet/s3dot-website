@@ -35,7 +35,7 @@ export default function ConceptSection() {
   return (
     <section id="concept" className="relative py-16 md:py-28 bg-s3-bg overflow-hidden section-grid noise-overlay">
       {/* BG — Electric Blue 中央グロー */}
-      <div style={{ position:"absolute", left:"50%", top:"40%", transform:"translate(-50%,-50%)", width:1000, height:700, background:"radial-gradient(ellipse, rgba(0,200,255,0.055) 0%, rgba(0,200,255,0.012) 45%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
+      <div className="hidden sm:block" style={{ position:"absolute", left:"50%", top:"40%", transform:"translate(-50%,-50%)", width:1000, height:700, background:"radial-gradient(ellipse, rgba(0,200,255,0.055) 0%, rgba(0,200,255,0.012) 45%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
       {/* 上部アクセントライン */}
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background:"linear-gradient(90deg,transparent,rgba(0,200,255,0.25),transparent)" }} />
 
@@ -51,8 +51,8 @@ export default function ConceptSection() {
             Concept
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-3xl md:text-5xl font-bold leading-tight"
           >

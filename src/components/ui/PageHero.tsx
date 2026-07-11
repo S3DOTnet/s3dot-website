@@ -12,10 +12,10 @@ type Props = {
 export default function PageHero({ badge, title, titleGradient, description }: Props) {
   return (
     <section className="relative pt-32 pb-16 md:pt-44 md:pb-24 bg-s3-bg overflow-hidden">
-      {/* Aurora */}
+      {/* Aurora — desktop only */}
       <div className="absolute inset-0 pointer-events-none">
-        <div style={{ position: "absolute", width: "100vw", height: "60vh", top: "-10%", left: "0", background: "radial-gradient(ellipse at 50% 40%, rgba(0,200,255,0.07) 0%, rgba(0,200,255,0.018) 50%, transparent 70%)", filter: "blur(80px)" }} />
-        <div style={{ position: "absolute", width: "60vw", height: "50vh", bottom: "0", right: "0", background: "radial-gradient(ellipse at center, rgba(123,94,255,0.05) 0%, transparent 70%)", filter: "blur(70px)" }} />
+        <div className="hidden sm:block" style={{ position: "absolute", width: "100vw", height: "60vh", top: "-10%", left: "0", background: "radial-gradient(ellipse at 50% 40%, rgba(0,200,255,0.07) 0%, rgba(0,200,255,0.018) 50%, transparent 70%)", filter: "blur(80px)" }} />
+        <div className="hidden sm:block" style={{ position: "absolute", width: "60vw", height: "50vh", bottom: "0", right: "0", background: "radial-gradient(ellipse at center, rgba(123,94,255,0.05) 0%, transparent 70%)", filter: "blur(70px)" }} />
       </div>
       <div className="absolute inset-0 hero-grid" style={{ opacity: 0.1 }} />
       {/* Top accent line */}
@@ -31,8 +31,8 @@ export default function PageHero({ badge, title, titleGradient, description }: P
           {badge}
         </motion.p>
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="font-bold text-s3-text leading-tight mb-5"
           style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}

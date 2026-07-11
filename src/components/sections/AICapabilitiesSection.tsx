@@ -101,7 +101,7 @@ export default function AICapabilitiesSection() {
   return (
     <section className="relative py-16 md:py-28 bg-s3-surface overflow-hidden section-grid noise-overlay">
       {/* BG */}
-      <div style={{ position:"absolute", right:0, top:"50%", transform:"translateY(-50%)", width:600, height:600, background:"radial-gradient(circle,rgba(123,94,255,0.055) 0%,transparent 70%)", filter:"blur(80px)", pointerEvents:"none" }} />
+      <div className="hidden sm:block" style={{ position:"absolute", right:0, top:"50%", transform:"translateY(-50%)", width:600, height:600, background:"radial-gradient(circle,rgba(123,94,255,0.055) 0%,transparent 70%)", filter:"blur(80px)", pointerEvents:"none" }} />
 
       <div className="relative max-w-[1200px] mx-auto px-6">
         {/* Heading */}
@@ -109,7 +109,7 @@ export default function AICapabilitiesSection() {
           <motion.p initial={{opacity:0,y:16}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:0.5}} className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4">
             What AI Can Do
           </motion.p>
-          <motion.h2 initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:0.6,delay:0.1}} className="font-black tracking-[-0.02em] mb-4" style={{fontSize:"clamp(2rem,5vw,3.5rem)"}}>
+          <motion.h2 initial={{opacity:0}} animate={inView?{opacity:1}:{}} transition={{duration:0.6,delay:0.1}} className="font-black tracking-[-0.02em] mb-4" style={{fontSize:"clamp(2rem,5vw,3.5rem)"}}>
             <span className="text-white">AIで、</span>
             <span className="gradient-text-blue-purple">こんなことまで。</span>
           </motion.h2>
