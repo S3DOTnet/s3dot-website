@@ -114,7 +114,7 @@ export default function AICapabilitiesSection() {
             <span className="gradient-text-blue-purple">こんなことまで。</span>
           </motion.h2>
           <motion.p initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:0.6,delay:0.2}} className="text-s3-muted text-lg max-w-lg mx-auto">
-            「うちには関係ない」と思っていた方ほど、驚かれます。
+            「うちには関係ない」と<br className="sm:hidden" />思っていた方ほど、驚かれます。
           </motion.p>
         </div>
 

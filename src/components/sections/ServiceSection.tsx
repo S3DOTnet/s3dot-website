@@ -81,7 +81,7 @@ function ServiceCard({
           : "0 4px 16px rgba(0,0,0,0.2)",
         transform: hovered ? "translateY(-4px)" : "translateY(0)",
       }}
-      className="card-luxury card-shine rounded-xl p-7 flex flex-col gap-5 cursor-default"
+      className="card-luxury card-shine rounded-xl p-5 md:p-7 flex flex-col gap-4 md:gap-5 cursor-default"
     >
       {/* Icon — 発光グラス */}
       <div
@@ -173,12 +173,12 @@ export default function ServiceSection() {
         </div>
 
         {/* Service cards: 3 + 2 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 mb-3 md:mb-5">
           {services.slice(0, 3).map((s, i) => (
             <ServiceCard key={s.label} {...s} index={i} />
           ))}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:max-w-[calc(66.666%+10px)] mx-auto md:mx-0 md:ml-auto md:mr-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 md:max-w-[calc(66.666%+10px)] mx-auto md:mx-0 md:ml-auto md:mr-auto">
           {services.slice(3).map((s, i) => (
             <ServiceCard key={s.label} {...s} index={i + 3} />
           ))}

@@ -93,10 +93,11 @@ export default function PickUpSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold"
+            className="font-bold"
+            style={{ fontSize: "clamp(1.5rem, 7.5vw, 3rem)" }}
           >
-            <span className="text-white">どんな業種でも、</span>
-            <span className="gradient-text">変えられることがある。</span>
+            <span className="text-white inline-block">どんな業種でも、</span>
+            <span className="gradient-text inline-block">変えられることがある。</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -104,7 +105,7 @@ export default function PickUpSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-5 text-s3-muted text-lg max-w-xl mx-auto"
           >
-            業種・規模に関係なく、現場で起きている「リアルな変化」。
+            業種・規模に関係なく、<br className="sm:hidden" />現場で起きている<br className="sm:hidden" />「リアルな変化」。
           </motion.p>
         </div>
 

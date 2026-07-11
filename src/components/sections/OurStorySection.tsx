@@ -145,7 +145,10 @@ export default function OurStorySection() {
             >
               <span className="text-s3-text">AIを、</span>
               <br />
-              <span className="gradient-text">誰もが使える道具にしたい。</span>
+              <span className="gradient-text">
+                <span className="inline-block">誰もが使える</span>
+                <span className="inline-block">道具にしたい。</span>
+              </span>
             </motion.h2>
 
             <div className="space-y-6">
@@ -173,7 +176,8 @@ export default function OurStorySection() {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="mt-10 text-xl font-semibold gradient-text"
             >
-              AIは難しくない。難しく考えすぎているだけ。
+              <span className="inline-block">AIは難しくない。</span>
+              <span className="inline-block">難しく考えすぎているだけ。</span>
             </motion.p>
           </div>
 

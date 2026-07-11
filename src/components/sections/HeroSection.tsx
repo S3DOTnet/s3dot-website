@@ -144,13 +144,13 @@ export default function HeroSection() {
         className="relative z-10 flex flex-col items-center text-center w-full mx-auto px-8 sm:px-16"
         style={{
           maxWidth: "1300px",
-          paddingTop: "clamp(5rem, 13vh, 10rem)",
-          paddingBottom: "clamp(5rem, 11vh, 8rem)",
+          paddingTop: "clamp(4rem, 13vh, 10rem)",
+          paddingBottom: "clamp(4rem, 11vh, 8rem)",
         }}
       >
 
         {/* ── Label — minimal mono ── */}
-        <motion.div variants={reveal} className="mb-10 sm:mb-14">
+        <motion.div variants={reveal} className="mb-7 sm:mb-10">
           <p
             className="font-mono uppercase"
             style={{
@@ -163,7 +163,11 @@ export default function HeroSection() {
           </p>
         </motion.div>
 
-        {/* ── H1 — massive statement ── */}
+        {/*
+          H1: inline-block で意味のまとまりをアトミック単位に固定。
+          スマホ幅では「AIは特別な」「ものじゃない。」が自然に2行になり、
+          「ない。」だけが孤立する改行を防ぐ。
+        */}
         <motion.h1
           variants={reveal}
           className="font-black text-white"
@@ -175,10 +179,14 @@ export default function HeroSection() {
             marginBottom: "0.44rem",
           }}
         >
-          AIは特別なものじゃない。
+          <span className="inline-block">AIは特別な</span>
+          <span className="inline-block">ものじゃない。</span>
         </motion.h1>
 
-        {/* ── H2 — gradient, declarative ── */}
+        {/*
+          H2: 「もう、仕事の」「スタンダードです。」で自然に2行。
+          「です。」「ます。」が孤立しない。
+        */}
         <motion.h2
           variants={reveal}
           className="font-black"
@@ -191,10 +199,11 @@ export default function HeroSection() {
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
-            marginBottom: "clamp(2.8rem, 5.5vh, 4.5rem)",
+            marginBottom: "clamp(1.8rem, 5vh, 4.5rem)",
           }}
         >
-          もう、仕事のスタンダードです。
+          <span className="inline-block">もう、仕事の</span>
+          <span className="inline-block">スタンダードです。</span>
         </motion.h2>
 
         {/* ── Accent rule ── */}
@@ -205,7 +214,7 @@ export default function HeroSection() {
             height: "1px",
             background: "linear-gradient(90deg, #00C8FF, #7B5EFF)",
             opacity: 0.44,
-            marginBottom: "clamp(2rem, 4vh, 3.5rem)",
+            marginBottom: "clamp(1.4rem, 3.5vh, 3.5rem)",
           }}
         />
 
@@ -213,30 +222,37 @@ export default function HeroSection() {
         <motion.p
           variants={reveal}
           style={{
-            fontSize: "clamp(0.93rem, 1.55vw, 1.08rem)",
-            lineHeight: 1.9,
+            fontSize: "clamp(0.90rem, 1.55vw, 1.08rem)",
+            lineHeight: 1.85,
             color: "rgba(232,237,242,0.60)",
             letterSpacing: "0.016em",
             maxWidth: "500px",
-            marginBottom: "clamp(2.8rem, 5.5vh, 4.5rem)",
+            marginBottom: "clamp(1.8rem, 5vh, 4.5rem)",
+            wordBreak: "keep-all",
+            overflowWrap: "break-word",
           }}
         >
-          使わない方がコストも時間も、確実に高くつく時代へ。S3DOTは、
+          使わない方がコストも時間も、
+          <br className="sm:hidden" />
+          確実に高くつく時代へ。
+          <br className="sm:hidden" />
+          S3DOTは、
           <span style={{ color: "#00C8FF", fontWeight: 600 }}>AIを「使える力」</span>
-          に変え、会社の成長を加速させます。
+          に変え、
+          <br className="sm:hidden" />
+          会社の成長を加速させます。
         </motion.p>
 
         {/* ── CTAs ── */}
         <motion.div
           variants={reveal}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full"
+          className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 w-full"
         >
           {/* Primary */}
           <a
             href="#contact"
-            className="hero-cta-primary group relative inline-flex items-center justify-center gap-2.5 rounded-[14px] font-bold text-white overflow-hidden w-full sm:w-auto"
+            className="hero-cta-primary group relative inline-flex items-center justify-center gap-2.5 rounded-[14px] font-bold text-white overflow-hidden w-full sm:w-auto py-3 sm:py-[1.1rem] px-7 sm:px-11"
             style={{
-              padding: "1.1rem 2.8rem",
               fontSize: "clamp(0.875rem, 1.25vw, 0.975rem)",
               letterSpacing: "0.04em",
             }}
@@ -253,9 +269,8 @@ export default function HeroSection() {
           {/* Secondary — LINE */}
           <a
             href="#contact"
-            className="hero-cta-secondary inline-flex items-center justify-center gap-2.5 rounded-[14px] font-medium text-white w-full sm:w-auto"
+            className="hero-cta-secondary inline-flex items-center justify-center gap-2.5 rounded-[14px] font-medium text-white w-full sm:w-auto py-3 sm:py-[1.1rem] px-6 sm:px-9"
             style={{
-              padding: "1.1rem 2.2rem",
               fontSize: "clamp(0.875rem, 1.25vw, 0.975rem)",
               letterSpacing: "0.03em",
             }}
@@ -269,7 +284,7 @@ export default function HeroSection() {
         <motion.p
           variants={reveal}
           style={{
-            marginTop: "1.3rem",
+            marginTop: "0.9rem",
             fontSize: "0.72rem",
             color: "rgba(74,96,112,0.78)",
             letterSpacing: "0.04em",

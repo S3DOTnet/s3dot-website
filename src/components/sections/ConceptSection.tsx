@@ -56,8 +56,8 @@ export default function ConceptSection() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-3xl md:text-5xl font-bold leading-tight"
           >
-            <span className="text-white">AIを、</span>
-            <span className="gradient-text">もっと身近にする。</span>
+            <span className="text-white inline-block">AIを、</span>
+            <span className="gradient-text inline-block">もっと身近にする。</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -65,14 +65,14 @@ export default function ConceptSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 text-s3-muted text-lg max-w-2xl mx-auto leading-relaxed"
           >
-            AIは難しくない。難しく考えすぎているだけ。
-            <br className="hidden md:block" />
-            S3DOTは、その「壁」を一緒に取り除くパートナーです。
+            AIは難しくない。<br className="sm:hidden" />難しく考えすぎているだけ。
+            <br className="sm:hidden" /><br className="hidden md:block" />
+            S3DOTは、その「壁」を<br className="sm:hidden" />一緒に取り除くパートナーです。
           </motion.p>
         </div>
 
         {/* Value cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {values.map((v, i) => (
             <motion.div
               key={v.number}
@@ -80,7 +80,7 @@ export default function ConceptSection() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: i * 0.14 }}
-              className="card-luxury card-shine rounded-xl p-8 flex flex-col gap-5 group cursor-default"
+              className="card-luxury card-shine rounded-xl p-5 md:p-8 flex flex-col gap-4 md:gap-5 group cursor-default"
             >
               {/* Number + Icon */}
               <div className="flex items-center justify-between">
@@ -126,7 +126,8 @@ export default function ConceptSection() {
         >
           <p className="text-s3-muted text-base">
             AIパートナー、S3DOT。
-            <span className="ml-2 text-s3-text font-medium">エススリードット株式会社</span>
+            <br className="sm:hidden" />
+            <span className="ml-0 sm:ml-2 text-s3-text font-medium">エススリードット株式会社</span>
           </p>
         </motion.div>
       </div>

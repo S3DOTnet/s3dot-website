@@ -99,8 +99,7 @@ export default function ContactSection() {
             <p
               style={{ fontSize: "clamp(0.9rem, 1.6vw, 1rem)", color: "rgba(143,164,184,0.9)", lineHeight: "1.85" }}
             >
-              AIに詳しくなくても大丈夫。<br className="hidden md:block" />
-              まずはお気軽にご相談ください。
+              AIに詳しくなくても大丈夫。<br />まずはお気軽に<br className="sm:hidden" />ご相談ください。
             </p>
           </motion.div>
 
@@ -114,9 +113,8 @@ export default function ContactSection() {
             {/* Primary → フォームへスクロール */}
             <a
               href="#contact-form"
-              className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white overflow-hidden transition-all duration-300 hover:scale-[1.04] hover:brightness-115 w-full sm:w-auto"
+              className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white overflow-hidden transition-all duration-300 hover:scale-[1.04] hover:brightness-115 w-full sm:w-auto py-3 sm:py-[1.1rem] px-7 sm:px-12"
               style={{
-                padding: "1.1rem 3rem",
                 fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
                 letterSpacing: "0.03em",
                 background: "linear-gradient(90deg, #00C8FF 0%, #7B5EFF 100%)",
@@ -134,9 +132,8 @@ export default function ContactSection() {
             {/* Secondary — LINE（後から設定） */}
             <a
               href="#"
-              className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white/30 hover:scale-[1.02] w-full sm:w-auto"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white/30 hover:scale-[1.02] w-full sm:w-auto py-3 sm:py-[1rem] px-6 sm:px-9"
               style={{
-                padding: "1rem 2.2rem",
                 fontSize: "clamp(0.85rem, 1.3vw, 0.95rem)",
                 letterSpacing: "0.02em",
                 background: "rgba(255,255,255,0.06)",
@@ -155,7 +152,7 @@ export default function ContactSection() {
         </div>
 
         {/* ── ③ Contactカード ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 max-w-3xl mx-auto">
           {options.map((opt, i) => {
             const Icon = opt.icon;
             return (
@@ -170,10 +167,8 @@ export default function ContactSection() {
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.55, delay: i * 0.1 }}
-                  className="card-luxury card-shine rounded-xl flex flex-col gap-5 transition-all duration-300 hover:-translate-y-1 h-full"
+                  className="card-luxury card-shine rounded-xl flex flex-col gap-4 md:gap-5 transition-all duration-300 hover:-translate-y-1 h-full p-5 md:p-7"
                   style={{
-                    padding: "1.75rem",
-                    minHeight: "190px",
                     borderColor: i === 0 ? `${opt.color}28` : undefined,
                     boxShadow: i === 0
                       ? `0 0 28px ${opt.color}10, inset 0 1px 0 rgba(255,255,255,0.07)`

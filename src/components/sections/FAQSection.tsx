@@ -99,7 +99,7 @@ function FAQItem({
       {/* Question */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left group"
+        className="w-full flex items-center justify-between gap-4 px-4 py-4 md:px-6 md:py-5 text-left group"
       >
         <div className="flex items-start gap-3 flex-1 min-w-0">
           <span
@@ -143,7 +143,7 @@ function FAQItem({
             transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{ overflow: "hidden" }}
           >
-            <div className="px-6 pb-6">
+            <div className="px-4 pb-4 md:px-6 md:pb-6">
               <div
                 className="mb-5 h-px"
                 style={{
@@ -153,7 +153,7 @@ function FAQItem({
 
               {/* タグ（Q5のみ） */}
               {faq.tags && (
-                <div className="flex flex-wrap gap-2 mb-5 ml-6">
+                <div className="flex flex-wrap gap-2 mb-5 ml-5 md:ml-6">
                   {faq.tags.map((tag) => (
                     <span
                       key={tag}
@@ -170,7 +170,7 @@ function FAQItem({
                 </div>
               )}
 
-              <div className="ml-6 space-y-3">
+              <div className="ml-5 md:ml-6 space-y-3">
                 {faq.a.map((line, i) => (
                   <p
                     key={i}

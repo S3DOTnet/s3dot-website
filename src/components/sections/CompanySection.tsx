@@ -108,8 +108,7 @@ export default function CompanySection() {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
-                className={`card-luxury rounded-xl flex items-start gap-4${item.colClass ? ` ${item.colClass}` : ""}`}
-                style={{ padding: "1.25rem 1.5rem" }}
+                className={`card-luxury rounded-xl flex items-start gap-4 p-4 lg:py-5 lg:px-6${item.colClass ? ` ${item.colClass}` : ""}`}
               >
                 {/* アイコンバッジ */}
                 <div

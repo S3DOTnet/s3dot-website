@@ -116,7 +116,7 @@ export default function ProcessSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-5 text-s3-muted text-lg max-w-lg mx-auto"
           >
-            はじめてでも迷わない。S3DOTが全工程をサポートします。
+            はじめてでも迷わない。<br className="sm:hidden" />S3DOTが全工程を<br className="sm:hidden" />サポートします。
           </motion.p>
         </div>
 
@@ -222,9 +222,11 @@ export default function ProcessSection() {
             「小さく始めて、大きく育てる。」
           </p>
           <p className="text-s3-muted text-base md:text-lg leading-[1.95] max-w-lg mx-auto">
-            AI導入は、一気に変える必要はありません。<br className="hidden md:block" />
-            まずは一つの業務から。<br className="hidden md:block" />
-            効果を確認しながら、御社に合わせて広げていきます。
+            AI導入は、一気に<br className="sm:hidden" />変える必要はありません。
+            <br className="sm:hidden" /><br className="hidden md:block" />
+            まずは一つの業務から。
+            <br className="sm:hidden" /><br className="hidden md:block" />
+            効果を確認しながら、<br className="sm:hidden" />御社に合わせて<br className="sm:hidden" />広げていきます。
           </p>
 
           {/* CTA */}
