@@ -131,7 +131,7 @@ function ServiceCard({
   );
 }
 
-export default function ServiceSection() {
+export default function ServiceSection({ hideHeading = false }: { hideHeading?: boolean }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -145,32 +145,34 @@ export default function ServiceSection() {
 
       <div className="relative max-w-[1200px] mx-auto px-6">
         {/* Heading */}
-        <div ref={ref} className="mb-10 md:mb-16 text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
-          >
-            Services
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold text-s3-text"
-          >
-            S3DOTの<span className="gradient-text">できること</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-5 text-s3-muted text-lg"
-          >
-            AIで「変えられる」ことは、想像以上に多い。
-          </motion.p>
-        </div>
+        {!hideHeading && (
+          <div ref={ref} className="mb-10 md:mb-16 text-center">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
+            >
+              Services
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold text-s3-text"
+            >
+              S3DOTの<span className="gradient-text">できること</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mt-5 text-s3-muted text-lg"
+            >
+              AIで「変えられる」ことは、想像以上に多い。
+            </motion.p>
+          </div>
+        )}
 
         {/* Service cards: 3 + 2 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 mb-3 md:mb-5">

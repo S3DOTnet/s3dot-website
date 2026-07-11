@@ -66,7 +66,7 @@ const cases = [
   },
 ];
 
-export default function PickUpSection() {
+export default function PickUpSection({ hideHeading = false }: { hideHeading?: boolean }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -80,34 +80,36 @@ export default function PickUpSection() {
 
       <div className="relative max-w-[1200px] mx-auto px-6">
         {/* Heading */}
-        <div ref={ref} className="mb-10 md:mb-16 text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
-          >
-            Pick Up
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-bold"
-            style={{ fontSize: "clamp(1.5rem, 7.5vw, 3rem)" }}
-          >
-            <span className="text-white inline-block">どんな業種でも、</span>
-            <span className="gradient-text inline-block">変えられることがある。</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-5 text-s3-muted text-lg max-w-xl mx-auto"
-          >
-            業種・規模に関係なく、<br className="sm:hidden" />現場で起きている「リアルな変化」。
-          </motion.p>
-        </div>
+        {!hideHeading && (
+          <div ref={ref} className="mb-10 md:mb-16 text-center">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
+            >
+              Pick Up
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="font-bold"
+              style={{ fontSize: "clamp(1.5rem, 7.5vw, 3rem)" }}
+            >
+              <span className="text-white inline-block">どんな業種でも、</span>
+              <span className="gradient-text inline-block">変えられることがある。</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mt-5 text-s3-muted text-lg max-w-xl mx-auto"
+            >
+              業種・規模に関係なく、<br className="sm:hidden" />現場で起きている「リアルな変化」。
+            </motion.p>
+          </div>
+        )}
 
         {/* 3×2 grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

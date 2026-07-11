@@ -43,7 +43,7 @@ const options = [
   },
 ];
 
-export default function ContactSection() {
+export default function ContactSection({ hideIntro = false }: { hideIntro?: boolean }) {
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -59,97 +59,99 @@ export default function ContactSection() {
       <div className="relative max-w-[1200px] mx-auto px-6">
 
         {/* ── ① 見出し ── */}
-        <div ref={ref} className="text-center mb-12 md:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="mb-7 flex justify-center"
-          >
-            <span
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs tracking-[0.22em] font-medium text-s3-blue uppercase"
-              style={{ background: "rgba(0,200,255,0.07)", border: "1px solid rgba(0,200,255,0.18)" }}
+        {!hideIntro && (
+          <div ref={ref} className="text-center mb-12 md:mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              className="mb-7 flex justify-center"
             >
-              Contact
-            </span>
-          </motion.div>
+              <span
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs tracking-[0.22em] font-medium text-s3-blue uppercase"
+                style={{ background: "rgba(0,200,255,0.07)", border: "1px solid rgba(0,200,255,0.18)" }}
+              >
+                Contact
+              </span>
+            </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-black tracking-[-0.025em] leading-[1.2] mb-6"
-            style={{ fontSize: "clamp(1.75rem, 5.5vw, 4.8rem)", fontFeatureSettings: '"palt"' }}
-          >
-            <span className="text-white">「これもAIでできますか？」</span>
-          </motion.h2>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-12 max-w-lg mx-auto"
-          >
-            <p
-              className="font-medium mb-3"
-              style={{ fontSize: "clamp(1rem, 1.8vw, 1.1rem)", color: "rgba(232,237,242,0.75)" }}
+            <motion.h2
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="font-black tracking-[-0.025em] leading-[1.2] mb-6"
+              style={{ fontSize: "clamp(1.75rem, 5.5vw, 4.8rem)", fontFeatureSettings: '"palt"' }}
             >
-              その一言から始まるご相談が、一番多いです。
+              <span className="text-white">「これもAIでできますか？」</span>
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mb-12 max-w-lg mx-auto"
+            >
+              <p
+                className="font-medium mb-3"
+                style={{ fontSize: "clamp(1rem, 1.8vw, 1.1rem)", color: "rgba(232,237,242,0.75)" }}
+              >
+                その一言から始まるご相談が、一番多いです。
+              </p>
+              <p
+                style={{ fontSize: "clamp(0.9rem, 1.6vw, 1rem)", color: "rgba(143,164,184,0.9)", lineHeight: "1.85" }}
+              >
+                AIに詳しくなくても大丈夫。<br />まずはお気軽にご相談ください。
+              </p>
+            </motion.div>
+
+            {/* ── ② CTAボタン ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
+              {/* Primary → フォームへスクロール */}
+              <a
+                href="#contact-form"
+                className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white overflow-hidden transition-all duration-300 hover:scale-[1.04] hover:brightness-115 w-full sm:w-auto py-3 sm:py-[1.1rem] px-7 sm:px-12"
+                style={{
+                  fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
+                  letterSpacing: "0.03em",
+                  background: "linear-gradient(90deg, #00C8FF 0%, #7B5EFF 100%)",
+                  boxShadow:
+                    "0 0 28px rgba(0,200,255,0.50)," +
+                    "0 0 70px rgba(0,200,255,0.20)," +
+                    "0 0 140px rgba(123,94,255,0.15)," +
+                    "0 8px 28px rgba(0,0,0,0.40)",
+                }}
+              >
+                <span className="relative z-10">まずは無料で相談する</span>
+                <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
+              </a>
+
+              {/* Secondary — LINE（後から設定） */}
+              <a
+                href="#"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white/30 hover:scale-[1.02] w-full sm:w-auto py-3 sm:py-[1rem] px-6 sm:px-9"
+                style={{
+                  fontSize: "clamp(0.85rem, 1.3vw, 0.95rem)",
+                  letterSpacing: "0.02em",
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  backdropFilter: "blur(10px)",
+                }}
+              >
+                <LineIcon />
+                公式LINEで相談する
+              </a>
+            </motion.div>
+
+            <p className="mt-5 text-xs text-s3-dim tracking-wide">
+              相談は無料です。売り込みはしません。
             </p>
-            <p
-              style={{ fontSize: "clamp(0.9rem, 1.6vw, 1rem)", color: "rgba(143,164,184,0.9)", lineHeight: "1.85" }}
-            >
-              AIに詳しくなくても大丈夫。<br />まずはお気軽にご相談ください。
-            </p>
-          </motion.div>
-
-          {/* ── ② CTAボタン ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            {/* Primary → フォームへスクロール */}
-            <a
-              href="#contact-form"
-              className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white overflow-hidden transition-all duration-300 hover:scale-[1.04] hover:brightness-115 w-full sm:w-auto py-3 sm:py-[1.1rem] px-7 sm:px-12"
-              style={{
-                fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
-                letterSpacing: "0.03em",
-                background: "linear-gradient(90deg, #00C8FF 0%, #7B5EFF 100%)",
-                boxShadow:
-                  "0 0 28px rgba(0,200,255,0.50)," +
-                  "0 0 70px rgba(0,200,255,0.20)," +
-                  "0 0 140px rgba(123,94,255,0.15)," +
-                  "0 8px 28px rgba(0,0,0,0.40)",
-              }}
-            >
-              <span className="relative z-10">まずは無料で相談する</span>
-              <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
-            </a>
-
-            {/* Secondary — LINE（後から設定） */}
-            <a
-              href="#"
-              className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white/30 hover:scale-[1.02] w-full sm:w-auto py-3 sm:py-[1rem] px-6 sm:px-9"
-              style={{
-                fontSize: "clamp(0.85rem, 1.3vw, 0.95rem)",
-                letterSpacing: "0.02em",
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.14)",
-                backdropFilter: "blur(10px)",
-              }}
-            >
-              <LineIcon />
-              公式LINEで相談する
-            </a>
-          </motion.div>
-
-          <p className="mt-5 text-xs text-s3-dim tracking-wide">
-            相談は無料です。売り込みはしません。
-          </p>
-        </div>
+          </div>
+        )}
 
         {/* ── ③ Contactカード ── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 max-w-3xl mx-auto">
