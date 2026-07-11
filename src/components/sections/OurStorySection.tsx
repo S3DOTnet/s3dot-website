@@ -86,7 +86,7 @@ function StoryCanvas({ isActive }: { isActive: boolean }) {
     };
     draw();
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [isActive]);
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" style={{ opacity: 0.85 }} />;
 
 }
@@ -146,11 +146,7 @@ export default function OurStorySection() {
               className="text-3xl md:text-4xl font-bold leading-tight mb-8"
             >
               <span className="text-s3-text">AIを、</span>
-              <br />
-              <span className="gradient-text">
-                <span className="inline-block">誰もが使える</span>
-                <span className="inline-block">道具にしたい。</span>
-              </span>
+              <span className="gradient-text">もっと身近に。</span>
             </motion.h2>
 
             <div className="space-y-6">
@@ -178,8 +174,7 @@ export default function OurStorySection() {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="mt-10 text-xl font-semibold gradient-text"
             >
-              <span className="inline-block">AIは難しくない。</span>
-              <span className="inline-block">難しく考えすぎているだけ。</span>
+              AIは難しくない。難しく考えすぎているだけ。
             </motion.p>
           </div>
 
@@ -193,8 +188,24 @@ export default function OurStorySection() {
             {/* Glass card with animated logo */}
             <div
               className="relative w-full max-w-sm aspect-square rounded-2xl flex items-center justify-center overflow-hidden"
-              style={{ background:"rgba(8,12,16,0.7)", border:"1px solid rgba(0,200,255,0.14)", boxShadow:"0 0 0 1px rgba(0,200,255,0.06), 0 24px 80px rgba(0,0,0,0.5), 0 0 60px rgba(0,200,255,0.08)" }}
+              style={{
+                background: "linear-gradient(135deg, rgba(0,200,255,0.06) 0%, rgba(8,12,16,0.88) 40%, rgba(123,94,255,0.06) 100%)",
+                border: "1px solid rgba(0,200,255,0.22)",
+                boxShadow: "0 0 0 1px rgba(0,200,255,0.09), 0 24px 80px rgba(0,0,0,0.55), 0 0 80px rgba(0,200,255,0.15), 0 0 40px rgba(123,94,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05)",
+              }}
             >
+              {/* 背景グラデーションレイヤー */}
+              <div className="absolute inset-0 pointer-events-none">
+                {/* 中央シアングロー */}
+                <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 50%, rgba(0,200,255,0.14) 0%, rgba(0,200,255,0.04) 42%, transparent 68%)" }} />
+                {/* 右上パープルアクセント — PC のみ */}
+                <div className="hidden sm:block" style={{ position:"absolute", top:"-15%", right:"-10%", width:"55%", height:"55%", background:"radial-gradient(circle at 90% 10%, rgba(123,94,255,0.20) 0%, transparent 60%)" }} />
+                {/* 左下グリーンアクセント — PC のみ */}
+                <div className="hidden sm:block" style={{ position:"absolute", bottom:"-10%", left:"-10%", width:"45%", height:"45%", background:"radial-gradient(circle at 10% 90%, rgba(0,229,160,0.10) 0%, transparent 60%)" }} />
+                {/* スキャンライン */}
+                <div style={{ position:"absolute", inset:0, backgroundImage:"repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,200,255,0.018) 3px, rgba(0,200,255,0.018) 4px)" }} />
+              </div>
+
               {/* AIネットワークCanvas — inView後のみ起動してバッテリーを節約 */}
               <StoryCanvas isActive={inView} />
 
