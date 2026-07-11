@@ -229,8 +229,8 @@ export default function FAQSection({ hideHeading = false }: { hideHeading?: bool
               FAQ
             </motion.p>
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-3xl md:text-5xl font-bold"
             >
@@ -255,8 +255,8 @@ export default function FAQSection({ hideHeading = false }: { hideHeading?: bool
 
         {/* ── Brand closing message ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
           className="mt-16 text-center"
