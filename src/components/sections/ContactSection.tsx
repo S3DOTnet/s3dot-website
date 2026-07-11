@@ -99,7 +99,7 @@ export default function ContactSection() {
             <p
               style={{ fontSize: "clamp(0.9rem, 1.6vw, 1rem)", color: "rgba(143,164,184,0.9)", lineHeight: "1.85" }}
             >
-              AIに詳しくなくても大丈夫。<br />まずはお気軽に<br className="sm:hidden" />ご相談ください。
+              AIに詳しくなくても大丈夫。<br />まずはお気軽にご相談ください。
             </p>
           </motion.div>
 

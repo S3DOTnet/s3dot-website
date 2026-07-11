@@ -105,7 +105,7 @@ export default function PickUpSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-5 text-s3-muted text-lg max-w-xl mx-auto"
           >
-            業種・規模に関係なく、<br className="sm:hidden" />現場で起きている<br className="sm:hidden" />「リアルな変化」。
+            業種・規模に関係なく、<br className="sm:hidden" />現場で起きている「リアルな変化」。
           </motion.p>
         </div>
 

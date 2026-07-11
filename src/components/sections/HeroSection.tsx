@@ -163,14 +163,45 @@ export default function HeroSection() {
           </p>
         </motion.div>
 
-        {/*
-          H1: inline-block で意味のまとまりをアトミック単位に固定。
-          スマホ幅では「AIは特別な」「ものじゃない。」が自然に2行になり、
-          「ない。」だけが孤立する改行を防ぐ。
-        */}
+        {/* ── Mobile heading (< 640px): 2 lines fixed ── */}
+        <motion.div
+          variants={reveal}
+          className="sm:hidden w-full text-center"
+          style={{ marginBottom: "clamp(1.5rem, 5vh, 4.5rem)" }}
+        >
+          <h1
+            className="font-black text-white"
+            style={{
+              fontSize: "clamp(1.4rem, 6.5vw, 2.6rem)",
+              lineHeight: 1.08,
+              letterSpacing: "-0.028em",
+              fontFeatureSettings: '"palt"',
+              marginBottom: "0.25rem",
+            }}
+          >
+            AIは特別なものじゃない。
+          </h1>
+          <div
+            className="font-black"
+            style={{
+              fontSize: "clamp(1.05rem, 5.2vw, 1.8rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.020em",
+              fontFeatureSettings: '"palt"',
+              background: "linear-gradient(110deg, #00C8FF 0%, #5BAFFF 34%, #7B5EFF 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            もう仕事のスタンダードです。
+          </div>
+        </motion.div>
+
+        {/* ── Desktop heading (≥ 640px): original 2-element layout ── */}
         <motion.h1
           variants={reveal}
-          className="font-black text-white"
+          className="hidden sm:block font-black text-white"
           style={{
             fontSize: "clamp(2.6rem, 6.0vw, 6.0rem)",
             lineHeight: 1.04,
@@ -182,14 +213,9 @@ export default function HeroSection() {
           <span className="inline-block">AIは特別な</span>
           <span className="inline-block">ものじゃない。</span>
         </motion.h1>
-
-        {/*
-          H2: 「もう、仕事の」「スタンダードです。」で自然に2行。
-          「です。」「ます。」が孤立しない。
-        */}
         <motion.h2
           variants={reveal}
-          className="font-black"
+          className="hidden sm:block font-black"
           style={{
             fontSize: "clamp(1.8rem, 4.2vw, 4.8rem)",
             lineHeight: 1.07,
@@ -223,7 +249,7 @@ export default function HeroSection() {
           variants={reveal}
           style={{
             fontSize: "clamp(0.90rem, 1.55vw, 1.08rem)",
-            lineHeight: 1.85,
+            lineHeight: 1.75,
             color: "rgba(232,237,242,0.60)",
             letterSpacing: "0.016em",
             maxWidth: "500px",
