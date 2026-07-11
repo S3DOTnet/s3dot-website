@@ -82,15 +82,18 @@ function SuccessView() {
       <p className="text-s3-muted leading-[1.9] mb-6" style={{ fontSize: "0.95rem" }}>
         内容を確認後、通常<strong className="text-s3-text">1営業日以内</strong>に担当者よりご連絡いたします。
       </p>
-      <div
-        className="inline-block px-5 py-3 rounded-xl text-sm text-s3-muted"
+      <a
+        href="https://line.me/R/ti/p/@377ryvgd"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block px-5 py-3 rounded-xl text-sm text-s3-muted hover:text-s3-blue transition-colors duration-200"
         style={{
           background: "rgba(0,200,255,0.06)",
           border: "1px solid rgba(0,200,255,0.18)",
         }}
       >
-        お急ぎの場合は、公式LINEからもお気軽にお問い合わせください。
-      </div>
+        お急ぎの場合は、公式LINEからもお気軽にお問い合わせください →
+      </a>
     </motion.div>
   );
 }

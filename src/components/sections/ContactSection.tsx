@@ -39,7 +39,7 @@ const options = [
     cta: "LINEで相談する",
     color: "#06C755",
     isLine: true,
-    href: "#", // LINE URLは後から設定
+    href: "https://line.me/R/ti/p/@377ryvgd",
   },
 ];
 
@@ -130,9 +130,11 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
                 <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
               </a>
 
-              {/* Secondary — LINE（後から設定） */}
+              {/* Secondary — LINE */}
               <a
-                href="#"
+                href="https://line.me/R/ti/p/@377ryvgd"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white/30 hover:scale-[1.02] w-full sm:w-auto py-3 sm:py-[1rem] px-6 sm:px-9"
                 style={{
                   fontSize: "clamp(0.85rem, 1.3vw, 0.95rem)",
@@ -163,6 +165,7 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
                 key={opt.label}
                 href={opt.href}
                 className="group block"
+                {...(opt.isLine ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 <motion.div
                   initial={{ opacity: 0, y: 32, scale: 0.97 }}

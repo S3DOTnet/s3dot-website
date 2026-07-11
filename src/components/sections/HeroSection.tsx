@@ -295,7 +295,9 @@ export default function HeroSection() {
 
           {/* Secondary — LINE */}
           <a
-            href="#contact"
+            href="https://line.me/R/ti/p/@377ryvgd"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hero-cta-secondary inline-flex items-center justify-center gap-2.5 rounded-[14px] font-medium text-white w-full sm:w-auto py-3 sm:py-[1.1rem] px-6 sm:px-9"
             style={{
               fontSize: "clamp(0.875rem, 1.25vw, 0.975rem)",
