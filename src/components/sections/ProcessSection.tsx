@@ -228,6 +228,13 @@ export default function ProcessSection() {
             <br className="hidden md:block" />
             効果を確認しながら、御社に合わせて広げていきます。
           </p>
+
+          <a
+            href="/price"
+            className="inline-flex items-center gap-2 mt-8 px-7 py-3 rounded-lg text-sm font-semibold text-s3-blue border border-s3-blue/35 hover:border-s3-blue/65 hover:bg-s3-blue/5 transition-all duration-200 tracking-wide"
+          >
+            料金の目安を見る →
+          </a>
         </motion.div>
       </div>
 

@@ -116,20 +116,6 @@ export default function ConceptSection() {
           ))}
         </div>
 
-        {/* Bottom message */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-10 md:mt-16 text-center"
-        >
-          <p className="text-s3-muted text-base">
-            AIパートナー、S3DOT。
-            <br className="sm:hidden" />
-            <span className="ml-0 sm:ml-2 text-s3-text font-medium">エススリードット株式会社</span>
-          </p>
-        </motion.div>
       </div>
 
       <div className="section-divider mt-16 md:mt-32" />

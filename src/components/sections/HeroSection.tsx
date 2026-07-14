@@ -308,19 +308,6 @@ export default function HeroSection() {
             公式LINEで相談する
           </a>
         </motion.div>
-
-        {/* Trust signal */}
-        <motion.p
-          variants={reveal}
-          style={{
-            marginTop: "0.9rem",
-            fontSize: "0.72rem",
-            color: "rgba(74,96,112,0.78)",
-            letterSpacing: "0.04em",
-          }}
-        >
-          相談は無料です。
-        </motion.p>
       </motion.div>
 
       {/* ── Scroll indicator — light trail ── */}

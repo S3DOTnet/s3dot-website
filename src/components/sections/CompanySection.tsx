@@ -91,7 +91,7 @@ export default function CompanySection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-s3-muted"
           >
-            エススリードット株式会社 — AIを、もっと身近にする会社
+            AIをもっと身近にする会社
           </motion.p>
         </div>
 
