@@ -124,14 +124,14 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-7">
             <a
-              href="#"
+              href="/privacy"
               className="hover:text-s3-muted transition-colors duration-200"
               style={{ fontSize: "0.72rem", color: "rgba(74,96,112,0.9)", letterSpacing: "0.02em" }}
             >
               プライバシーポリシー
             </a>
             <a
-              href="#"
+              href="/terms"
               className="hover:text-s3-muted transition-colors duration-200"
               style={{ fontSize: "0.72rem", color: "rgba(74,96,112,0.9)", letterSpacing: "0.02em" }}
             >
