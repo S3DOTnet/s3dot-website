@@ -540,7 +540,7 @@ export default function ContactForm() {
         </AnimatePresence>
 
         {/* ── 送信ボタン ── */}
-        <div className="pt-2">
+        <div className="pt-2 text-center">
           <button
             type="submit"
             disabled={status === "submitting"}
