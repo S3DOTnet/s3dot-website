@@ -17,7 +17,7 @@ const options = [
   {
     icon: MessageSquare,
     label: "無料相談（フォーム）",
-    desc: "売り込みは一切しません。まずはお気軽にどうぞ。",
+    desc: "まずはお気軽にどうぞ。",
     cta: "相談フォームへ",
     color: "#00C8FF",
     isLine: false,
@@ -150,7 +150,7 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
             </motion.div>
 
             <p className="mt-5 text-xs text-s3-dim tracking-wide">
-              相談は無料です。売り込みはしません。
+              相談は無料です。
             </p>
           </div>
         )}
@@ -248,7 +248,7 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
               無料相談フォーム
             </h3>
             <p className="text-s3-muted text-sm leading-relaxed">
-              内容を確認後、通常1営業日以内にご連絡いたします。売り込みは一切しません。
+              内容を確認後、通常1営業日以内にご連絡いたします。
             </p>
           </div>
 

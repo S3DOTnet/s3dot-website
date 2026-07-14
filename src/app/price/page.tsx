@@ -285,7 +285,7 @@ export default function PricePage() {
                 無料で相談してみる
                 <ArrowRight size={16} />
               </a>
-              <p className="mt-4 text-xs text-s3-dim">相談は無料です。売り込みはしません。</p>
+              <p className="mt-4 text-xs text-s3-dim">相談は無料です。</p>
             </motion.div>
           </div>
         </section>

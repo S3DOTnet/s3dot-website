@@ -319,7 +319,7 @@ export default function HeroSection() {
             letterSpacing: "0.04em",
           }}
         >
-          相談は無料です。売り込みはしません。
+          相談は無料です。
         </motion.p>
       </motion.div>
 

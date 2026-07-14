@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
   /* ── description ── */
   description:
-    "AI導入・業務改善・業務自動化・AIシステム開発まで。S3DOTはAIをもっと身近にするAI活用パートナー。売り込みではなく、あなたの会社に合った最適なAI活用をご提案します。",
+    "AI導入・業務改善・業務自動化・AIシステム開発まで。S3DOTはAIをもっと身近にするAI活用パートナー。あなたの会社に合った最適なAI活用をご提案します。",
 
   /* ── keywords ── */
   keywords: [

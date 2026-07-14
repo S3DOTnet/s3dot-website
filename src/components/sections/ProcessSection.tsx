@@ -19,7 +19,6 @@ const steps = [
     lines: [
       "現状のお悩みをヒアリングします。",
       "AIが必要かどうかも一緒に考えます。",
-      "営業は一切ありません。",
     ],
     color: "#00C8FF",
   },
@@ -229,18 +228,6 @@ export default function ProcessSection() {
             <br className="hidden md:block" />
             効果を確認しながら、御社に合わせて広げていきます。
           </p>
-
-          {/* CTA */}
-          <motion.a
-            href="#contact"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="inline-flex items-center gap-2 mt-10 px-8 py-3.5 rounded-lg text-sm font-bold text-white gradient-cta glow-blue hover:brightness-110 hover:scale-[1.02] transition-all tracking-wide"
-          >
-            まず無料で相談してみる →
-          </motion.a>
         </motion.div>
       </div>
 
