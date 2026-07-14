@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
-import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import JsonLd from "@/components/seo/JsonLd";
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 const inter = Inter({
   variable: "--font-sans",
@@ -102,10 +104,10 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body className="min-h-full flex flex-col bg-s3-bg text-s3-text">
-        {/* ① Google Analytics 4（本番 + GA_ID 設定時のみ動作） */}
-        <GoogleAnalytics />
         {children}
       </body>
+      {/* ① Google Analytics 4（@next/third-parties、GA_ID 設定時のみ全ページで動作） */}
+      {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </html>
   );
 }
