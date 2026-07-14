@@ -133,17 +133,11 @@ export default function TermsPage() {
               Legal
             </p>
             <h1
-              className="font-bold text-white mb-5"
+              className="font-bold text-white"
               style={{ fontSize: "clamp(1.75rem,5vw,3rem)" }}
             >
               利用規約
             </h1>
-            <p
-              className="text-[rgba(74,96,112,0.9)] tracking-wide"
-              style={{ fontSize: "0.78rem" }}
-            >
-              制定日：2025年4月1日　／　最終更新日：2026年7月14日
-            </p>
           </div>
 
           <div
@@ -362,14 +356,7 @@ export default function TermsPage() {
               </p>
             </div>
 
-            {/* 制定・更新日 */}
             <div className="mt-16 pt-8 border-t border-[rgba(30,45,61,0.8)] text-center">
-              <p className="text-[rgba(74,96,112,0.9)] text-xs tracking-wide mb-1">
-                制定日：2025年4月1日
-              </p>
-              <p className="text-[rgba(74,96,112,0.9)] text-xs tracking-wide mb-5">
-                最終更新日：2026年7月14日
-              </p>
               <p className="text-[rgba(143,164,184,0.6)] text-xs">
                 エススリードット株式会社
               </p>

@@ -128,17 +128,11 @@ export default function LegalPage() {
               Legal Notice
             </p>
             <h1
-              className="font-bold text-white mb-5"
+              className="font-bold text-white"
               style={{ fontSize: "clamp(1.75rem,5vw,3rem)" }}
             >
               特定商取引法に基づく表記
             </h1>
-            <p
-              className="text-[rgba(74,96,112,0.9)] tracking-wide"
-              style={{ fontSize: "0.78rem" }}
-            >
-              制定日：2025年4月1日　／　最終更新日：2026年7月14日
-            </p>
           </div>
 
           <div
@@ -175,14 +169,7 @@ export default function LegalPage() {
                   },
                   {
                     term: "代表者名",
-                    def: (
-                      <>
-                        代表取締役
-                        <Note>
-                          ※ 個人情報保護の観点から代表者氏名の掲載を省略しています。お問い合わせいただいた場合は遅滞なく開示します。
-                        </Note>
-                      </>
-                    ),
+                    def: "代表取締役　木村 健一郎",
                   },
                   {
                     term: "所在地",
@@ -305,8 +292,8 @@ export default function LegalPage() {
                     term: "SaaS・サブスクリプション",
                     def: (
                       <>
-                        月額プラン・年額プランを準備中<br />
-                        <Note>詳細は公開時にご案内します。価格は税別表示とし、適用する消費税率を加算した税込価格を請求します。</Note>
+                        プランにより異なります<br />
+                        <Note>サービス・導入内容・契約プランにより異なります。詳細はお見積りまたはお問い合わせ時にご案内いたします。価格は税別表示とし、適用する消費税率を加算した税込価格を請求します。</Note>
                       </>
                     ),
                   },
@@ -345,7 +332,7 @@ export default function LegalPage() {
                     def: (
                       <>
                         VISA・Mastercard・JCB・American Express・Diners Club<br />
-                        <Note>Stripeを利用した安全な決済環境を提供します。カード情報は当社サーバーに保存しません。SaaS・月額サービスでは自動課金に利用します。</Note>
+                        <Note>安全な決済環境を提供します。カード情報は当社サーバーには保存しません。利用可能なカードブランドは、ご契約内容に応じてご案内します。</Note>
                       </>
                     ),
                   },
@@ -522,7 +509,7 @@ export default function LegalPage() {
             {/* ⑩ セキュリティ・個人情報 */}
             <SectionHeading id="security" title="セキュリティ・個人情報の取り扱い" />
             <P>
-              当社ウェブサイトおよび決済処理は、SSL/TLS による暗号化通信を使用しています。クレジットカード情報は、当社サーバーには保存せず、PCI DSS 準拠の決済代行サービス（Stripe Inc.）に直接送信されます。
+              当社ウェブサイトおよび決済処理は、SSL/TLS による暗号化通信を使用しています。お客様の個人情報および決済情報は、利用する決済サービスおよび関係法令に従い、適切な安全管理措置のもと取り扱います。当社は個人情報保護法その他関連法令を遵守し、適切な管理を行います。
             </P>
             <P>
               個人情報の取り扱いについては、当社の
@@ -596,14 +583,7 @@ export default function LegalPage() {
               </p>
             </div>
 
-            {/* 制定・更新 */}
             <div className="mt-16 pt-8 border-t border-[rgba(30,45,61,0.8)] text-center">
-              <p className="text-[rgba(74,96,112,0.9)] text-xs tracking-wide mb-1">
-                制定日：2025年4月1日
-              </p>
-              <p className="text-[rgba(74,96,112,0.9)] text-xs tracking-wide mb-5">
-                最終更新日：2026年7月14日
-              </p>
               <p className="text-[rgba(143,164,184,0.6)] text-xs">
                 エススリードット株式会社
               </p>
