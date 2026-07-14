@@ -8,7 +8,7 @@ const cases = [
     industry: "小売業",
     tag: "コンテンツ制作",
     title: "商品説明文500件を、\n1日で量産",
-    body: "EC担当者が1件30分かけて書いていた商品説明文を、AIが一括生成。品質を保ちながらコストを大幅削減し、売場展開スピードが変わりました。",
+    body: "EC担当者が1件30分かけて書いていた商品説明文も、AIなら一括生成が可能。品質を保ちながらコストを抑え、売場展開のスピードアップが期待できます。",
     metric: "×20 制作速度",
     metricSub: "制作コスト 1/5",
     color: "#00C8FF",
@@ -18,7 +18,7 @@ const cases = [
     industry: "サービス業",
     tag: "業務自動化",
     title: "問い合わせ対応を\n24時間365日自動化",
-    body: "よくある質問への返答をAIチャットボットが自動対応。深夜・休日も顧客対応が続き、スタッフの残業が減り、顧客満足度が向上しました。",
+    body: "よくある質問への返答をAIチャットボットが自動対応。深夜・休日も顧客対応を止めずに、スタッフの負担軽減と顧客満足度の向上が見込めます。",
     metric: "24h 自動対応",
     metricSub: "対応時間 1/3",
     color: "#7B5EFF",
@@ -28,7 +28,7 @@ const cases = [
     industry: "飲食・食品",
     tag: "SNS・集客",
     title: "SNS投稿を、\n週1作業でまるごと自動化",
-    body: "月のSNS投稿計画・文章・画像キャプションをAIが一括生成。担当者の作業時間が激減し、投稿頻度が上がって集客効果が改善しました。",
+    body: "月のSNS投稿計画・文章・画像キャプションをAIが一括生成。担当者の作業時間を大幅に減らしながら、投稿頻度アップによる集客効果が期待できます。",
     metric: "月8h → 1h",
     metricSub: "投稿頻度 ×3",
     color: "#00E5A0",
@@ -38,7 +38,7 @@ const cases = [
     industry: "士業・コンサル",
     tag: "業務効率化",
     title: "議事録・要約を\nその場で自動生成",
-    body: "1時間の会議録音から議事録・アクションアイテム・要約を5分で自動生成。会議後の作業が消え、本来の業務に集中できるようになりました。",
+    body: "1時間の会議録音から議事録・アクションアイテム・要約を5分で自動生成。会議後の作業負担をなくし、本来の業務に集中できる時間を生み出せます。",
     metric: "2h → 5分",
     metricSub: "精度 向上",
     color: "#00C8FF",
@@ -48,7 +48,7 @@ const cases = [
     industry: "製造・物流",
     tag: "データ活用",
     title: "毎朝の集計レポートを\nゼロ工数で自動配信",
-    body: "担当者が毎朝1時間かけていたデータ集計・レポート作成を完全自動化。毎朝自動でメール配信され、ミスもゼロになりました。",
+    body: "担当者が毎朝1時間かけていたデータ集計・レポート作成を自動化し、毎朝の自動配信も可能に。ヒューマンエラーの削減も見込めます。",
     metric: "毎朝ゼロ工数",
     metricSub: "ヒューマンエラー 0件",
     color: "#7B5EFF",
@@ -58,7 +58,7 @@ const cases = [
     industry: "建設・不動産",
     tag: "書類・提案",
     title: "提案書・見積書の\n下書きを即生成",
-    body: "案件情報を入力するだけで、提案書の下書きをAIが生成。営業担当者が修正・確認するだけで完成し、提案件数が2倍になりました。",
+    body: "案件情報を入力するだけで、提案書の下書きをAIが生成。営業担当者は修正・確認するだけで完成でき、提案件数の増加が期待できます。",
     metric: "提案件数 ×2",
     metricSub: "作成時間 1/4",
     color: "#00E5A0",
@@ -106,7 +106,7 @@ export default function PickUpSection({ hideHeading = false }: { hideHeading?: b
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-5 text-s3-muted text-lg max-w-xl mx-auto"
             >
-              業種・規模に関係なく、<br className="sm:hidden" />現場で起きている「リアルな変化」。
+              業種・規模に関係なく、<br className="sm:hidden" />AIでこんな「変化」が生み出せます。
             </motion.p>
           </div>
         )}
@@ -136,6 +136,7 @@ export default function PickUpSection({ hideHeading = false }: { hideHeading?: b
 
                 {/* Metric */}
                 <div>
+                  <p className="text-[10px] tracking-wide text-s3-dim mb-1">想定効果</p>
                   <p className="text-xl font-bold font-mono" style={{ color: c.color }}>
                     {c.metric}
                   </p>
@@ -163,7 +164,7 @@ export default function PickUpSection({ hideHeading = false }: { hideHeading?: b
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-10 text-center text-xs text-s3-dim"
         >
-          ※ 掲載の数値はヒアリングをもとにした概算値です
+          ※ 掲載の内容はAI活用の想定効果イメージです。特定企業における実績ではありません。
         </motion.p>
       </div>
 
