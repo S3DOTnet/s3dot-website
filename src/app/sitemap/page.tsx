@@ -69,7 +69,7 @@ const siteGroups: SiteGroup[] = [
       },
       {
         label: "料金",
-        href:  "/#price",
+        href:  "/price",
         desc:  "初期費用・月額費用・プランの概要をご案内しています（詳細は個別見積もり）。",
       },
       {

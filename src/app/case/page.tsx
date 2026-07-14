@@ -24,10 +24,10 @@ export default function CasePage() {
       <Header />
       <main>
         <PageHero
-          badge="Case Studies"
+          badge="Case Examples"
           title="どんな業種でも、"
           titleGradient="変えられることがある。"
-          description="業種・規模に関係なく、現場で起きている「リアルな変化」をご紹介します。"
+          description="業種・規模に関係なく、AIによって生まれる『変化』のイメージをご紹介します。"
         />
 
         {/* 業務ごとの活用イメージ */}

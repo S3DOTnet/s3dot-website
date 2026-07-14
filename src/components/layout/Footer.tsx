@@ -14,6 +14,7 @@ const serviceLinks = [
 const companyLinks = [
   { label: "会社情報",    href: "#company" },
   { label: "Our Story",  href: "#story"   },
+  { label: "料金",        href: "/price"   },
   { label: "お問い合わせ", href: "#contact" },
 ];
 
