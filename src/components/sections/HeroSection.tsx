@@ -298,10 +298,12 @@ export default function HeroSection() {
             href="https://line.me/R/ti/p/@377ryvgd"
             target="_blank"
             rel="noopener noreferrer"
-            className="hero-cta-secondary inline-flex items-center justify-center gap-2.5 rounded-[14px] font-medium text-white w-full sm:w-auto py-3 sm:py-[1.1rem] px-6 sm:px-9"
+            className="inline-flex items-center justify-center gap-2.5 rounded-[14px] font-medium text-white w-full sm:w-auto py-3 sm:py-[1.1rem] px-6 sm:px-9 transition-all duration-200 hover:brightness-110 hover:scale-[1.02]"
             style={{
               fontSize: "clamp(0.875rem, 1.25vw, 0.975rem)",
               letterSpacing: "0.03em",
+              background: "#06C755",
+              boxShadow: "0 0 20px rgba(6,199,85,0.30), 0 4px 16px rgba(0,0,0,0.3)",
             }}
           >
             <LineIcon />

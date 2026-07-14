@@ -86,10 +86,11 @@ function SuccessView() {
         href="https://line.me/R/ti/p/@377ryvgd"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block px-5 py-3 rounded-xl text-sm text-s3-muted hover:text-s3-blue transition-colors duration-200"
+        className="inline-block px-5 py-3 rounded-xl text-sm transition-colors duration-200"
         style={{
-          background: "rgba(0,200,255,0.06)",
-          border: "1px solid rgba(0,200,255,0.18)",
+          color: "#06C755",
+          background: "rgba(6,199,85,0.06)",
+          border: "1px solid rgba(6,199,85,0.22)",
         }}
       >
         お急ぎの場合は、公式LINEからもお気軽にお問い合わせください →

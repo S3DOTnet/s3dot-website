@@ -135,13 +135,12 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
                 href="https://line.me/R/ti/p/@377ryvgd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-semibold text-white transition-all duration-200 hover:bg-white/10 hover:border-white/30 hover:scale-[1.02] w-full sm:w-auto py-3 sm:py-[1rem] px-6 sm:px-9"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-semibold text-white transition-all duration-200 hover:brightness-110 hover:scale-[1.02] w-full sm:w-auto py-3 sm:py-[1rem] px-6 sm:px-9"
                 style={{
                   fontSize: "clamp(0.85rem, 1.3vw, 0.95rem)",
                   letterSpacing: "0.02em",
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.14)",
-                  backdropFilter: "blur(10px)",
+                  background: "#06C755",
+                  boxShadow: "0 0 20px rgba(6,199,85,0.30), 0 4px 16px rgba(0,0,0,0.3)",
                 }}
               >
                 <LineIcon />
