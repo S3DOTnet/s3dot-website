@@ -544,7 +544,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="w-full sm:w-auto flex items-center justify-center gap-3 rounded-xl font-bold text-white transition-all duration-300"
+            className="w-full sm:w-auto mx-auto flex items-center justify-center gap-3 rounded-xl font-bold text-white transition-all duration-300"
             style={{
               padding: "1.1rem 3.5rem",
               fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
