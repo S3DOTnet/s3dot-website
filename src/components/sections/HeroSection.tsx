@@ -302,7 +302,7 @@ export default function HeroSection() {
             style={{
               fontSize: "clamp(0.875rem, 1.25vw, 0.975rem)",
               letterSpacing: "0.03em",
-              background: "linear-gradient(90deg, #06C755 0%, #00E5A0 100%)",
+              background: "linear-gradient(90deg, #06C755 0%, #059C46 100%)",
               boxShadow: "0 0 20px rgba(6,199,85,0.30), 0 4px 16px rgba(0,0,0,0.3)",
             }}
           >
