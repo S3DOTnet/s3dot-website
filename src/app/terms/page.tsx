@@ -2,10 +2,31 @@ import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
+
 export const metadata: Metadata = {
   title: "利用規約 | S3DOT",
   description:
     "エススリードット株式会社の利用規約です。ウェブサイトの閲覧・お問い合わせ・無料相談・AI導入相談・ホームページ制作・AI開発等のサービスご利用にあたっての規約を定めています。",
+  alternates: {
+    canonical: `${SITE_URL}/terms`,
+  },
+  openGraph: {
+    type:        "website",
+    locale:      "ja_JP",
+    url:         `${SITE_URL}/terms`,
+    siteName:    "S3DOT",
+    title:       "利用規約 | S3DOT",
+    description: "エススリードット株式会社の利用規約です。ウェブサイトの閲覧・お問い合わせ・無料相談・AI導入相談・ホームページ制作・AI開発等のサービスご利用にあたっての規約を定めています。",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "S3DOT" }],
+  },
+  twitter: {
+    card:        "summary_large_image",
+    title:       "利用規約 | S3DOT",
+    description: "エススリードット株式会社の利用規約です。",
+    images:      ["/opengraph-image"],
+  },
+  robots: { index: true, follow: true },
 };
 
 /* ── ローカルスタイルヘルパー ── */

@@ -117,27 +117,32 @@ export default function Footer() {
           style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(30,45,61,0.9) 20%, rgba(30,45,61,0.9) 80%, transparent)" }}
         />
 
+        {/* Legal links */}
+        <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 mb-6">
+          {[
+            { label: "会社概要",               href: "/#company" },
+            { label: "お問い合わせ",           href: "/#contact" },
+            { label: "プライバシーポリシー",   href: "/privacy"  },
+            { label: "利用規約",               href: "/terms"    },
+            { label: "特定商取引法に基づく表記", href: "/legal"  },
+            { label: "サイトマップ",           href: "/sitemap"  },
+          ].map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="hover:text-s3-muted transition-colors duration-200"
+              style={{ fontSize: "0.72rem", color: "rgba(74,96,112,0.9)", letterSpacing: "0.02em" }}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+
         {/* Copyright */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+        <div className="text-center md:text-left">
           <p style={{ fontSize: "0.72rem", color: "rgba(74,96,112,0.9)", letterSpacing: "0.02em" }}>
             © 2026 エススリードット株式会社 (S3DOT Inc.) All rights reserved.
           </p>
-          <div className="flex items-center gap-7">
-            <a
-              href="/privacy"
-              className="hover:text-s3-muted transition-colors duration-200"
-              style={{ fontSize: "0.72rem", color: "rgba(74,96,112,0.9)", letterSpacing: "0.02em" }}
-            >
-              プライバシーポリシー
-            </a>
-            <a
-              href="/terms"
-              className="hover:text-s3-muted transition-colors duration-200"
-              style={{ fontSize: "0.72rem", color: "rgba(74,96,112,0.9)", letterSpacing: "0.02em" }}
-            >
-              利用規約
-            </a>
-          </div>
         </div>
       </div>
     </footer>
