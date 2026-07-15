@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# S3DOT ウェブサイト
 
-## Getting Started
+エススリードット株式会社のコーポレートサイトです。AI導入・業務改善・業務自動化・AIシステム開発に関するサービス紹介、料金、事例、問い合わせフォームなどを提供します。
 
-First, run the development server:
+## 技術構成
+
+- [Next.js 16](https://nextjs.org) (App Router) + React 19 + TypeScript
+- Tailwind CSS v4
+- shadcn / Base UI + framer-motion + lucide-react
+- 問い合わせフォーム: [Resend](https://resend.com)
+- アクセス解析: Google Analytics 4 (`@next/third-parties`)
+
+> **注意**: このプロジェクトはNext.jsの最新版を利用しており、標準的な学習知識と異なる破壊的変更を含む場合があります。実装前に `AGENTS.md` を確認してください。
+
+## セットアップ
+
+```bash
+npm install
+cp .env.local.example .env.local
+```
+
+`.env.local` に以下を設定してください(詳細は `.env.local.example` のコメント参照)。
+
+- `NEXT_PUBLIC_SITE_URL`: 本番サイトURL
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID`: GA4測定ID(任意)
+- `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`: Search Console所有権確認コード(任意)
+- `RESEND_API_KEY`: Resend APIキー(問い合わせフォーム送信に必要)
+- `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL`: 問い合わせメールの宛先・送信元
+
+## 開発
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000) で確認できます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 主なスクリプト
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| コマンド | 内容 |
+| --- | --- |
+| `npm run dev` | 開発サーバー起動 |
+| `npm run build` | 本番ビルド |
+| `npm run start` | 本番サーバー起動 |
+| `npm run lint` | ESLint実行 |
 
-## Learn More
+## ディレクトリ構成(抜粋)
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/
+    page.tsx            # トップページ(各セクションを積み上げ)
+    layout.tsx           # メタデータ・OGP・GA4
+    sitemap.ts / robots.ts
+    api/contact/route.ts # 問い合わせフォーム送信API
+    case/ contact/ faq/ price/ service/ legal/ privacy/ terms/ sitemap/
+  components/
+    layout/               # Header, Footer
+    sections/              # トップページの各セクション
+    seo/JsonLd.tsx         # 構造化データ
+    ui/                    # 共通UIコンポーネント(TransparentLogo等)
+public/
+  images/logo.png          # 公式ロゴ
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## AI開発ルール
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+このリポジトリでClaude Codeを使う際のルールは `CLAUDE.md` / `AGENTS.md` および `.claude/skills/` を参照してください。
 
-## Deploy on Vercel
+## デプロイ
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[Vercel](https://vercel.com) へのデプロイを想定しています。GitHubへのpushは事前に必ず承認を得てから行ってください。
