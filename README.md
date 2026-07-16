@@ -67,6 +67,10 @@ public/
 
 このリポジトリでClaude Codeを使う際のルールは `CLAUDE.md` / `AGENTS.md` および `.claude/skills/` を参照してください。
 
+## 開発記録
+
+日報・週報・設計・アイデア・不具合などの開発記録は `docs/` で管理します。分類と命名規則は `docs/README.md` を参照してください。
+
 ## デプロイ
 
-[Vercel](https://vercel.com) へのデプロイを想定しています。GitHubへのpushは事前に必ず承認を得てから行ってください。
+[Vercel](https://vercel.com) へのデプロイを想定しています。作業完了時のコミット・pushは `AGENTS.md` と `CLAUDE.md` の安全確認ルールに従って実施します。
