@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { z } from "zod";
 
 const SITE_URL = "https://s3dot.com";
+const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
 const ALLOWED_SITE_ORIGINS = new Set([SITE_URL, "https://www.s3dot.com"]);
 const CONTACT_URL = `${SITE_URL}/contact`;
 const MAX_REQUEST_BYTES = 32 * 1024;
@@ -190,7 +191,7 @@ function replyHtml(data: ContactData): string {
     </table>
     <div style="background:#f0f9ff;border-left:4px solid #00C8FF;padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:8px">
       <p style="margin:0;font-size:14px;line-height:1.7;color:#2d3748">お急ぎの場合は、公式LINEからもお気軽にお問い合わせください。<br>
-      <a href="${SITE_URL}" style="color:#00C8FF;font-weight:600;text-decoration:none">${SITE_URL}</a></p>
+      <a href="${LINE_URL}" style="color:#00C8FF;font-weight:600;text-decoration:none">公式LINEで相談する</a></p>
     </div>
   </div>
   <div style="padding:18px 32px;background:#f7fafc;text-align:center">
@@ -223,6 +224,7 @@ ${data.requests ? `\nご希望・ご質問:\n${data.requests}` : ""}
 内容を確認後、原則2営業日以内に担当者よりご連絡いたします。
 
 お急ぎの場合は、公式LINEからもお気軽にお問い合わせください。
+公式LINEで相談する: ${LINE_URL}
 
 S3DOT
 AIを、もっと身近にする会社です。
