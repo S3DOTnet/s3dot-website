@@ -247,7 +247,7 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
               無料相談フォーム
             </h3>
             <p className="text-s3-muted text-sm leading-relaxed">
-              内容を確認後、通常1営業日以内にご連絡いたします。
+              内容を確認後、原則2営業日以内にご連絡いたします。
             </p>
           </div>
 

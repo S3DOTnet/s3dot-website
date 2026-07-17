@@ -2,111 +2,171 @@ import type { NextRequest } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 
-/* ── Rate limiting (in-memory, best-effort on serverless) ── */
-const rl = new Map<string, { count: number; resetAt: number }>();
-function checkRate(ip: string): boolean {
+const SITE_URL = "https://s3dot.com";
+const CONTACT_URL = `${SITE_URL}/contact`;
+const MAX_REQUEST_BYTES = 32 * 1024;
+const RATE_WINDOW_MS = 60_000;
+const RATE_LIMIT = 3;
+
+const INDUSTRIES = [
+  "建設業",
+  "製造業",
+  "サービス業",
+  "不動産業",
+  "小売業",
+  "飲食業",
+  "医療・介護",
+  "IT・Web",
+  "その他",
+] as const;
+
+const CONSULTATION_TOPICS = [
+  "AI導入について",
+  "AI事務員について",
+  "ホームページ制作について",
+  "LINE連携について",
+  "業務効率化について",
+  "自動化システムについて",
+  "その他",
+] as const;
+
+/* Vercel WAF導入までの補助的な制限。サーバーレス全体では共有されない。 */
+const rateLimitEntries = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(ip: string): boolean {
   const now = Date.now();
-  const win = 60_000; // 1 minute window
-  const max = 3;      // 3 requests per window
-  const e = rl.get(ip);
-  if (!e || now > e.resetAt) { rl.set(ip, { count: 1, resetAt: now + win }); return true; }
-  if (e.count >= max) return false;
-  e.count++;
+
+  for (const [key, entry] of rateLimitEntries) {
+    if (now > entry.resetAt) rateLimitEntries.delete(key);
+  }
+
+  const entry = rateLimitEntries.get(ip);
+  if (!entry) {
+    rateLimitEntries.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return true;
+  }
+
+  if (entry.count >= RATE_LIMIT) return false;
+  entry.count += 1;
   return true;
 }
 
-/* ── Zod schema ── */
-const INDUSTRIES = ["建設業", "製造業", "サービス業", "不動産業", "小売業", "飲食業", "医療・介護", "IT・Web", "その他"] as const;
+const requiredText = (label: string, max: number) =>
+  z.string().trim().min(1, `${label}を入力してください`).max(max);
 
-const schema = z.object({
-  name:               z.string().min(1, "お名前を入力してください").max(100),
-  company:            z.string().max(200).optional(),
-  email:              z.string().min(1, "メールアドレスを入力してください").email("正しいメールアドレスを入力してください").max(200),
-  phone:              z.string().max(50).optional(),
-  industry:           z.enum(INDUSTRIES),
-  consultationTopics: z.array(z.string().min(1)).min(1, "ご相談内容を1つ以上選択してください"),
-  currentIssues:      z.string().min(1, "現在お困りのことを入力してください").max(3000),
-  requests:           z.string().max(3000).optional(),
-  consent:            z.literal(true),
-  honeypot:           z.string().max(0).optional(),
-});
+const optionalText = (max: number) => z.string().trim().max(max).optional();
 
-type FormData = z.infer<typeof schema>;
+const contactSchema = z
+  .object({
+    submissionId: z.string().uuid("送信情報を更新してから再試行してください"),
+    name: requiredText("お名前", 100),
+    company: optionalText(200),
+    email: z
+      .string()
+      .trim()
+      .min(1, "メールアドレスを入力してください")
+      .max(200)
+      .email("正しいメールアドレスを入力してください")
+      .transform((value) => value.toLowerCase()),
+    phone: optionalText(50),
+    industry: z.enum(INDUSTRIES, { error: "業種を選択してください" }),
+    consultationTopics: z
+      .array(z.enum(CONSULTATION_TOPICS))
+      .min(1, "ご相談内容を1つ以上選択してください")
+      .max(CONSULTATION_TOPICS.length, "ご相談内容の選択数が多すぎます"),
+    currentIssues: requiredText("現在お困りのこと", 3000),
+    requests: optionalText(3000),
+    consent: z.literal(true, { error: "個人情報の取り扱いに同意してください" }),
+    honeypot: z.string().max(0).optional(),
+  })
+  .strict();
 
-/* ── 環境変数チェック ── */
-function checkEnv(): { ok: true; apiKey: string; toEmail: string; fromEmail: string } | { ok: false; message: string; missing: string[] } {
-  const missing: string[] = [];
-  const apiKey    = process.env.RESEND_API_KEY;
-  const toEmail   = process.env.CONTACT_TO_EMAIL   ?? "contact@s3dot.net";
-  const fromEmail = process.env.CONTACT_FROM_EMAIL;
+type ContactData = z.infer<typeof contactSchema>;
 
-  if (!apiKey)    missing.push("RESEND_API_KEY");
-  if (!fromEmail) missing.push("CONTACT_FROM_EMAIL");
+type ContactEnv = {
+  apiKey: string;
+  toEmail: string;
+  fromEmail: string;
+};
 
-  if (missing.length > 0) {
-    console.error("[contact] Missing environment variables:", missing.join(", "));
-    return {
-      ok: false,
-      message: `サーバーの設定が未完了です。以下の環境変数が設定されていません: ${missing.join(", ")}。Vercelの環境変数設定を確認してください。`,
-      missing,
-    };
-  }
+function getContactEnv(): ContactEnv | null {
+  const result = z
+    .object({
+      apiKey: z.string().trim().min(1),
+      toEmail: z.string().trim().email(),
+      fromEmail: z.string().trim().email(),
+    })
+    .safeParse({
+      apiKey: process.env.RESEND_API_KEY,
+      toEmail: process.env.CONTACT_TO_EMAIL ?? "contact@s3dot.net",
+      fromEmail: process.env.CONTACT_FROM_EMAIL,
+    });
 
-  return { ok: true, apiKey: apiKey!, toEmail, fromEmail: fromEmail! };
+  return result.success ? result.data : null;
 }
 
-/* ── HTML email builders ── */
-const row = (label: string, value: string) =>
-  `<tr><td style="padding:10px 16px;background:#f7fafc;border-bottom:1px solid #e2e8f0;font-weight:600;white-space:nowrap;width:32%;font-size:14px;color:#4a5568">${label}</td><td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;font-size:14px;color:#2d3748;white-space:pre-wrap;word-break:break-word">${value || "—"}</td></tr>`;
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
-function adminHtml(d: FormData, submittedAt: string, sourceUrl: string): string {
+function emailRow(label: string, value: string): string {
+  const safeLabel = escapeHtml(label);
+  const safeValue = escapeHtml(value || "—");
+
+  return `<tr><td style="padding:10px 16px;background:#f7fafc;border-bottom:1px solid #e2e8f0;font-weight:600;white-space:nowrap;width:32%;font-size:14px;color:#4a5568">${safeLabel}</td><td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;font-size:14px;color:#2d3748;white-space:pre-wrap;word-break:break-word">${safeValue}</td></tr>`;
+}
+
+function adminHtml(data: ContactData, submittedAt: string): string {
   return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"></head>
 <body style="margin:0;padding:0;font-family:'Hiragino Kaku Gothic ProN',Arial,sans-serif;background:#f0f4f8">
 <div style="max-width:640px;margin:32px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.10)">
   <div style="background:linear-gradient(135deg,#00C8FF,#7B5EFF);padding:28px 32px">
     <h1 style="margin:0;color:#fff;font-size:20px;font-weight:700">【S3DOT】無料相談フォームからのお問い合わせ</h1>
-    <p style="margin:8px 0 0;color:rgba(255,255,255,.8);font-size:13px">${submittedAt}</p>
+    <p style="margin:8px 0 0;color:rgba(255,255,255,.8);font-size:13px">${escapeHtml(submittedAt)}</p>
   </div>
   <table style="width:100%;border-collapse:collapse">
-    ${row("お名前", d.name)}
-    ${row("会社名・屋号", d.company ?? "")}
-    ${row("メールアドレス", `<a href="mailto:${d.email}" style="color:#00C8FF">${d.email}</a>`)}
-    ${row("電話番号", d.phone ?? "")}
-    ${row("業種", d.industry)}
-    ${row("ご相談内容", d.consultationTopics.join("、"))}
-    ${row("現在お困りのこと", d.currentIssues)}
-    ${row("ご希望・ご質問", d.requests ?? "")}
-    ${row("送信日時", submittedAt)}
-    ${row("送信元URL", `<a href="${sourceUrl}" style="color:#00C8FF">${sourceUrl}</a>`)}
+    ${emailRow("お名前", data.name)}
+    ${emailRow("会社名・屋号", data.company ?? "")}
+    ${emailRow("メールアドレス", data.email)}
+    ${emailRow("電話番号", data.phone ?? "")}
+    ${emailRow("業種", data.industry)}
+    ${emailRow("ご相談内容", data.consultationTopics.join("、"))}
+    ${emailRow("現在お困りのこと", data.currentIssues)}
+    ${emailRow("ご希望・ご質問", data.requests ?? "")}
+    ${emailRow("送信日時", submittedAt)}
+    ${emailRow("送信元", CONTACT_URL)}
   </table>
   <div style="padding:16px 32px;background:#f7fafc;font-size:12px;color:#a0aec0;text-align:right">S3DOT 問い合わせフォーム自動通知</div>
 </div></body></html>`;
 }
 
-function adminText(d: FormData, submittedAt: string, sourceUrl: string): string {
+function adminText(data: ContactData, submittedAt: string): string {
   return `【S3DOT】無料相談フォームからのお問い合わせ
 
-お名前: ${d.name}
-会社名・屋号: ${d.company || "—"}
-メールアドレス: ${d.email}
-電話番号: ${d.phone || "—"}
-業種: ${d.industry}
-ご相談内容: ${d.consultationTopics.join("、")}
+お名前: ${data.name}
+会社名・屋号: ${data.company || "—"}
+メールアドレス: ${data.email}
+電話番号: ${data.phone || "—"}
+業種: ${data.industry}
+ご相談内容: ${data.consultationTopics.join("、")}
 
 現在お困りのこと:
-${d.currentIssues}
+${data.currentIssues}
 
 ご希望・ご質問:
-${d.requests || "—"}
+${data.requests || "—"}
 
 送信日時: ${submittedAt}
-送信元URL: ${sourceUrl}
+送信元: ${CONTACT_URL}
 `;
 }
 
-function replyHtml(d: FormData): string {
-  const r = (label: string, value: string) =>
-    `<tr><td style="padding:8px 14px;background:#f7fafc;border-bottom:1px solid #e2e8f0;font-weight:600;font-size:13px;color:#4a5568;white-space:nowrap;width:35%">${label}</td><td style="padding:8px 14px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#2d3748;white-space:pre-wrap;word-break:break-word">${value || "—"}</td></tr>`;
+function replyHtml(data: ContactData): string {
   return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"></head>
 <body style="margin:0;padding:0;font-family:'Hiragino Kaku Gothic ProN',Arial,sans-serif;background:#f0f4f8">
 <div style="max-width:640px;margin:32px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.10)">
@@ -115,33 +175,33 @@ function replyHtml(d: FormData): string {
     <p style="margin:8px 0 0;color:rgba(255,255,255,.8);font-size:13px">S3DOT | AIを、もっと身近にする会社</p>
   </div>
   <div style="padding:28px 32px">
-    <p style="margin:0 0 12px;font-size:15px;line-height:1.8;color:#2d3748">${d.name} 様</p>
+    <p style="margin:0 0 12px;font-size:15px;line-height:1.8;color:#2d3748">${escapeHtml(data.name)} 様</p>
     <p style="margin:0 0 12px;font-size:15px;line-height:1.8;color:#2d3748">この度はS3DOTへお問い合わせいただき、ありがとうございます。<br>以下の内容で無料相談を受け付けました。</p>
-    <p style="margin:0 0 20px;font-size:15px;line-height:1.8;color:#2d3748">内容を確認後、<strong>通常1営業日以内</strong>に担当者よりご連絡いたします。</p>
+    <p style="margin:0 0 20px;font-size:15px;line-height:1.8;color:#2d3748">内容を確認後、<strong>原則2営業日以内</strong>に担当者よりご連絡いたします。</p>
     <h2 style="font-size:13px;font-weight:700;color:#4a5568;margin:0 0 10px;text-transform:uppercase;letter-spacing:.06em">受付内容</h2>
     <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
-      ${r("お名前", d.name)}
-      ${r("会社名・屋号", d.company ?? "")}
-      ${r("業種", d.industry)}
-      ${r("ご相談内容", d.consultationTopics.join("、"))}
-      ${r("現在お困りのこと", d.currentIssues)}
-      ${d.requests ? r("ご希望・ご質問", d.requests) : ""}
+      ${emailRow("お名前", data.name)}
+      ${emailRow("会社名・屋号", data.company ?? "")}
+      ${emailRow("業種", data.industry)}
+      ${emailRow("ご相談内容", data.consultationTopics.join("、"))}
+      ${emailRow("現在お困りのこと", data.currentIssues)}
+      ${data.requests ? emailRow("ご希望・ご質問", data.requests) : ""}
     </table>
     <div style="background:#f0f9ff;border-left:4px solid #00C8FF;padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:8px">
       <p style="margin:0;font-size:14px;line-height:1.7;color:#2d3748">お急ぎの場合は、公式LINEからもお気軽にお問い合わせください。<br>
-      <a href="https://www.s3dot.com" style="color:#00C8FF;font-weight:600;text-decoration:none">https://www.s3dot.com</a></p>
+      <a href="${SITE_URL}" style="color:#00C8FF;font-weight:600;text-decoration:none">${SITE_URL}</a></p>
     </div>
   </div>
   <div style="padding:18px 32px;background:#f7fafc;text-align:center">
     <p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#2d3748">S3DOT</p>
     <p style="margin:0 0 4px;font-size:12px;color:#a0aec0">AIを、もっと身近にする会社です。</p>
-    <a href="https://www.s3dot.com" style="font-size:12px;color:#00C8FF;text-decoration:none">https://www.s3dot.com</a>
+    <a href="${SITE_URL}" style="font-size:12px;color:#00C8FF;text-decoration:none">${SITE_URL}</a>
   </div>
 </div></body></html>`;
 }
 
-function replyText(d: FormData): string {
-  return `${d.name} 様
+function replyText(data: ContactData): string {
+  return `${data.name} 様
 
 この度はS3DOTへお問い合わせいただき、ありがとうございます。
 以下の内容で無料相談を受け付けました。
@@ -149,133 +209,223 @@ function replyText(d: FormData): string {
 ─────────────────────────
 受付内容
 ─────────────────────────
-お名前: ${d.name}
-会社名・屋号: ${d.company || "—"}
-業種: ${d.industry}
-ご相談内容: ${d.consultationTopics.join("、")}
+お名前: ${data.name}
+会社名・屋号: ${data.company || "—"}
+業種: ${data.industry}
+ご相談内容: ${data.consultationTopics.join("、")}
 
 現在お困りのこと:
-${d.currentIssues}
-${d.requests ? `\nご希望・ご質問:\n${d.requests}` : ""}
+${data.currentIssues}
+${data.requests ? `\nご希望・ご質問:\n${data.requests}` : ""}
 ─────────────────────────
 
-内容を確認後、通常1営業日以内に担当者よりご連絡いたします。
+内容を確認後、原則2営業日以内に担当者よりご連絡いたします。
 
 お急ぎの場合は、公式LINEからもお気軽にお問い合わせください。
 
 S3DOT
 AIを、もっと身近にする会社です。
-https://www.s3dot.com
+${SITE_URL}
 `;
 }
 
-/* ── Route Handler ── */
-export async function POST(request: NextRequest) {
-  // ① 環境変数チェック（最優先 — Resend インスタンス生成前に行う）
-  const env = checkEnv();
-  if (!env.ok) {
-    return Response.json({ error: env.message, code: "ENV_MISSING" }, { status: 503 });
-  }
+function jsonError(error: string, code: string, status: number, headers?: HeadersInit) {
+  return Response.json({ success: false, error, code }, { status, headers });
+}
 
-  // ② レートリミット
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (!checkRate(ip)) {
-    return Response.json(
-      { error: "リクエストが多すぎます。しばらくしてから再試行してください。", code: "RATE_LIMIT" },
-      { status: 429 }
+function isAllowedOrigin(origin: string | null): boolean {
+  if (origin === SITE_URL) return true;
+  if (process.env.NODE_ENV === "production") return false;
+  if (!origin) return true;
+
+  try {
+    const url = new URL(origin);
+    return (
+      url.protocol === "http:" &&
+      ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)
+    );
+  } catch {
+    return false;
+  }
+}
+
+function getClientIp(request: NextRequest): string {
+  const forwardedFor =
+    request.headers.get("x-vercel-forwarded-for") ??
+    request.headers.get("x-forwarded-for");
+
+  return forwardedFor?.split(",")[0]?.trim() || "unknown";
+}
+
+function logContactError(type: string, submissionId: string): void {
+  console.error("[contact]", { type, submissionId });
+}
+
+function logContactWarning(type: string, submissionId: string): void {
+  console.warn("[contact]", { type, submissionId });
+}
+
+export async function POST(request: NextRequest) {
+  if (!isAllowedOrigin(request.headers.get("origin"))) {
+    return jsonError(
+      "このページから送信してください。問題が続く場合は、ページを再読み込みしてください。",
+      "ORIGIN_NOT_ALLOWED",
+      403
     );
   }
 
-  // ③ リクエストボディ取得
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return Response.json({ error: "リクエストの形式が不正です。", code: "BAD_REQUEST" }, { status: 400 });
+  const contentType = request.headers.get("content-type")?.split(";", 1)[0]?.trim().toLowerCase();
+  if (contentType !== "application/json") {
+    return jsonError(
+      "送信形式を確認できませんでした。ページを再読み込みしてお試しください。",
+      "UNSUPPORTED_MEDIA_TYPE",
+      415
+    );
   }
 
-  // ④ Zod バリデーション
-  const result = schema.safeParse(raw);
-  if (!result.success) {
+  const contentLength = Number(request.headers.get("content-length"));
+  if (Number.isFinite(contentLength) && contentLength > MAX_REQUEST_BYTES) {
+    return jsonError(
+      "入力内容が長すぎます。内容を短くしてからお試しください。",
+      "PAYLOAD_TOO_LARGE",
+      413
+    );
+  }
+
+  if (!checkRateLimit(getClientIp(request))) {
+    return jsonError(
+      "短時間に複数回の送信がありました。1分ほど待ってからお試しください。",
+      "RATE_LIMIT",
+      429,
+      { "Retry-After": "60" }
+    );
+  }
+
+  let bodyText: string;
+  try {
+    bodyText = await request.text();
+  } catch {
+    return jsonError(
+      "送信内容を読み取れませんでした。ページを再読み込みしてお試しください。",
+      "BAD_REQUEST",
+      400
+    );
+  }
+
+  if (new TextEncoder().encode(bodyText).byteLength > MAX_REQUEST_BYTES) {
+    return jsonError(
+      "入力内容が長すぎます。内容を短くしてからお試しください。",
+      "PAYLOAD_TOO_LARGE",
+      413
+    );
+  }
+
+  let raw: unknown;
+  try {
+    raw = JSON.parse(bodyText);
+  } catch {
+    return jsonError(
+      "送信内容を確認できませんでした。ページを再読み込みしてお試しください。",
+      "BAD_REQUEST",
+      400
+    );
+  }
+
+  if (
+    typeof raw === "object" &&
+    raw !== null &&
+    !Array.isArray(raw) &&
+    typeof Reflect.get(raw, "honeypot") === "string" &&
+    Reflect.get(raw, "honeypot").trim().length > 0
+  ) {
+    return Response.json({ success: true });
+  }
+
+  const parsed = contactSchema.safeParse(raw);
+  if (!parsed.success) {
     return Response.json(
-      { error: "入力内容を確認してください。", fieldErrors: result.error.flatten().fieldErrors, code: "VALIDATION_ERROR" },
+      {
+        success: false,
+        error: "入力内容を確認してください。",
+        code: "VALIDATION_ERROR",
+        fieldErrors: parsed.error.flatten().fieldErrors,
+      },
       { status: 422 }
     );
   }
 
-  const data = result.data;
-
-  // ⑤ ハニーポット：ボットは黙って成功扱い
-  if (data.honeypot && data.honeypot.length > 0) {
-    return Response.json({ success: true });
-  }
-
-  // ⑥ Resend でメール送信（Resend インスタンスは try の中で生成）
-  const submittedAt = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  const sourceUrl   = request.headers.get("origin") ?? "https://www.s3dot.com";
-
-  try {
-    const resend = new Resend(env.apiKey);
-
-    const [adminResult, replyResult] = await Promise.all([
-      resend.emails.send({
-        from:    `S3DOT お問い合わせ <${env.fromEmail}>`,
-        to:      [env.toEmail],
-        replyTo: data.email,
-        subject: "【S3DOT】無料相談フォームからのお問い合わせ",
-        html:    adminHtml(data, submittedAt, sourceUrl),
-        text:    adminText(data, submittedAt, sourceUrl),
-      }),
-      resend.emails.send({
-        from:    `S3DOT <${env.fromEmail}>`,
-        to:      [data.email],
-        subject: "【S3DOT】お問い合わせありがとうございます",
-        html:    replyHtml(data),
-        text:    replyText(data),
-      }),
-    ]);
-
-    // Resend がエラーオブジェクトを返す場合（throwではなく返り値エラー）
-    const adminErr = adminResult.error;
-    const replyErr = replyResult.error;
-
-    if (adminErr) {
-      console.error("[contact] Resend admin email error:", adminErr);
-      // 送信元ドメイン未認証など設定起因エラーを判定
-      const isConfig = "statusCode" in adminErr && (adminErr as { statusCode?: number }).statusCode === 403;
-      return Response.json(
-        {
-          error: isConfig
-            ? `メール送信の設定が未完了です。Resendでドメイン「${env.fromEmail.split("@")[1]}」を認証してください。`
-            : "管理者へのメール送信に失敗しました。設定を確認してください。",
-          code: "RESEND_ADMIN_ERROR",
-          detail: adminErr.message,
-        },
-        { status: 500 }
-      );
-    }
-
-    if (replyErr) {
-      // 自動返信の失敗は管理者には届いているので警告のみ
-      console.warn("[contact] Resend reply email error:", replyErr);
-    }
-
-    return Response.json({ success: true });
-
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error("[contact] Unexpected error:", message);
-
-    // Resend API キーが無効な場合のメッセージ
-    const isAuthError = message.toLowerCase().includes("api key") || message.toLowerCase().includes("unauthorized");
-    return Response.json(
-      {
-        error: isAuthError
-          ? "Resend APIキーが無効です。Vercelの環境変数 RESEND_API_KEY を確認してください。"
-          : "メールの送信に失敗しました。時間をおいてもう一度お試しいただくか、contact@s3dot.net まで直接ご連絡ください。",
-        code: isAuthError ? "INVALID_API_KEY" : "SEND_ERROR",
-      },
-      { status: 500 }
+  const data = parsed.data;
+  const env = getContactEnv();
+  if (!env) {
+    logContactError("configuration_error", data.submissionId);
+    return jsonError(
+      "現在お問い合わせを送信できません。時間をおいて再試行するか、メールでご連絡ください。",
+      "SERVICE_UNAVAILABLE",
+      503
     );
   }
+
+  const submittedAt = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  const resend = new Resend(env.apiKey);
+
+  try {
+    const adminResult = await resend.emails.send(
+      {
+        from: `S3DOT お問い合わせ <${env.fromEmail}>`,
+        to: [env.toEmail],
+        replyTo: data.email,
+        subject: "【S3DOT】無料相談フォームからのお問い合わせ",
+        html: adminHtml(data, submittedAt),
+        text: adminText(data, submittedAt),
+      },
+      { idempotencyKey: `contact-admin/${data.submissionId}` }
+    );
+
+    if (adminResult.error) {
+      logContactError("admin_email_failed", data.submissionId);
+      return jsonError(
+        "お問い合わせを送信できませんでした。時間をおいて再試行してください。",
+        "SEND_FAILED",
+        502
+      );
+    }
+  } catch {
+    logContactError("admin_email_failed", data.submissionId);
+    return jsonError(
+      "お問い合わせを送信できませんでした。時間をおいて再試行してください。",
+      "SEND_FAILED",
+      502
+    );
+  }
+
+  try {
+    const replyResult = await resend.emails.send(
+      {
+        from: `S3DOT <${env.fromEmail}>`,
+        to: [data.email],
+        subject: "【S3DOT】お問い合わせありがとうございます",
+        html: replyHtml(data),
+        text: replyText(data),
+      },
+      { idempotencyKey: `contact-reply/${data.submissionId}` }
+    );
+
+    if (replyResult.error) {
+      logContactWarning("reply_email_failed", data.submissionId);
+      return Response.json({
+        success: true,
+        code: "ACCEPTED_REPLY_FAILED",
+        autoReplySent: false,
+      });
+    }
+  } catch {
+    logContactWarning("reply_email_failed", data.submissionId);
+    return Response.json({
+      success: true,
+      code: "ACCEPTED_REPLY_FAILED",
+      autoReplySent: false,
+    });
+  }
+
+  return Response.json({ success: true, code: "ACCEPTED", autoReplySent: true });
 }

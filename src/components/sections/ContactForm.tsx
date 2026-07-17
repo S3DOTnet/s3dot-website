@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, AlertCircle, Send, Loader2 } from "lucide-react";
 
@@ -34,6 +34,37 @@ type FormState = {
 type Errors = Partial<Record<keyof FormState, string>>;
 type Status = "idle" | "submitting" | "success" | "error";
 
+type ApiResponse = {
+  success?: boolean;
+  code?: string;
+  autoReplySent?: boolean;
+  fieldErrors?: Record<string, string[] | undefined>;
+};
+
+const FORM_FIELD_KEYS: Array<keyof FormState> = [
+  "name",
+  "company",
+  "email",
+  "phone",
+  "industry",
+  "consultationTopics",
+  "currentIssues",
+  "requests",
+  "consent",
+  "honeypot",
+];
+
+const API_ERROR_MESSAGES: Record<string, string> = {
+  ORIGIN_NOT_ALLOWED: "このページから送信してください。ページを再読み込みしてお試しください。",
+  UNSUPPORTED_MEDIA_TYPE: "送信形式を確認できませんでした。ページを再読み込みしてお試しください。",
+  PAYLOAD_TOO_LARGE: "入力内容が長すぎます。内容を短くしてからお試しください。",
+  RATE_LIMIT: "短時間に複数回の送信がありました。1分ほど待ってからお試しください。",
+  BAD_REQUEST: "送信内容を確認できませんでした。ページを再読み込みしてお試しください。",
+  VALIDATION_ERROR: "入力内容を確認してください。",
+  SERVICE_UNAVAILABLE: "現在お問い合わせを送信できません。時間をおいて再試行してください。",
+  SEND_FAILED: "お問い合わせを送信できませんでした。時間をおいて再試行してください。",
+};
+
 /* ── 共通 CSS 変数 ── */
 const inputBase: React.CSSProperties = {
   width: "100%",
@@ -52,7 +83,7 @@ const errorStyle: React.CSSProperties = {
 };
 
 /* ── 送信成功ビュー ── */
-function SuccessView() {
+function SuccessView({ autoReplySent }: { autoReplySent: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.96 }}
@@ -79,8 +110,13 @@ function SuccessView() {
       <p className="text-s3-muted leading-[1.9] mb-2" style={{ fontSize: "0.95rem" }}>
         無料相談のお申し込みを受け付けました。
       </p>
+      <p className="text-s3-muted leading-[1.9] mb-2" style={{ fontSize: "0.95rem" }}>
+        {autoReplySent
+          ? "受付内容の確認メールをお送りしました。"
+          : "確認メールが届かない場合がありますが、受付は完了しています。再送は不要です。"}
+      </p>
       <p className="text-s3-muted leading-[1.9] mb-6" style={{ fontSize: "0.95rem" }}>
-        内容を確認後、通常<strong className="text-s3-text">1営業日以内</strong>に担当者よりご連絡いたします。
+        内容を確認後、<strong className="text-s3-text">原則2営業日以内</strong>に担当者よりご連絡いたします。
       </p>
       <a
         href="https://line.me/R/ti/p/@377ryvgd"
@@ -157,10 +193,17 @@ export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [serverError, setServerError] = useState("");
   const [focused, setFocused] = useState<string>("");
+  const [autoReplySent, setAutoReplySent] = useState(true);
+  const submissionIdRef = useRef<string | null>(null);
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm(prev => ({ ...prev, [key]: value }));
     if (errors[key]) setErrors(prev => ({ ...prev, [key]: undefined }));
+    if (status === "error") {
+      submissionIdRef.current = null;
+      setStatus("idle");
+      setServerError("");
+    }
   };
 
   const toggleTopic = (topic: string) => {
@@ -189,6 +232,8 @@ export default function ContactForm() {
     if (status === "submitting") return;
     if (!validate()) return;
 
+    const submissionId = submissionIdRef.current ?? crypto.randomUUID();
+    submissionIdRef.current = submissionId;
     setStatus("submitting");
     setServerError("");
 
@@ -197,7 +242,7 @@ export default function ContactForm() {
       res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, consent: true }),
+        body: JSON.stringify({ ...form, submissionId }),
       });
     } catch {
       // fetch 自体が失敗（オフライン・DNSエラー等）
@@ -207,29 +252,38 @@ export default function ContactForm() {
     }
 
     // JSON パースを fetch とは別に try-catch（サーバーが HTML を返す場合に対応）
-    let json: { success?: boolean; error?: string; code?: string };
+    let json: ApiResponse;
     try {
       json = await res.json() as typeof json;
     } catch {
       // サーバーが JSON ではないレスポンスを返した（設定エラー等）
-      setServerError(
-        `サーバーエラーが発生しました（HTTP ${res.status}）。` +
-        "しばらく経ってから再試行するか、contact@s3dot.net まで直接ご連絡ください。"
-      );
+      setServerError("送信結果を確認できませんでした。時間をおいて再試行してください。");
       setStatus("error");
       return;
     }
 
     if (!res.ok || !json.success) {
-      setServerError(json.error ?? "送信に失敗しました。もう一度お試しください。");
+      if (json.code === "VALIDATION_ERROR" && json.fieldErrors) {
+        const nextErrors: Errors = {};
+        for (const key of FORM_FIELD_KEYS) {
+          const message = json.fieldErrors[key]?.[0];
+          if (message) nextErrors[key] = message;
+        }
+        setErrors(nextErrors);
+      }
+      setServerError(
+        (json.code && API_ERROR_MESSAGES[json.code]) ??
+        "送信に失敗しました。時間をおいて再試行してください。"
+      );
       setStatus("error");
       return;
     }
 
+    setAutoReplySent(json.autoReplySent !== false);
     setStatus("success");
   };
 
-  if (status === "success") return <SuccessView />;
+  if (status === "success") return <SuccessView autoReplySent={autoReplySent} />;
 
   const inputClass = "px-4 py-3";
 
@@ -574,7 +628,7 @@ export default function ContactForm() {
             )}
           </button>
           <p className="mt-3 text-xs text-s3-dim">
-            送信後、確認メールをお送りします。通常1営業日以内にご返信いたします。
+            送信後、確認メールをお送りします。原則2営業日以内にご返信いたします。
           </p>
         </div>
       </div>
