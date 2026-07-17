@@ -1,33 +1,13 @@
-import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
-
-export const metadata: Metadata = {
-  title: "プライバシーポリシー | S3DOT",
+export const metadata = createPageMetadata({
+  title: "プライバシーポリシー",
   description:
     "エススリードット株式会社のプライバシーポリシーです。個人情報の取得・利用目的・管理・第三者提供・Cookie等について説明しています。",
-  alternates: {
-    canonical: `${SITE_URL}/privacy`,
-  },
-  openGraph: {
-    type:        "website",
-    locale:      "ja_JP",
-    url:         `${SITE_URL}/privacy`,
-    siteName:    "S3DOT",
-    title:       "プライバシーポリシー | S3DOT",
-    description: "エススリードット株式会社のプライバシーポリシーです。個人情報の取得・利用目的・管理・第三者提供・Cookie等について説明しています。",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "S3DOT" }],
-  },
-  twitter: {
-    card:        "summary_large_image",
-    title:       "プライバシーポリシー | S3DOT",
-    description: "エススリードット株式会社のプライバシーポリシーです。",
-    images:      ["/opengraph-image"],
-  },
-  robots: { index: true, follow: true },
-};
+  path: "/privacy",
+});
 
 /* ── ローカルスタイルヘルパー ── */
 const prose = "text-[0.93rem] md:text-[0.97rem] leading-[2.0] text-[rgba(143,164,184,0.92)]";

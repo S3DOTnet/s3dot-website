@@ -1,14 +1,13 @@
 import { MetadataRoute } from "next";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
+import { SITE_URL } from "@/lib/site-metadata";
 
 /**
  * robots.txt
  * 生成される内容:
  *   User-agent: *
  *   Allow: /
- *   Sitemap: https://www.s3dot.com/sitemap.xml
- *   Host: https://www.s3dot.com
+ *   Sitemap: https://s3dot.com/sitemap.xml
+ *   Host: https://s3dot.com
  */
 export default function robots(): MetadataRoute.Robots {
   return {

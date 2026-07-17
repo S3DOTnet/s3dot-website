@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/ui/PageHero";
 import FAQSection from "@/components/sections/FAQSection";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-export const metadata: Metadata = {
-  title: "よくある質問",
-  description: "AI導入に関するよくある質問にお答えします。費用・進め方・サポートについてなど。",
-};
+export const metadata = createPageMetadata({
+  title: "よくある質問｜AI導入支援",
+  description:
+    "AI導入の費用、進め方、準備、サポートなど、S3DOTへ多く寄せられる質問にお答えします。",
+  path: "/faq",
+});
 
 export default function FaqPage() {
   return (

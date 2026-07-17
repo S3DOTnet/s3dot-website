@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/ui/PageHero";
 import ServiceSection from "@/components/sections/ServiceSection";
 import ProcessSection from "@/components/sections/ProcessSection";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-export const metadata: Metadata = {
-  title: "サービス内容",
-  description: "AI導入相談・業務改善・自動化・AI制作・AIシステム開発まで。S3DOTのサービス一覧。",
-};
+export const metadata = createPageMetadata({
+  title: "サービス｜AI導入・業務改善・自動化支援",
+  description:
+    "AI導入相談、業務改善、自動化、AI制作、AIシステム開発まで、企業の課題に合わせたS3DOTの支援内容をご紹介します。",
+  path: "/service",
+});
 
 export default function ServicePage() {
   return (

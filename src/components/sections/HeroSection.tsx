@@ -164,30 +164,21 @@ export default function HeroSection() {
           </p>
         </motion.div>
 
-        {/* ── Mobile heading (< 640px): 2 lines fixed ── */}
-        <motion.div
+        {/* ── Main heading: one h1 with responsive typography ── */}
+        <motion.h1
           variants={reveal}
-          className="sm:hidden w-full text-center"
-          style={{ marginBottom: "clamp(1.5rem, 5vh, 4.5rem)" }}
+          className="w-full text-center"
         >
-          <h1
-            className="font-black text-white"
-            style={{
-              fontSize: "clamp(1.2rem, 5.8vw, 2.6rem)",
-              lineHeight: 1.08,
-              letterSpacing: "-0.028em",
-              fontFeatureSettings: '"palt"',
-              marginBottom: "0.25rem",
-            }}
+          <span
+            className="block font-black text-white text-[clamp(1.2rem,5.8vw,2.6rem)] sm:text-[clamp(2.6rem,6vw,6rem)] leading-[1.08] sm:leading-[1.04] tracking-[-0.028em] sm:tracking-[-0.03em] mb-1 sm:mb-[0.44rem]"
+            style={{ fontFeatureSettings: '"palt"' }}
           >
-            AIは特別なものじゃない。
-          </h1>
-          <div
-            className="font-black"
+            <span className="sm:inline-block">AIは特別な</span>
+            <span className="sm:inline-block">ものじゃない。</span>
+          </span>
+          <span
+            className="block font-black text-[clamp(1.05rem,5.2vw,1.8rem)] sm:text-[clamp(1.8rem,4.2vw,4.8rem)] leading-[1.1] sm:leading-[1.07] tracking-[-0.02em] mb-[clamp(1.5rem,5vh,4.5rem)] sm:mb-[clamp(1.8rem,5vh,4.5rem)]"
             style={{
-              fontSize: "clamp(1.05rem, 5.2vw, 1.8rem)",
-              lineHeight: 1.1,
-              letterSpacing: "-0.020em",
               fontFeatureSettings: '"palt"',
               background: "linear-gradient(110deg, #00C8FF 0%, #5BAFFF 34%, #7B5EFF 100%)",
               WebkitBackgroundClip: "text",
@@ -195,43 +186,12 @@ export default function HeroSection() {
               backgroundClip: "text",
             }}
           >
-            もう仕事のスタンダードです。
-          </div>
-        </motion.div>
-
-        {/* ── Desktop heading (≥ 640px): original 2-element layout ── */}
-        <motion.h1
-          variants={reveal}
-          className="hidden sm:block font-black text-white"
-          style={{
-            fontSize: "clamp(2.6rem, 6.0vw, 6.0rem)",
-            lineHeight: 1.04,
-            letterSpacing: "-0.030em",
-            fontFeatureSettings: '"palt"',
-            marginBottom: "0.44rem",
-          }}
-        >
-          <span className="inline-block">AIは特別な</span>
-          <span className="inline-block">ものじゃない。</span>
+            <span className="sm:inline-block">
+              もう<span className="hidden sm:inline">、</span>仕事の
+            </span>
+            <span className="sm:inline-block">スタンダードです。</span>
+          </span>
         </motion.h1>
-        <motion.h2
-          variants={reveal}
-          className="hidden sm:block font-black"
-          style={{
-            fontSize: "clamp(1.8rem, 4.2vw, 4.8rem)",
-            lineHeight: 1.07,
-            letterSpacing: "-0.020em",
-            fontFeatureSettings: '"palt"',
-            background: "linear-gradient(110deg, #00C8FF 0%, #5BAFFF 34%, #7B5EFF 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            marginBottom: "clamp(1.8rem, 5vh, 4.5rem)",
-          }}
-        >
-          <span className="inline-block">もう、仕事の</span>
-          <span className="inline-block">スタンダードです。</span>
-        </motion.h2>
 
         {/* ── Accent rule ── */}
         <motion.div

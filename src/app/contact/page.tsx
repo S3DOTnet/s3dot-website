@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/ui/PageHero";
 import ContactSection from "@/components/sections/ContactSection";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-export const metadata: Metadata = {
-  title: "お問い合わせ・無料相談",
-  description: "AIについてのご相談・お問い合わせはこちらから。まずはお気軽にどうぞ。",
-};
+export const metadata = createPageMetadata({
+  title: "無料相談・お問い合わせ",
+  description:
+    "AI導入や業務改善について、何から始めればよいか分からない段階でもご相談いただけます。無料相談フォームまたは公式LINEをご利用ください。",
+  path: "/contact",
+});
 
 const consultationExamples = [
   "毎日の事務作業を減らしたい",

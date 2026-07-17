@@ -1,34 +1,13 @@
-import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SitemapCard from "./SitemapCard";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
-
-export const metadata: Metadata = {
-  title: "サイトマップ | S3DOT",
-  description:
-    "S3DOT（エススリードット株式会社）のウェブサイト全ページ一覧です。各ページへのリンクからご覧になりたいページへお進みください。",
-  alternates: {
-    canonical: `${SITE_URL}/sitemap`,
-  },
-  openGraph: {
-    type:        "website",
-    locale:      "ja_JP",
-    url:         `${SITE_URL}/sitemap`,
-    siteName:    "S3DOT",
-    title:       "サイトマップ | S3DOT",
-    description: "S3DOT（エススリードット株式会社）のウェブサイト全ページ一覧です。",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "S3DOT" }],
-  },
-  twitter: {
-    card:        "summary_large_image",
-    title:       "サイトマップ | S3DOT",
-    description: "S3DOT（エススリードット株式会社）のウェブサイト全ページ一覧です。",
-    images:      ["/opengraph-image"],
-  },
-  robots: { index: true, follow: true },
-};
+export const metadata = createPageMetadata({
+  title: "サイトマップ",
+  description: "S3DOTウェブサイトの主要ページをご案内します。",
+  path: "/sitemap",
+});
 
 interface SiteLink {
   label: string;

@@ -3,6 +3,14 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CompanySection from "@/components/sections/CompanySection";
 import PageHero from "@/components/ui/PageHero";
+import { createPageMetadata } from "@/lib/site-metadata";
+
+export const metadata = createPageMetadata({
+  title: "会社情報",
+  description:
+    "エススリードット株式会社（S3DOT Inc.）の代表者、所在地、電話番号、問い合わせ先などの会社情報をご案内します。",
+  path: "/company",
+});
 
 const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
 

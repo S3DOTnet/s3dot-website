@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/ui/PageHero";
 import PickUpSection from "@/components/sections/PickUpSection";
 import AICapabilitiesSection from "@/components/sections/AICapabilitiesSection";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-export const metadata: Metadata = {
-  title: "活用イメージ",
-  description: "問い合わせ対応・見積書作成・社内資料・顧客情報整理など、AI導入による業務ごとの活用イメージをご紹介。",
-};
+export const metadata = createPageMetadata({
+  title: "AI活用イメージ",
+  description:
+    "問い合わせ対応、見積書作成、社内資料、顧客情報整理など、企業の業務でAIを活用する方法と導入後の変化を活用イメージとしてご紹介します。",
+  path: "/case",
+});
 
 const usageExamples = [
   "問い合わせ対応の自動化",

@@ -1,80 +1,28 @@
 import { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site-metadata";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
+const pages: Array<{
+  path: `/${string}` | "/";
+  changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;
+  priority: number;
+}> = [
+  { path: "/",        changeFrequency: "monthly", priority: 1.0 },
+  { path: "/service", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/case",    changeFrequency: "monthly", priority: 0.7 },
+  { path: "/price",   changeFrequency: "monthly", priority: 0.8 },
+  { path: "/faq",     changeFrequency: "monthly", priority: 0.7 },
+  { path: "/contact", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/company", changeFrequency: "yearly",  priority: 0.6 },
+  { path: "/privacy", changeFrequency: "yearly",  priority: 0.4 },
+  { path: "/terms",   changeFrequency: "yearly",  priority: 0.4 },
+  { path: "/legal",   changeFrequency: "yearly",  priority: 0.4 },
+  { path: "/sitemap", changeFrequency: "monthly", priority: 0.3 },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url:             SITE_URL,
-      lastModified:    new Date(),
-      changeFrequency: "monthly",
-      priority:        1.0,
-    },
-    {
-      url:             `${SITE_URL}/#service`,
-      lastModified:    new Date(),
-      changeFrequency: "monthly",
-      priority:        0.8,
-    },
-    {
-      url:             `${SITE_URL}/#pickup`,
-      lastModified:    new Date(),
-      changeFrequency: "monthly",
-      priority:        0.7,
-    },
-    {
-      url:             `${SITE_URL}/#process`,
-      lastModified:    new Date(),
-      changeFrequency: "monthly",
-      priority:        0.7,
-    },
-    {
-      url:             `${SITE_URL}/#price`,
-      lastModified:    new Date(),
-      changeFrequency: "monthly",
-      priority:        0.8,
-    },
-    {
-      url:             `${SITE_URL}/#faq`,
-      lastModified:    new Date(),
-      changeFrequency: "monthly",
-      priority:        0.7,
-    },
-    {
-      url:             `${SITE_URL}/#company`,
-      lastModified:    new Date(),
-      changeFrequency: "yearly",
-      priority:        0.6,
-    },
-    {
-      url:             `${SITE_URL}/#contact`,
-      lastModified:    new Date(),
-      changeFrequency: "monthly",
-      priority:        0.9,
-    },
-    {
-      url:             `${SITE_URL}/privacy`,
-      lastModified:    new Date(),
-      changeFrequency: "yearly",
-      priority:        0.4,
-    },
-    {
-      url:             `${SITE_URL}/terms`,
-      lastModified:    new Date(),
-      changeFrequency: "yearly",
-      priority:        0.4,
-    },
-    {
-      url:             `${SITE_URL}/legal`,
-      lastModified:    new Date(),
-      changeFrequency: "yearly",
-      priority:        0.4,
-    },
-    {
-      url:             `${SITE_URL}/sitemap`,
-      lastModified:    new Date(),
-      changeFrequency: "monthly",
-      priority:        0.3,
-    },
-  ];
+  return pages.map(({ path, changeFrequency, priority }) => ({
+    url: path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`,
+    changeFrequency,
+    priority,
+  }));
 }

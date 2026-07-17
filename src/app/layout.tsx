@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import JsonLd from "@/components/seo/JsonLd";
+import { SITE_URL, SOCIAL_IMAGE, X_ACCOUNT } from "@/lib/site-metadata";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
@@ -12,20 +13,21 @@ const inter = Inter({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
+const ROOT_TITLE = "S3DOT｜AI導入・業務改善をもっと身近に。AI活用パートナー";
+const ROOT_DESCRIPTION =
+  "AI導入・業務改善・業務自動化・AIシステム開発まで。S3DOTはAIをもっと身近にするAI活用パートナー。あなたの会社に合った最適なAI活用をご提案します。";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   /* ── タイトル ── */
   title: {
-    default:  "S3DOT｜AI導入・業務改善をもっと身近に。AI活用パートナー",
+    default: ROOT_TITLE,
     template: "%s | S3DOT",
   },
 
   /* ── description ── */
-  description:
-    "AI導入・業務改善・業務自動化・AIシステム開発まで。S3DOTはAIをもっと身近にするAI活用パートナー。あなたの会社に合った最適なAI活用をご提案します。",
+  description: ROOT_DESCRIPTION,
 
   /* ── keywords ── */
   keywords: [
@@ -40,7 +42,7 @@ export const metadata: Metadata = {
   publisher: "エススリードット株式会社",
 
   /* ── canonical ── */
-  alternates: { canonical: "/" },
+  alternates: { canonical: `${SITE_URL}/` },
 
   /* ── robots ── */
   robots: {
@@ -60,30 +62,21 @@ export const metadata: Metadata = {
   openGraph: {
     type:        "website",
     locale:      "ja_JP",
-    url:         SITE_URL,
+    url:         `${SITE_URL}/`,
     siteName:    "S3DOT",
-    title:       "S3DOT｜AI導入・業務改善をもっと身近に。AI活用パートナー",
-    description:
-      "AI導入・業務改善・業務自動化・AIシステム開発まで。S3DOTはAIをもっと身近にするAI活用パートナー。",
-    images: [
-      {
-        url:    "/opengraph-image",
-        width:  1200,
-        height: 630,
-        alt:    "S3DOT｜AIは特別なものじゃない。もう、仕事のスタンダードです。",
-      },
-    ],
+    title:       ROOT_TITLE,
+    description: ROOT_DESCRIPTION,
+    images:      [SOCIAL_IMAGE],
   },
 
   /* ── Twitter / X ── */
   twitter: {
     card:        "summary_large_image",
-    site:        "@s3dot_ai",
-    creator:     "@s3dot_ai",
-    title:       "S3DOT｜AI導入・業務改善をもっと身近に。AI活用パートナー",
-    description:
-      "AI導入・業務改善・業務自動化・AIシステム開発まで。S3DOTはAIをもっと身近にするAI活用パートナー。",
-    images: ["/opengraph-image"],
+    site:        X_ACCOUNT,
+    creator:     X_ACCOUNT,
+    title:       ROOT_TITLE,
+    description: ROOT_DESCRIPTION,
+    images:      [SOCIAL_IMAGE.url],
   },
 
   /* ── Icons ── */

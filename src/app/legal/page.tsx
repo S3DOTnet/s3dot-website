@@ -1,33 +1,13 @@
-import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
-
-export const metadata: Metadata = {
-  title: "特定商取引法に基づく表記 | S3DOT",
+export const metadata = createPageMetadata({
+  title: "特定商取引法に基づく表記",
   description:
     "エススリードット株式会社の特定商取引法に基づく表記ページです。販売事業者・料金・お支払い方法・キャンセルポリシー等を記載しています。",
-  alternates: {
-    canonical: `${SITE_URL}/legal`,
-  },
-  openGraph: {
-    type:        "website",
-    locale:      "ja_JP",
-    url:         `${SITE_URL}/legal`,
-    siteName:    "S3DOT",
-    title:       "特定商取引法に基づく表記 | S3DOT",
-    description: "エススリードット株式会社の特定商取引法に基づく表記ページです。",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "S3DOT" }],
-  },
-  twitter: {
-    card:        "summary_large_image",
-    title:       "特定商取引法に基づく表記 | S3DOT",
-    description: "エススリードット株式会社の特定商取引法に基づく表記ページです。",
-    images:      ["/opengraph-image"],
-  },
-  robots: { index: true, follow: true },
-};
+  path: "/legal",
+});
 
 /* ─────────────────────────────────────────────
    ヘルパーコンポーネント

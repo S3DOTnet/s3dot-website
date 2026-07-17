@@ -1,8 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import TransparentLogo from "@/components/ui/TransparentLogo";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "404 ページが見つかりません",  /* template が "%s | S3DOT" を付加 */
+  alternates: {},
+  robots: { index: false, follow: false },
 };
 
 export default function NotFound() {

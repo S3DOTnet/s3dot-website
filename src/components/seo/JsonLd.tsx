@@ -1,4 +1,4 @@
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.s3dot.com";
+import { SITE_URL } from "@/lib/site-metadata";
 
 /* ── Organization Schema ──────────────────── */
 const organization = {
@@ -9,17 +9,9 @@ const organization = {
   legalName: "エススリードット株式会社",
   alternateName: ["S3DOT", "S3DOT Inc."],
   url: SITE_URL,
-  foundingDate: "2026-07",
-  founder: {
-    "@type": "Person",
-    name: "木村 健一郎",
-    jobTitle: "代表取締役",
-  },
   logo: {
     "@type": "ImageObject",
     url: `${SITE_URL}/images/logo.png`,
-    width: 512,
-    height: 512,
   },
   description:
     "AIを、もっと身近にする会社。AI導入相談・業務改善・業務自動化・AI制作・AIシステム開発を通じて、あなたの会社に合った最適なAI活用をご提案します。",
@@ -33,7 +25,6 @@ const organization = {
   },
   telephone: "03-6868-4786",
   email: "contact@s3dot.net",
-  sameAs: [],  /* 公式SNSアカウントURLを確定後に追加 */
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "03-6868-4786",
@@ -42,6 +33,22 @@ const organization = {
     availableLanguage: "Japanese",
   },
 };
+
+/* ── Representative Schema ───────────────── */
+const representative = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${SITE_URL}/#representative`,
+  name: "木村健一郎",
+  jobTitle: "代表取締役",
+  affiliation: {
+    "@id": `${SITE_URL}/#organization`,
+  },
+};
+
+function serializeJsonLd(value: unknown) {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
+}
 
 /* ── WebSite Schema ───────────────────────── */
 const website = {
@@ -66,11 +73,15 @@ export default function JsonLd() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(organization) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(representative) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(website) }}
       />
     </>
   );
