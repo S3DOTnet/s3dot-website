@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { z } from "zod";
 
 const SITE_URL = "https://s3dot.com";
+const ALLOWED_SITE_ORIGINS = new Set([SITE_URL, "https://www.s3dot.com"]);
 const CONTACT_URL = `${SITE_URL}/contact`;
 const MAX_REQUEST_BYTES = 32 * 1024;
 const RATE_WINDOW_MS = 60_000;
@@ -234,7 +235,7 @@ function jsonError(error: string, code: string, status: number, headers?: Header
 }
 
 function isAllowedOrigin(origin: string | null): boolean {
-  if (origin === SITE_URL) return true;
+  if (origin && ALLOWED_SITE_ORIGINS.has(origin)) return true;
   if (process.env.NODE_ENV === "production") return false;
   if (!origin) return true;
 
