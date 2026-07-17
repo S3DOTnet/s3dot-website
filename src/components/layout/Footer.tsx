@@ -4,19 +4,19 @@ import Link from "next/link";
 import TransparentLogo from "@/components/ui/TransparentLogo";
 
 const serviceLinks = [
-  { label: "AI導入相談",     href: "#service" },
-  { label: "業務改善",       href: "#service" },
-  { label: "自動化",         href: "#service" },
-  { label: "AI制作",         href: "#service" },
-  { label: "AIシステム開発", href: "#service" },
+  { label: "サービス",           href: "/service" },
+  { label: "活用イメージ・事例", href: "/case" },
+  { label: "料金",               href: "/price" },
+  { label: "よくある質問",       href: "/faq" },
 ];
 
 const companyLinks = [
-  { label: "会社情報",    href: "#company" },
-  { label: "Our Story",  href: "#story"   },
-  { label: "料金",        href: "/price"   },
-  { label: "お問い合わせ", href: "#contact" },
+  { label: "会社情報",       href: "/company" },
+  { label: "無料相談",       href: "/contact#contact-form" },
+  { label: "一般お問い合わせ", href: "/contact" },
 ];
+
+const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
 
 export default function Footer() {
   return (
@@ -76,13 +76,13 @@ export default function Footer() {
             <ul className="space-y-3">
               {serviceLinks.map((l) => (
                 <li key={l.label}>
-                  <a
+                  <Link
                     href={l.href}
                     className="text-s3-muted hover:text-s3-blue transition-colors duration-200"
                     style={{ fontSize: "0.82rem", letterSpacing: "0.01em" }}
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -99,15 +99,26 @@ export default function Footer() {
             <ul className="space-y-3">
               {companyLinks.map((l) => (
                 <li key={l.label}>
-                  <a
+                  <Link
                     href={l.href}
                     className="text-s3-muted hover:text-s3-blue transition-colors duration-200"
                     style={{ fontSize: "0.82rem", letterSpacing: "0.01em" }}
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href={LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-s3-muted hover:text-s3-blue transition-colors duration-200"
+                  style={{ fontSize: "0.82rem", letterSpacing: "0.01em" }}
+                >
+                  公式LINEで相談
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -121,21 +132,21 @@ export default function Footer() {
         {/* Legal links */}
         <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 mb-6">
           {[
-            { label: "会社概要",               href: "/#company" },
-            { label: "お問い合わせ",           href: "/#contact" },
+            { label: "会社情報",               href: "/company" },
+            { label: "お問い合わせ",           href: "/contact" },
             { label: "プライバシーポリシー",   href: "/privacy"  },
             { label: "利用規約",               href: "/terms"    },
             { label: "特定商取引法に基づく表記", href: "/legal"  },
             { label: "サイトマップ",           href: "/sitemap"  },
           ].map((l) => (
-            <a
+            <Link
               key={l.label}
               href={l.href}
               className="hover:text-s3-muted transition-colors duration-200"
               style={{ fontSize: "0.72rem", color: "rgba(74,96,112,0.9)", letterSpacing: "0.02em" }}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </div>
 

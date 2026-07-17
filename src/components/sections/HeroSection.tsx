@@ -277,7 +277,7 @@ export default function HeroSection() {
         >
           {/* Primary */}
           <a
-            href="#contact"
+            href="/contact#contact-form"
             className="hero-cta-primary group relative inline-flex items-center justify-center gap-2.5 rounded-[14px] font-bold text-white overflow-hidden w-full sm:w-auto py-3 sm:py-[1.1rem] px-7 sm:px-11"
             style={{
               fontSize: "clamp(0.875rem, 1.25vw, 0.975rem)",

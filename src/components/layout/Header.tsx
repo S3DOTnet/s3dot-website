@@ -7,13 +7,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { href: "#concept", label: "Concept" },
-  { href: "#service", label: "Service" },
-  { href: "/price",   label: "Price"   },
-  { href: "#story",   label: "Story"   },
-  { href: "#contact", label: "Contact" },
-  { href: "#company", label: "Company" },
+  { href: "/service", label: "サービス" },
+  { href: "/case",    label: "活用イメージ・事例" },
+  { href: "/price",   label: "料金" },
+  { href: "/faq",     label: "FAQ" },
+  { href: "/company", label: "会社情報" },
 ];
+
+const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
 
 export default function Header() {
   const [scrolled, setScrolled]   = useState(false);
@@ -51,29 +52,29 @@ export default function Header() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-s3-muted hover:text-s3-blue transition-colors tracking-wide"
+                className="text-sm text-s3-muted hover:text-s3-blue transition-colors tracking-wide whitespace-nowrap"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-4">
-            <a
-              href="#contact"
-              className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded text-sm font-semibold text-white gradient-cta hover:brightness-110 transition-all glow-blue"
+            <Link
+              href="/contact#contact-form"
+              className="hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded text-sm font-semibold text-white gradient-cta hover:brightness-110 transition-all glow-blue whitespace-nowrap"
             >
-              お問い合わせ
-            </a>
+              無料相談
+            </Link>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-3 text-s3-muted hover:text-s3-blue transition-colors"
+              className="lg:hidden p-3 text-s3-muted hover:text-s3-blue transition-colors"
               aria-label="メニュー"
             >
               {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -99,27 +100,46 @@ export default function Header() {
               <X size={24} />
             </button>
             {navLinks.map((link, i) => (
-              <motion.a
+              <motion.div
                 key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07 }}
-                className="text-2xl font-semibold text-s3-text hover:text-s3-blue transition-colors"
               >
-                {link.label}
-              </motion.a>
+                <Link
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-2xl font-semibold text-s3-text hover:text-s3-blue transition-colors"
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
-            <motion.a
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: navLinks.length * 0.07 }}
-              className="mt-4 px-8 py-3 rounded text-base font-semibold text-white gradient-cta glow-blue"
+              className="mt-4"
             >
-              お問い合わせ
+              <Link
+                href="/contact#contact-form"
+                onClick={() => setMenuOpen(false)}
+                className="inline-flex px-8 py-3 rounded text-base font-semibold text-white gradient-cta glow-blue"
+              >
+                無料相談
+              </Link>
+            </motion.div>
+            <motion.a
+              href={LINE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (navLinks.length + 1) * 0.07 }}
+              className="px-8 py-3 rounded text-base font-semibold text-white bg-[#06C755] hover:brightness-110 transition-all"
+            >
+              公式LINEで相談
             </motion.a>
           </motion.div>
         )}

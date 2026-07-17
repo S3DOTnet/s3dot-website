@@ -279,7 +279,7 @@ export default function PricePage() {
                 お気軽にご連絡ください。
               </p>
               <a
-                href="/contact"
+                href="/contact#contact-form"
                 className="inline-flex items-center gap-2.5 px-10 py-4 rounded-xl font-bold text-white gradient-cta glow-blue hover:brightness-110 hover:scale-[1.02] transition-all tracking-wide text-sm md:text-base"
               >
                 無料で相談してみる

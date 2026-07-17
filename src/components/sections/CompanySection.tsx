@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Building2, Globe, User2, Calendar, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
+import { Building2, Globe, User2, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
 
 type InfoItem = {
   icon: React.ElementType;
@@ -14,22 +14,10 @@ type InfoItem = {
   colClass?: string;
 };
 
-/*
-  Desktop (lg: 3-col grid) のレイアウト:
-  Row 1 ── 会社名       | 英語表記   | 代表取締役   ← 情報量ほぼ同等
-  Row 2 ── 設立         | 電話番号   | メールアドレス ← 情報量ほぼ同等
-  Row 3 ── 所在地(×2)              | ホームページ  ← 所在地を2列幅に展開
-
-  Tablet (md: 2-col):
-  会社名|英語表記 / 代表取締役|設立 / 電話番号|メール / 所在地(full) / HP(full)
-
-  Mobile (1-col): 縦並び8枚
-*/
 const info: InfoItem[] = [
   { icon: Building2,    label: "会社名",         value: "エススリードット株式会社",                                                  color: "#00C8FF" },
   { icon: Globe,        label: "英語表記",       value: "S3DOT Inc.",                                                                color: "#7B5EFF" },
-  { icon: User2,        label: "代表取締役",     value: "木村 健一郎",                                                              color: "#00E5A0" },
-  { icon: Calendar,     label: "設立",           value: "2026年7月",                                                                color: "#00C8FF" },
+  { icon: User2,        label: "代表取締役",     value: "木村健一郎",                                                               color: "#00E5A0" },
   { icon: Phone,        label: "電話番号",       value: "03-6868-4786",      href: "tel:0368684786",                                color: "#7B5EFF" },
   { icon: Mail,         label: "メールアドレス", value: "contact@s3dot.net", href: "mailto:contact@s3dot.net",                      color: "#00E5A0" },
   {
@@ -42,15 +30,15 @@ const info: InfoItem[] = [
   },
   {
     icon: ExternalLink,
-    label: "ホームページ",
-    value: "www.s3dot.com",
-    href: "https://www.s3dot.com",
+    label: "Webサイト",
+    value: "s3dot.com",
+    href: "https://s3dot.com",
     color: "#7B5EFF",
     colClass: "md:col-span-2 lg:col-span-1",
   },
 ];
 
-export default function CompanySection() {
+export default function CompanySection({ hideHeading = false }: { hideHeading?: boolean }) {
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -68,7 +56,7 @@ export default function CompanySection() {
       <div className="relative max-w-[1200px] mx-auto px-6">
 
         {/* ── 見出し ── */}
-        <div ref={ref} className="mb-12 md:mb-20 text-center">
+        {!hideHeading && <div ref={ref} className="mb-12 md:mb-20 text-center">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -93,7 +81,7 @@ export default function CompanySection() {
           >
             AIをもっと身近にする会社
           </motion.p>
-        </div>
+        </div>}
 
         {/* ── グリッド ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 max-w-4xl mx-auto">

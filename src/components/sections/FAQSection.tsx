@@ -279,10 +279,10 @@ export default function FAQSection({ hideHeading = false }: { hideHeading?: bool
           </p>
 
           <a
-            href="#contact"
+            href="/contact#contact-form"
             className="inline-flex items-center gap-2 mt-8 px-7 py-3 rounded-lg text-sm font-semibold text-s3-blue border border-s3-blue/35 hover:border-s3-blue/65 hover:bg-s3-blue/5 transition-all duration-200 tracking-wide"
           >
-            お問い合わせはこちら →
+            無料相談はこちら →
           </a>
         </motion.div>
       </div>

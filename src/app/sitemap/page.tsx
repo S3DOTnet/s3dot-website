@@ -54,27 +54,22 @@ const siteGroups: SiteGroup[] = [
       },
       {
         label: "サービス",
-        href:  "/#service",
+        href:  "/service",
         desc:  "AI導入相談・業務改善・自動化・AI制作・AIシステム開発など、当社が提供するサービスの詳細ページです。",
       },
       {
-        label: "活用イメージ",
-        href:  "/#pickup",
-        desc:  "AIを活用した業務改善の具体的な事例・ユースケースをご紹介しています。",
-      },
-      {
-        label: "導入の流れ",
-        href:  "/#process",
-        desc:  "無料相談から導入・運用まで、S3DOTと進める5つのステップをご確認いただけます。",
+        label: "活用イメージ・事例",
+        href:  "/case",
+        desc:  "AIを活用できる業務や導入後の変化を、活用イメージとしてご紹介しています。",
       },
       {
         label: "料金",
         href:  "/price",
-        desc:  "初期費用・月額費用・プランの概要をご案内しています（詳細は個別見積もり）。",
+        desc:  "費用の考え方と、内容に応じて個別見積もりとなる料金案内をご紹介しています。",
       },
       {
         label: "よくある質問",
-        href:  "/#faq",
+        href:  "/faq",
         desc:  "AI導入に関するよくあるご質問と回答をまとめています。",
       },
     ],
@@ -84,19 +79,9 @@ const siteGroups: SiteGroup[] = [
     accent:   "#7B5EFF",
     links: [
       {
-        label: "会社概要",
-        href:  "/#company",
-        desc:  "エススリードット株式会社の概要・所在地・代表者情報・設立背景をご覧いただけます。",
-      },
-      {
-        label: "Our Story",
-        href:  "/#story",
-        desc:  "「AIを、もっと身近に。」という理念が生まれたストーリーをお伝えします。",
-      },
-      {
-        label: "コンセプト",
-        href:  "/#concept",
-        desc:  "S3DOTが目指すAI活用の世界観・ビジョンを紹介しています。",
+        label: "会社情報",
+        href:  "/company",
+        desc:  "エススリードット株式会社の会社概要・所在地・代表者情報をご覧いただけます。",
       },
     ],
   },
@@ -105,9 +90,19 @@ const siteGroups: SiteGroup[] = [
     accent:   "#00E5A0",
     links: [
       {
-        label: "お問い合わせ・無料相談",
-        href:  "/#contact",
-        desc:  "フォームまたはLINEからお気軽にご相談ください。無料相談は随時受け付けています。",
+        label: "無料相談",
+        href:  "/contact#contact-form",
+        desc:  "AI導入や業務改善について、無料相談フォームからご相談いただけます。",
+      },
+      {
+        label: "一般お問い合わせ",
+        href:  "/contact",
+        desc:  "協業・取材などの一般的なお問い合わせはこちらからご確認ください。",
+      },
+      {
+        label: "公式LINEで相談",
+        href:  "https://line.me/R/ti/p/@377ryvgd",
+        desc:  "公式LINEから気軽にご相談いただけます。",
       },
     ],
   },

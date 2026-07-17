@@ -225,7 +225,7 @@ export default function AICapabilitiesSection() {
         {/* CTA */}
         <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:0.6,delay:0.2}} className="mt-12 text-center">
           <p className="text-s3-muted mb-5">あなたの会社でもできることが必ずある。</p>
-          <a href="#contact" className="inline-flex items-center gap-2 px-9 py-3.5 rounded text-sm font-bold text-white gradient-cta glow-blue hover:brightness-110 transition-all tracking-wide">
+          <a href="/contact#contact-form" className="inline-flex items-center gap-2 px-9 py-3.5 rounded text-sm font-bold text-white gradient-cta glow-blue hover:brightness-110 transition-all tracking-wide">
             何ができるか、一緒に考えてみる →
           </a>
         </motion.div>
