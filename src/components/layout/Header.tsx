@@ -40,8 +40,21 @@ export default function Header() {
     }
 
     wasMenuOpenRef.current = true;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
     const previousBodyOverflow = document.body.style.overflow;
+    const previousBodyPosition = document.body.style.position;
+    const previousBodyTop = document.body.style.top;
+    const previousBodyLeft = document.body.style.left;
+    const previousBodyWidth = document.body.style.width;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const previousHtmlScrollBehavior = document.documentElement.style.scrollBehavior;
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = `-${scrollX}px`;
+    document.body.style.width = "100%";
+    document.documentElement.style.overflow = "hidden";
 
     requestAnimationFrame(() => {
       mobileMenuRef.current
@@ -80,6 +93,14 @@ export default function Header() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = previousBodyOverflow;
+      document.body.style.position = previousBodyPosition;
+      document.body.style.top = previousBodyTop;
+      document.body.style.left = previousBodyLeft;
+      document.body.style.width = previousBodyWidth;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(scrollX, scrollY);
+      document.documentElement.style.scrollBehavior = previousHtmlScrollBehavior;
     };
   }, [menuOpen]);
 
@@ -90,7 +111,9 @@ export default function Header() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
+          menuOpen
+            ? "bg-s3-bg border-b border-s3-border/60"
+            : scrolled
             ? "glass border-b border-s3-border/60"
             : "bg-transparent"
         }`}
@@ -156,58 +179,62 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-s3-bg/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8"
+            className="fixed inset-x-0 top-16 bottom-0 z-[60] bg-s3-bg lg:hidden"
           >
             <button
               data-menu-close
               onClick={() => setMenuOpen(false)}
-              className="absolute top-5 right-6 p-2 text-s3-muted hover:text-s3-blue"
+              className="absolute -top-11 right-6 p-2 text-s3-muted hover:text-s3-blue"
               aria-label="メニューを閉じる"
             >
               <X size={24} />
             </button>
-            {navLinks.map((link, i) => (
-              <motion.div
-                key={link.href}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
-              >
-                <Link
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-2xl font-semibold text-s3-text hover:text-s3-blue transition-colors"
+            <div className="h-full overflow-y-auto overscroll-contain">
+              <div className="min-h-full flex flex-col items-center justify-center gap-8 py-8">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.07 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="text-2xl font-semibold text-s3-text hover:text-s3-blue transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: navLinks.length * 0.07 }}
+                  className="mt-4"
                 >
-                  {link.label}
-                </Link>
-              </motion.div>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: navLinks.length * 0.07 }}
-              className="mt-4"
-            >
-              <Link
-                href="/contact#contact-form"
-                onClick={() => setMenuOpen(false)}
-                className="inline-flex px-8 py-3 rounded text-base font-semibold text-white gradient-cta glow-blue"
-              >
-                無料相談
-              </Link>
-            </motion.div>
-            <motion.a
-              href={LINE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: (navLinks.length + 1) * 0.07 }}
-              className="px-8 py-3 rounded text-base font-semibold text-white bg-[#06C755] hover:brightness-110 transition-all"
-            >
-              公式LINEで相談
-            </motion.a>
+                  <Link
+                    href="/contact#contact-form"
+                    onClick={() => setMenuOpen(false)}
+                    className="inline-flex px-8 py-3 rounded text-base font-semibold text-white gradient-cta glow-blue"
+                  >
+                    無料相談
+                  </Link>
+                </motion.div>
+                <motion.a
+                  href={LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: (navLinks.length + 1) * 0.07 }}
+                  className="px-8 py-3 rounded text-base font-semibold text-white bg-[#06C755] hover:brightness-110 transition-all"
+                >
+                  公式LINEで相談
+                </motion.a>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
