@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 type Props = {
   badge: string;
@@ -10,6 +10,8 @@ type Props = {
 };
 
 export default function PageHero({ badge, title, titleGradient, description }: Props) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="relative pt-32 pb-16 md:pt-44 md:pb-24 bg-s3-bg overflow-hidden">
       {/* Aurora — desktop only */}
@@ -23,17 +25,17 @@ export default function PageHero({ badge, title, titleGradient, description }: P
 
       <div className="relative max-w-[1200px] mx-auto px-6 text-center">
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
           className="text-xs tracking-[0.32em] text-s3-blue uppercase font-mono mb-5"
         >
           {badge}
         </motion.p>
         <motion.h1
-          initial={{ opacity: 0 }}
+          initial={shouldReduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.1 }}
           className="font-bold text-s3-text leading-tight mb-5"
           style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
         >
@@ -43,9 +45,9 @@ export default function PageHero({ badge, title, titleGradient, description }: P
           )}
         </motion.h1>
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.2 }}
           className="text-s3-muted text-base md:text-lg max-w-xl mx-auto leading-relaxed"
         >
           {description}

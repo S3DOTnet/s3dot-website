@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef, useEffect } from "react";
 import TransparentLogo from "@/components/ui/TransparentLogo";
 
@@ -100,6 +100,7 @@ const paragraphs = [
 export default function OurStorySection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section id="story" className="relative py-16 md:py-24 bg-s3-bg overflow-hidden section-grid noise-overlay">
@@ -131,18 +132,18 @@ export default function OurStorySection() {
           {/* Text */}
           <div>
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
               className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-6"
             >
               Our Story
             </motion.p>
 
             <motion.h2
-              initial={{ opacity: 0 }}
+              initial={shouldReduceMotion ? false : { opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.1 }}
               className="text-3xl md:text-4xl font-bold leading-tight mb-8"
             >
               <span className="text-s3-text">AIを、</span>
@@ -153,9 +154,9 @@ export default function OurStorySection() {
               {paragraphs.map((p, i) => (
                 <motion.p
                   key={i}
-                  initial={{ opacity: 0, y: 16 }}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.2 + i * 0.12 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.2 + i * 0.12 }}
                   className="text-s3-muted leading-[1.9] text-[15px]"
                 >
                   {p.split("\n").map((line, j) => (
@@ -169,9 +170,9 @@ export default function OurStorySection() {
             </div>
 
             <motion.p
-              initial={{ opacity: 0 }}
+              initial={shouldReduceMotion ? false : { opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.6 }}
               className="mt-10 text-xl font-semibold gradient-text"
             >
               AIは難しくない。難しく考えすぎているだけ。
@@ -180,9 +181,9 @@ export default function OurStorySection() {
 
           {/* Visual */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.8, delay: shouldReduceMotion ? 0 : 0.3 }}
             className="relative flex items-center justify-center"
           >
             {/* Glass card with animated logo */}
@@ -207,7 +208,7 @@ export default function OurStorySection() {
               </div>
 
               {/* AIネットワークCanvas — inView後のみ起動してバッテリーを節約 */}
-              <StoryCanvas isActive={inView} />
+              <StoryCanvas isActive={inView && !shouldReduceMotion} />
 
               {/* Logo — 最前面 */}
               <div className="relative z-10 w-36 h-36 animate-float">
@@ -227,16 +228,16 @@ export default function OurStorySection() {
 
             {/* Floating badges */}
             <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              animate={shouldReduceMotion ? { y: 0 } : { y: [0, -8, 0] }}
+              transition={shouldReduceMotion ? { duration: 0 } : { repeat: Infinity, duration: 3, ease: "easeInOut" }}
               className="absolute -top-4 -right-4 glass rounded-xl px-4 py-2.5 text-xs font-mono"
             >
               <span className="text-s3-blue">AI</span>
               <span className="text-s3-muted ml-1">PARTNER</span>
             </motion.div>
             <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 1 }}
+              animate={shouldReduceMotion ? { y: 0 } : { y: [0, 8, 0] }}
+              transition={shouldReduceMotion ? { duration: 0 } : { repeat: Infinity, duration: 4, ease: "easeInOut", delay: 1 }}
               className="absolute -bottom-4 -left-4 glass rounded-xl px-4 py-2.5 text-xs font-mono"
             >
               <span className="text-s3-green">✓</span>

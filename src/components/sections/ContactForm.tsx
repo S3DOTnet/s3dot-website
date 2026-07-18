@@ -54,6 +54,30 @@ const FORM_FIELD_KEYS: Array<keyof FormState> = [
   "honeypot",
 ];
 
+const FORM_FIELD_ORDER: Array<Exclude<keyof FormState, "honeypot">> = [
+  "name",
+  "company",
+  "email",
+  "phone",
+  "industry",
+  "consultationTopics",
+  "currentIssues",
+  "requests",
+  "consent",
+];
+
+const ERROR_IDS: Partial<Record<keyof FormState, string>> = {
+  name: "cf-name-error",
+  company: "cf-company-error",
+  email: "cf-email-error",
+  phone: "cf-phone-error",
+  industry: "cf-industry-error",
+  consultationTopics: "cf-topics-error",
+  currentIssues: "cf-issues-error",
+  requests: "cf-requests-error",
+  consent: "cf-consent-error",
+};
+
 const API_ERROR_MESSAGES: Record<string, string> = {
   ORIGIN_NOT_ALLOWED: "このページから送信してください。ページを再読み込みしてお試しください。",
   UNSUPPORTED_MEDIA_TYPE: "送信形式を確認できませんでした。ページを再読み込みしてお試しください。",
@@ -152,16 +176,18 @@ function Label({ htmlFor, children, required }: { htmlFor: string; children: Rea
 }
 
 /* ── エラーメッセージ ── */
-function FieldError({ message }: { message?: string }) {
+function FieldError({ id, message }: { id: string; message?: string }) {
   return (
     <AnimatePresence>
       {message && (
         <motion.p
+          id={id}
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           className="flex items-center gap-1.5 mt-1.5 text-xs"
           style={{ color: "#F87171" }}
+          aria-live="polite"
         >
           <AlertCircle size={12} />
           {message}
@@ -195,6 +221,23 @@ export default function ContactForm() {
   const [focused, setFocused] = useState<string>("");
   const [autoReplySent, setAutoReplySent] = useState(true);
   const submissionIdRef = useRef<string | null>(null);
+  const fieldRefs = useRef<Partial<Record<keyof FormState, HTMLElement | null>>>({});
+  const serverErrorRef = useRef<HTMLDivElement>(null);
+
+  const focusAfterRender = (target: () => HTMLElement | null | undefined) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => target()?.focus());
+    });
+  };
+
+  const focusFirstError = (nextErrors: Errors) => {
+    const firstErrorKey = FORM_FIELD_ORDER.find((key) => nextErrors[key]);
+    if (firstErrorKey) {
+      focusAfterRender(() => fieldRefs.current[firstErrorKey]);
+      return;
+    }
+    focusAfterRender(() => serverErrorRef.current);
+  };
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm(prev => ({ ...prev, [key]: value }));
@@ -214,7 +257,7 @@ export default function ContactForm() {
   };
 
   /* クライアント側バリデーション */
-  const validate = (): boolean => {
+  const validate = (): Errors => {
     const e: Errors = {};
     if (!form.name.trim())   e.name  = "お名前を入力してください";
     if (!form.email.trim())  e.email = "メールアドレスを入力してください";
@@ -224,13 +267,17 @@ export default function ContactForm() {
     if (!form.currentIssues.trim())          e.currentIssues      = "現在お困りのことを入力してください";
     if (!form.consent)                       e.consent            = "個人情報の取り扱いに同意してください";
     setErrors(e);
-    return Object.keys(e).length === 0;
+    return e;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === "submitting") return;
-    if (!validate()) return;
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      focusFirstError(validationErrors);
+      return;
+    }
 
     const submissionId = submissionIdRef.current ?? crypto.randomUUID();
     submissionIdRef.current = submissionId;
@@ -248,6 +295,7 @@ export default function ContactForm() {
       // fetch 自体が失敗（オフライン・DNSエラー等）
       setServerError("インターネット接続を確認してから再試行してください。");
       setStatus("error");
+      focusFirstError({});
       return;
     }
 
@@ -259,12 +307,13 @@ export default function ContactForm() {
       // サーバーが JSON ではないレスポンスを返した（設定エラー等）
       setServerError("送信結果を確認できませんでした。時間をおいて再試行してください。");
       setStatus("error");
+      focusFirstError({});
       return;
     }
 
     if (!res.ok || !json.success) {
+      const nextErrors: Errors = {};
       if (json.code === "VALIDATION_ERROR" && json.fieldErrors) {
-        const nextErrors: Errors = {};
         for (const key of FORM_FIELD_KEYS) {
           const message = json.fieldErrors[key]?.[0];
           if (message) nextErrors[key] = message;
@@ -276,6 +325,7 @@ export default function ContactForm() {
         "送信に失敗しました。時間をおいて再試行してください。"
       );
       setStatus("error");
+      focusFirstError(nextErrors);
       return;
     }
 
@@ -313,6 +363,7 @@ export default function ContactForm() {
           <div>
             <Label htmlFor="cf-name" required>お名前</Label>
             <input
+              ref={(element) => { fieldRefs.current.name = element; }}
               id="cf-name"
               type="text"
               value={form.name}
@@ -322,18 +373,21 @@ export default function ContactForm() {
               placeholder="山田 太郎"
               maxLength={100}
               autoComplete="name"
+              aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? ERROR_IDS.name : undefined}
               style={{
                 ...inputBase,
                 ...focusStyle(focused === "name", !!errors.name),
                 padding: "0.75rem 1rem",
               }}
             />
-            <FieldError message={errors.name} />
+            <FieldError id={ERROR_IDS.name!} message={errors.name} />
           </div>
 
           <div>
             <Label htmlFor="cf-company">会社名・屋号</Label>
             <input
+              ref={(element) => { fieldRefs.current.company = element; }}
               id="cf-company"
               type="text"
               value={form.company}
@@ -343,12 +397,15 @@ export default function ContactForm() {
               placeholder="株式会社サンプル"
               maxLength={200}
               autoComplete="organization"
+              aria-invalid={!!errors.company}
+              aria-describedby={errors.company ? ERROR_IDS.company : undefined}
               style={{
                 ...inputBase,
-                ...focusStyle(focused === "company", false),
+                ...focusStyle(focused === "company", !!errors.company),
                 padding: "0.75rem 1rem",
               }}
             />
+            <FieldError id={ERROR_IDS.company!} message={errors.company} />
           </div>
         </div>
 
@@ -357,6 +414,7 @@ export default function ContactForm() {
           <div>
             <Label htmlFor="cf-email" required>メールアドレス</Label>
             <input
+              ref={(element) => { fieldRefs.current.email = element; }}
               id="cf-email"
               type="email"
               value={form.email}
@@ -366,18 +424,21 @@ export default function ContactForm() {
               placeholder="example@company.com"
               maxLength={200}
               autoComplete="email"
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? ERROR_IDS.email : undefined}
               style={{
                 ...inputBase,
                 ...focusStyle(focused === "email", !!errors.email),
                 padding: "0.75rem 1rem",
               }}
             />
-            <FieldError message={errors.email} />
+            <FieldError id={ERROR_IDS.email!} message={errors.email} />
           </div>
 
           <div>
             <Label htmlFor="cf-phone">電話番号</Label>
             <input
+              ref={(element) => { fieldRefs.current.phone = element; }}
               id="cf-phone"
               type="tel"
               value={form.phone}
@@ -387,12 +448,15 @@ export default function ContactForm() {
               placeholder="090-0000-0000"
               maxLength={50}
               autoComplete="tel"
+              aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? ERROR_IDS.phone : undefined}
               style={{
                 ...inputBase,
-                ...focusStyle(focused === "phone", false),
+                ...focusStyle(focused === "phone", !!errors.phone),
                 padding: "0.75rem 1rem",
               }}
             />
+            <FieldError id={ERROR_IDS.phone!} message={errors.phone} />
           </div>
         </div>
 
@@ -401,11 +465,14 @@ export default function ContactForm() {
           <Label htmlFor="cf-industry" required>業種</Label>
           <div className="relative">
             <select
+              ref={(element) => { fieldRefs.current.industry = element; }}
               id="cf-industry"
               value={form.industry}
               onChange={e => set("industry", e.target.value)}
               onFocus={() => setFocused("industry")}
               onBlur={() => setFocused("")}
+              aria-invalid={!!errors.industry}
+              aria-describedby={errors.industry ? ERROR_IDS.industry : undefined}
               style={{
                 ...inputBase,
                 ...focusStyle(focused === "industry", !!errors.industry),
@@ -429,15 +496,24 @@ export default function ContactForm() {
               </svg>
             </div>
           </div>
-          <FieldError message={errors.industry} />
+          <FieldError id={ERROR_IDS.industry!} message={errors.industry} />
         </div>
 
         {/* ── ご相談内容（チェックボックス） ── */}
-        <div>
-          <Label htmlFor="cf-topics" required>ご相談内容</Label>
-          <p id="cf-topics" className="text-xs text-s3-dim mb-3">複数選択できます</p>
+        <fieldset
+          className="min-w-0 border-0 p-0 m-0"
+          aria-describedby={`cf-topics-help${errors.consultationTopics ? ` ${ERROR_IDS.consultationTopics!}` : ""}`}
+        >
+          <legend
+            className="block text-sm font-semibold mb-1.5"
+            style={{ color: "rgba(232,237,242,0.9)" }}
+          >
+            ご相談内容
+            <span className="ml-1.5 text-xs font-bold" style={{ color: "#F87171" }}>必須</span>
+          </legend>
+          <p id="cf-topics-help" className="text-xs text-s3-dim mb-3">複数選択できます</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {TOPICS.map(topic => {
+            {TOPICS.map((topic, index) => {
               const checked = form.consultationTopics.includes(topic);
               return (
                 <label
@@ -450,14 +526,19 @@ export default function ContactForm() {
                   }}
                 >
                   <input
+                    ref={(element) => {
+                      if (index === 0) fieldRefs.current.consultationTopics = element;
+                    }}
                     type="checkbox"
                     checked={checked}
                     onChange={() => toggleTopic(topic)}
-                    className="sr-only"
+                    className="peer sr-only"
+                    aria-invalid={!!errors.consultationTopics}
+                    aria-describedby={errors.consultationTopics ? ERROR_IDS.consultationTopics : undefined}
                   />
                   {/* custom checkbox */}
                   <span
-                    className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 transition-all duration-200"
+                    className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 transition-all duration-200 peer-focus-visible:ring-2 peer-focus-visible:ring-s3-blue/70 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-s3-bg"
                     style={{
                       background: checked ? "rgba(0,200,255,0.2)" : "transparent",
                       border: checked ? "2px solid #00C8FF" : "2px solid rgba(30,45,61,0.9)",
@@ -474,13 +555,14 @@ export default function ContactForm() {
               );
             })}
           </div>
-          <FieldError message={errors.consultationTopics} />
-        </div>
+          <FieldError id={ERROR_IDS.consultationTopics!} message={errors.consultationTopics} />
+        </fieldset>
 
         {/* ── 現在お困りのこと ── */}
         <div>
           <Label htmlFor="cf-issues" required>現在お困りのこと</Label>
           <textarea
+            ref={(element) => { fieldRefs.current.currentIssues = element; }}
             id="cf-issues"
             value={form.currentIssues}
             onChange={e => set("currentIssues", e.target.value)}
@@ -489,6 +571,8 @@ export default function ContactForm() {
             placeholder="例）見積書作成に時間がかかる、問い合わせ対応を自動化したい、社内業務を効率化したい など"
             rows={4}
             maxLength={3000}
+            aria-invalid={!!errors.currentIssues}
+            aria-describedby={errors.currentIssues ? ERROR_IDS.currentIssues : undefined}
             style={{
               ...inputBase,
               ...focusStyle(focused === "issues", !!errors.currentIssues),
@@ -499,7 +583,7 @@ export default function ContactForm() {
             }}
           />
           <div className="flex justify-between items-center mt-1">
-            <FieldError message={errors.currentIssues} />
+            <FieldError id={ERROR_IDS.currentIssues!} message={errors.currentIssues} />
             <span className="text-xs text-s3-dim ml-auto">{form.currentIssues.length}/3000</span>
           </div>
         </div>
@@ -508,6 +592,7 @@ export default function ContactForm() {
         <div>
           <Label htmlFor="cf-requests">ご希望・ご質問</Label>
           <textarea
+            ref={(element) => { fieldRefs.current.requests = element; }}
             id="cf-requests"
             value={form.requests}
             onChange={e => set("requests", e.target.value)}
@@ -516,9 +601,11 @@ export default function ContactForm() {
             placeholder="例）まずは相談したい、費用を知りたい、導入までお願いしたい など"
             rows={3}
             maxLength={3000}
+            aria-invalid={!!errors.requests}
+            aria-describedby={errors.requests ? ERROR_IDS.requests : undefined}
             style={{
               ...inputBase,
-              ...focusStyle(focused === "requests", false),
+              ...focusStyle(focused === "requests", !!errors.requests),
               padding: "0.75rem 1rem",
               resize: "vertical",
               minHeight: "80px",
@@ -528,20 +615,24 @@ export default function ContactForm() {
           <div className="flex justify-end mt-1">
             <span className="text-xs text-s3-dim">{form.requests.length}/3000</span>
           </div>
+          <FieldError id={ERROR_IDS.requests!} message={errors.requests} />
         </div>
 
         {/* ── 個人情報同意 ── */}
         <div>
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
+              ref={(element) => { fieldRefs.current.consent = element; }}
               type="checkbox"
               checked={form.consent}
               onChange={e => set("consent", e.target.checked)}
-              className="sr-only"
+              className="peer sr-only"
               aria-required="true"
+              aria-invalid={!!errors.consent}
+              aria-describedby={`cf-consent-description${errors.consent ? ` ${ERROR_IDS.consent!}` : ""}`}
             />
             <span
-              className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5 transition-all duration-200"
+              className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5 transition-all duration-200 peer-focus-visible:ring-2 peer-focus-visible:ring-s3-blue/70 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-s3-bg"
               style={{
                 background: form.consent ? "rgba(0,200,255,0.2)" : "transparent",
                 border: errors.consent
@@ -560,8 +651,8 @@ export default function ContactForm() {
               個人情報の取り扱いに同意します
             </span>
           </label>
-          <FieldError message={errors.consent} />
-          <p className="text-xs text-s3-dim mt-2 ml-8 leading-relaxed">
+          <FieldError id={ERROR_IDS.consent!} message={errors.consent} />
+          <p id="cf-consent-description" className="text-xs text-s3-dim mt-2 ml-8 leading-relaxed">
             ご入力いただいた個人情報は、S3DOTからのご連絡および無料相談の対応にのみ使用し、第三者への提供は行いません。
           </p>
         </div>
@@ -570,6 +661,7 @@ export default function ContactForm() {
         <AnimatePresence>
           {status === "error" && serverError && (
             <motion.div
+              ref={serverErrorRef}
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
@@ -579,6 +671,7 @@ export default function ContactForm() {
                 border: "1px solid rgba(239,68,68,0.3)",
               }}
               role="alert"
+              tabIndex={-1}
             >
               <AlertCircle size={18} style={{ color: "#F87171", flexShrink: 0, marginTop: 2 }} />
               <div>

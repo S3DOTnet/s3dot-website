@@ -75,6 +75,9 @@ function FAQItem({
   isOpen: boolean;
   onToggle: () => void;
 }) {
+  const questionId = `faq-question-${index}`;
+  const answerId = `faq-answer-${index}`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -97,8 +100,11 @@ function FAQItem({
     >
       {/* Question */}
       <button
+        id={questionId}
         onClick={onToggle}
         className="w-full flex items-center justify-between gap-4 px-4 py-4 md:px-6 md:py-5 text-left group"
+        aria-expanded={isOpen}
+        aria-controls={answerId}
       >
         <div className="flex items-start gap-3 flex-1 min-w-0">
           <span
@@ -136,6 +142,9 @@ function FAQItem({
         {isOpen && (
           <motion.div
             key="answer"
+            id={answerId}
+            role="region"
+            aria-labelledby={questionId}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

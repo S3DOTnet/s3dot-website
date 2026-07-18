@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import TransparentLogo from "@/components/ui/TransparentLogo";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,16 +15,73 @@ const navLinks = [
 ];
 
 const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
+const MOBILE_MENU_ID = "mobile-navigation";
 
 export default function Header() {
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const wasMenuOpenRef = useRef(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) {
+      if (wasMenuOpenRef.current) {
+        requestAnimationFrame(() => menuButtonRef.current?.focus());
+        wasMenuOpenRef.current = false;
+      }
+      return;
+    }
+
+    wasMenuOpenRef.current = true;
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    requestAnimationFrame(() => {
+      mobileMenuRef.current
+        ?.querySelector<HTMLElement>("[data-menu-close]")
+        ?.focus();
+    });
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMenuOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = mobileMenuRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusableElements?.length) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      const activeElement = document.activeElement;
+
+      if (event.shiftKey && (activeElement === firstElement || !mobileMenuRef.current?.contains(activeElement))) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && (activeElement === lastElement || !mobileMenuRef.current?.contains(activeElement))) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [menuOpen]);
 
   return (
     <>
@@ -73,9 +130,12 @@ export default function Header() {
               無料相談
             </Link>
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
+              ref={menuButtonRef}
+              onClick={() => setMenuOpen((open) => !open)}
               className="lg:hidden p-3 text-s3-muted hover:text-s3-blue transition-colors"
-              aria-label="メニュー"
+              aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"}
+              aria-expanded={menuOpen}
+              aria-controls={MOBILE_MENU_ID}
             >
               {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -87,6 +147,11 @@ export default function Header() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id={MOBILE_MENU_ID}
+            ref={mobileMenuRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="スマートフォンメニュー"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -94,8 +159,10 @@ export default function Header() {
             className="fixed inset-0 z-40 bg-s3-bg/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8"
           >
             <button
+              data-menu-close
               onClick={() => setMenuOpen(false)}
               className="absolute top-5 right-6 p-2 text-s3-muted hover:text-s3-blue"
+              aria-label="メニューを閉じる"
             >
               <X size={24} />
             </button>

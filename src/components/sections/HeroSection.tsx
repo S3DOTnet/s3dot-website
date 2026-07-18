@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
 import TransparentLogo from "@/components/ui/TransparentLogo";
 
 /* ─────────────────────────────────────────────
@@ -67,17 +67,22 @@ function LineIcon() {
    Main
 ───────────────────────────────────────────── */
 export default function HeroSection() {
+  const shouldReduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 450], [1, 0.28]);
   const ghostY    = useTransform(scrollY, [0, 700], [0, 55]);
 
   const container: Variants = {
     hidden: {},
-    visible: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
+    visible: shouldReduceMotion
+      ? {}
+      : { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
   };
   const reveal: Variants = {
-    hidden:  { opacity: 0, y: 26 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.80, ease: "easeOut" as const } },
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 26 },
+    visible: shouldReduceMotion
+      ? { opacity: 1, y: 0, transition: { duration: 0 } }
+      : { opacity: 1, y: 0, transition: { duration: 0.80, ease: "easeOut" as const } },
   };
 
   return (
@@ -86,7 +91,7 @@ export default function HeroSection() {
       style={{ background: "#080C10" }}
     >
       {/* ── Aurora + grid ── */}
-      <motion.div style={{ opacity: bgOpacity }} className="absolute inset-0">
+      <motion.div style={{ opacity: shouldReduceMotion ? 1 : bgOpacity }} className="absolute inset-0">
         <div className="absolute inset-0 hero-grid" style={{ opacity: 0.13 }} />
         <Aurora />
       </motion.div>
@@ -95,7 +100,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
         <motion.div
           style={{
-            y: ghostY,
+            y: shouldReduceMotion ? 0 : ghostY,
             opacity: 0.045,
             width: "min(64vh, 64vw)",
             height: "min(64vh, 64vw)",
@@ -274,9 +279,9 @@ export default function HeroSection() {
 
       {/* ── Scroll indicator — light trail ── */}
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={shouldReduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 1.2 }}
+        transition={{ delay: shouldReduceMotion ? 0 : 2.5, duration: shouldReduceMotion ? 0 : 1.2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2.5"
       >
         <span
@@ -300,13 +305,15 @@ export default function HeroSection() {
               height: "55%",
               background: "linear-gradient(to bottom, transparent, rgba(0,200,255,0.48))",
             }}
-            animate={{ y: ["0%", "182%"] }}
-            transition={{
-              repeat: Infinity,
-              duration: 1.85,
-              ease: "linear" as const,
-              repeatDelay: 0.4,
-            }}
+            animate={shouldReduceMotion ? { y: "0%" } : { y: ["0%", "182%"] }}
+            transition={shouldReduceMotion
+              ? { duration: 0 }
+              : {
+                  repeat: Infinity,
+                  duration: 1.85,
+                  ease: "linear" as const,
+                  repeatDelay: 0.4,
+                }}
           />
         </div>
       </motion.div>

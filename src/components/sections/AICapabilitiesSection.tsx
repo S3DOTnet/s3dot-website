@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
 const LINES = [
   { text: "毎日3時間かかっていた帳票作成を → 5分に。",           tag: "バックオフィス",   color: "#00C8FF" },
@@ -35,6 +35,7 @@ const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 export default function AICapabilitiesSection() {
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-120px" });
+  const shouldReduceMotion = useReducedMotion();
 
   /* ── 状態 ───────────────────────────────
      visible: 表示済み行インデックスの集合
@@ -48,6 +49,7 @@ export default function AICapabilitiesSection() {
   const [texts,     setTexts]     = useState<string[]>(LINES.map(() => ""));
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     if (!inView) return;
     let cancelled = false;
 
@@ -94,9 +96,9 @@ export default function AICapabilitiesSection() {
 
     run();
     return () => { cancelled = true; };
-  }, [inView]);
+  }, [inView, shouldReduceMotion]);
 
-  const doneCount = done.size;
+  const doneCount = shouldReduceMotion ? LINES.length : done.size;
 
   return (
     <section className="relative py-16 md:py-28 bg-s3-surface overflow-hidden section-grid noise-overlay">
@@ -106,23 +108,23 @@ export default function AICapabilitiesSection() {
       <div className="relative max-w-[1200px] mx-auto px-6">
         {/* Heading */}
         <div ref={ref} className="mb-12 text-center">
-          <motion.p initial={{opacity:0,y:16}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:0.5}} className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4">
+          <motion.p initial={shouldReduceMotion ? false : {opacity:0,y:16}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:shouldReduceMotion ? 0 : 0.5}} className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4">
             What AI Can Do
           </motion.p>
-          <motion.h2 initial={{opacity:0}} animate={inView?{opacity:1}:{}} transition={{duration:0.6,delay:0.1}} className="font-black tracking-[-0.02em] mb-4" style={{fontSize:"clamp(2rem,5vw,3.5rem)"}}>
+          <motion.h2 initial={shouldReduceMotion ? false : {opacity:0}} animate={inView?{opacity:1}:{}} transition={{duration:shouldReduceMotion ? 0 : 0.6,delay:shouldReduceMotion ? 0 : 0.1}} className="font-black tracking-[-0.02em] mb-4" style={{fontSize:"clamp(2rem,5vw,3.5rem)"}}>
             <span className="text-white">AIで、</span>
             <span className="gradient-text-blue-purple">こんなことまで。</span>
           </motion.h2>
-          <motion.p initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:0.6,delay:0.2}} className="text-s3-muted text-lg max-w-lg mx-auto">
+          <motion.p initial={shouldReduceMotion ? false : {opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:shouldReduceMotion ? 0 : 0.6,delay:shouldReduceMotion ? 0 : 0.2}} className="text-s3-muted text-lg max-w-lg mx-auto">
             「うちには関係ない」と<br className="sm:hidden" />思っていた方ほど、驚かれます。
           </motion.p>
         </div>
 
         {/* Terminal window */}
         <motion.div
-          initial={{opacity:0,y:32,scale:0.98}}
+          initial={shouldReduceMotion ? false : {opacity:0,y:32,scale:0.98}}
           animate={inView?{opacity:1,y:0,scale:1}:{}}
-          transition={{duration:0.7,delay:0.3}}
+          transition={{duration:shouldReduceMotion ? 0 : 0.7,delay:shouldReduceMotion ? 0 : 0.3}}
           className="max-w-3xl mx-auto rounded-2xl overflow-hidden"
           style={{
             background:"rgba(8,12,16,0.88)",
@@ -164,11 +166,11 @@ export default function AICapabilitiesSection() {
             }}
           >
             {LINES.map((line, i) => {
-              const isVisible = visible.has(i);
-              const isDone    = done.has(i);
-              const isTyping  = typing === i;
+              const isVisible = shouldReduceMotion || visible.has(i);
+              const isDone    = shouldReduceMotion || done.has(i);
+              const isTyping  = !shouldReduceMotion && typing === i;
               /* テキスト: 完了行は全文、タイピング中は途中、非表示は NBSP */
-              const displayText = isDone ? line.text : (texts[i] || " ");
+              const displayText = shouldReduceMotion || isDone ? line.text : (texts[i] || " ");
 
               return (
                 /* key={i} 固定 — ループリセット時も再マウントしない */
@@ -223,7 +225,7 @@ export default function AICapabilitiesSection() {
         </motion.div>
 
         {/* CTA */}
-        <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:0.6,delay:0.2}} className="mt-12 text-center">
+        <motion.div initial={shouldReduceMotion ? false : {opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:shouldReduceMotion ? 0 : 0.6,delay:shouldReduceMotion ? 0 : 0.2}} className="mt-12 text-center">
           <p className="text-s3-muted mb-5">あなたの会社でもできることが必ずある。</p>
           <a href="/contact#contact-form" className="inline-flex items-center gap-2 px-9 py-3.5 rounded text-sm font-bold text-white gradient-cta glow-blue hover:brightness-110 transition-all tracking-wide">
             何ができるか、一緒に考えてみる →
