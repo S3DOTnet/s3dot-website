@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { MessageSquare, Mail, ArrowRight } from "lucide-react";
 import ContactForm from "@/components/sections/ContactForm";
 
@@ -46,6 +46,95 @@ const options = [
 export default function ContactSection({ hideIntro = false }: { hideIntro?: boolean }) {
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const formContainerRef = useRef<HTMLDivElement>(null);
+  const hasCorrectedInitialHashScroll = useRef(false);
+
+  useEffect(() => {
+    if (
+      !hideIntro ||
+      hasCorrectedInitialHashScroll.current ||
+      window.location.hash !== "#contact-form"
+    ) {
+      return;
+    }
+
+    let cancelled = false;
+    let userInteracted = false;
+    let layoutFrame = 0;
+    let correctionFrame = 0;
+    let restoreFrame = 0;
+    let previousScrollBehavior: string | null = null;
+
+    const markUserInteraction = () => {
+      userInteracted = true;
+      removeInteractionListeners();
+    };
+    const handleUserKeyDown = (event: KeyboardEvent) => {
+      if (
+        ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(
+          event.key
+        )
+      ) {
+        markUserInteraction();
+      }
+    };
+    const removeInteractionListeners = () => {
+      window.removeEventListener("wheel", markUserInteraction);
+      window.removeEventListener("touchstart", markUserInteraction);
+      window.removeEventListener("keydown", handleUserKeyDown);
+    };
+    window.addEventListener("wheel", markUserInteraction, { passive: true });
+    window.addEventListener("touchstart", markUserInteraction, { passive: true });
+    window.addEventListener("keydown", handleUserKeyDown);
+
+    const fontsReady = document.fonts?.ready ?? Promise.resolve();
+    void fontsReady.then(() => {
+      if (cancelled || userInteracted) return;
+
+      layoutFrame = window.requestAnimationFrame(() => {
+        correctionFrame = window.requestAnimationFrame(() => {
+          if (cancelled || userInteracted) return;
+
+          const formContainer = formContainerRef.current;
+          const target = formContainer?.querySelector<HTMLElement>("#contact-form");
+          if (!formContainer || !target) {
+            removeInteractionListeners();
+            return;
+          }
+
+          const headerHeight = document.querySelector("header")?.clientHeight ?? 0;
+          const transform = window.getComputedStyle(formContainer).transform;
+          const translateY = transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42;
+          const layoutTop = target.getBoundingClientRect().top + window.scrollY - translateY;
+          const targetTop = Math.max(0, layoutTop - headerHeight);
+          const root = document.documentElement;
+
+          previousScrollBehavior = root.style.scrollBehavior;
+          root.style.scrollBehavior = "auto";
+          window.scrollTo({ top: targetTop, left: 0, behavior: "auto" });
+          hasCorrectedInitialHashScroll.current = true;
+          removeInteractionListeners();
+
+          restoreFrame = window.requestAnimationFrame(() => {
+            root.style.scrollBehavior = previousScrollBehavior ?? "";
+            previousScrollBehavior = null;
+          });
+        });
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      removeInteractionListeners();
+      window.cancelAnimationFrame(layoutFrame);
+      window.cancelAnimationFrame(correctionFrame);
+      window.cancelAnimationFrame(restoreFrame);
+
+      if (previousScrollBehavior !== null) {
+        document.documentElement.style.scrollBehavior = previousScrollBehavior;
+      }
+    };
+  }, [hideIntro]);
 
   return (
     <section id="contact" className="relative py-16 md:py-28 bg-s3-bg overflow-hidden section-grid noise-overlay">
@@ -226,6 +315,7 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
 
         {/* ── ④ 無料相談フォーム ── */}
         <motion.div
+          ref={formContainerRef}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
