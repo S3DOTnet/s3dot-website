@@ -50,12 +50,6 @@ export default function CompanyPage() {
               >
                 公式LINEで相談
               </a>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 rounded-xl font-semibold text-s3-blue border border-s3-blue/35 hover:border-s3-blue/65 hover:bg-s3-blue/5 transition-all"
-              >
-                一般お問い合わせ
-              </Link>
             </div>
           </div>
         </section>
