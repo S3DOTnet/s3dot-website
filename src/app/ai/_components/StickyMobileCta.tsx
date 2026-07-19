@@ -33,11 +33,8 @@ export default function StickyMobileCta() {
             href={LINE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-white text-sm"
-            style={{
-              background: "linear-gradient(90deg, #06C755 0%, #059C46 100%)",
-              boxShadow: "0 0 24px rgba(6,199,85,0.35), 0 6px 20px rgba(0,0,0,0.4)",
-            }}
+            className="animate-cta-pulse flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-white text-sm"
+            style={{ background: "linear-gradient(90deg, #06C755 0%, #059C46 100%)" }}
           >
             <LineIcon size={17} />
             無料AI活用相談をLINEで受ける

@@ -13,27 +13,27 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="relative py-16 md:py-24 bg-s3-bg overflow-hidden">
+    <section className="relative py-10 md:py-16 bg-s3-bg overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div style={{ position: "absolute", left: "10%", top: "10%", width: 500, height: 500, background: "radial-gradient(circle, rgba(123,94,255,0.06) 0%, transparent 70%)", filter: "blur(70px)" }} />
       </div>
       <div className="relative max-w-[1200px] mx-auto px-6">
-        <div className="max-w-2xl mx-auto text-center mb-10 md:mb-14">
+        <div className="max-w-2xl mx-auto text-center mb-6 md:mb-9">
           <motion.p
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-            className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
+            className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-3"
           >
             Our Services
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-bold text-white" style={{ fontSize: "clamp(1.4rem, 3.4vw, 2.4rem)", lineHeight: 1.45 }}
+            className="font-bold text-white" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.5rem)", lineHeight: 1.4 }}
           >
             提供する<span className="gradient-text">サービス</span>
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-5 max-w-5xl mx-auto">
           {services.map((s, i) => {
             const Icon = s.icon;
             return (
@@ -43,7 +43,7 @@ export default function ServicesSection() {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="card-luxury card-shine rounded-xl p-6 flex flex-col gap-3"
+                className="card-luxury card-shine rounded-xl p-5 flex flex-col gap-2.5"
               >
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${s.color}1A`, border: `1px solid ${s.color}40` }}>
                   <Icon size={19} style={{ color: s.color }} />

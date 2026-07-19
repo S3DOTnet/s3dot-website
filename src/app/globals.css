@@ -248,6 +248,15 @@
   animation: border-glow 3s ease-in-out infinite;
 }
 
+/* ── CTAボタン用の脈動グロー (LINE公式カラー) ── */
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(6,199,85,0.30), 0 8px 24px rgba(0,0,0,0.35); }
+  50%      { box-shadow: 0 0 42px rgba(6,199,85,0.58), 0 8px 30px rgba(0,0,0,0.4); }
+}
+.animate-cta-pulse {
+  animation: cta-pulse 2.2s ease-in-out infinite;
+}
+
 /* ── Global section background (全セクション共通の薄いテクスチャ) ── */
 
 /* 薄いグローバルグリッド — Hero以外のセクションに使用 */

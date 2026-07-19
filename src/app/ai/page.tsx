@@ -5,6 +5,7 @@ import StickyMobileCta from "./_components/StickyMobileCta";
 import HeroSection from "./_components/HeroSection";
 import ProblemSection from "./_components/ProblemSection";
 import CrisisSection from "./_components/CrisisSection";
+import MidCtaBanner from "./_components/MidCtaBanner";
 import BenefitsSection from "./_components/BenefitsSection";
 import BeforeAfterSection from "./_components/BeforeAfterSection";
 import DifferentiationSection from "./_components/DifferentiationSection";
@@ -28,10 +29,18 @@ export default function AiLandingPage() {
         <HeroSection />
         <ProblemSection />
         <CrisisSection />
+        <MidCtaBanner
+          text="「様子見」の間にも、コストは積み上がっています。"
+          sub="まずは無料相談で、自社の現状を整理しませんか。"
+        />
         <BenefitsSection />
         <BeforeAfterSection />
         <DifferentiationSection />
         <ServicesSection />
+        <MidCtaBanner
+          text="自社に合ったAI活用、無料で診断します。"
+          sub="LINEで気軽に、今の課題をお聞かせください。"
+        />
         <FlowSection />
         <ClosingSection />
         <FinalCtaSection />

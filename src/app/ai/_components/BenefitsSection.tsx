@@ -11,19 +11,19 @@ const benefits = [
 
 export default function BenefitsSection() {
   return (
-    <section className="relative py-16 md:py-24 bg-s3-surface overflow-hidden section-grid noise-overlay">
+    <section className="relative py-10 md:py-16 bg-s3-surface overflow-hidden section-grid noise-overlay">
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg,transparent,rgba(123,94,255,0.22),transparent)" }} />
       <div className="relative max-w-[1200px] mx-auto px-6">
-        <div className="max-w-2xl mx-auto text-center mb-12 md:mb-16">
+        <div className="max-w-2xl mx-auto text-center mb-7 md:mb-10">
           <motion.p
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-            className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
+            className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-3"
           >
             AI Benefits
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-bold text-white mb-4" style={{ fontSize: "clamp(1.4rem, 3.4vw, 2.4rem)", lineHeight: 1.45 }}
+            className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.5rem)", lineHeight: 1.4 }}
           >
             AIは、人の仕事を<span className="gradient-text">奪うもの</span>ではありません。
           </motion.h2>
@@ -35,7 +35,7 @@ export default function BenefitsSection() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 md:gap-5 max-w-4xl mx-auto">
           {benefits.map((b, i) => {
             const Icon = b.icon;
             return (
@@ -45,14 +45,14 @@ export default function BenefitsSection() {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.55, delay: i * 0.12 }}
-                className="card-luxury card-shine rounded-xl p-6 md:p-7 relative overflow-hidden"
+                className="card-luxury card-shine rounded-xl p-5 md:p-6 relative overflow-hidden"
               >
                 <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${b.color}, transparent)`, opacity: 0.6 }} />
-                <p className="font-mono mb-4" style={{ fontSize: "0.72rem", color: `${b.color}99`, letterSpacing: "0.1em" }}>{b.num}</p>
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: `${b.color}1A`, border: `1px solid ${b.color}40` }}>
+                <p className="font-mono mb-3" style={{ fontSize: "0.72rem", color: `${b.color}99`, letterSpacing: "0.1em" }}>{b.num}</p>
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: `${b.color}1A`, border: `1px solid ${b.color}40` }}>
                   <Icon size={19} style={{ color: b.color }} />
                 </div>
-                <h3 className="text-white font-bold mb-2" style={{ fontSize: "1.05rem" }}>{b.title}</h3>
+                <h3 className="text-white font-bold mb-1.5" style={{ fontSize: "1.05rem" }}>{b.title}</h3>
                 <p className="text-s3-muted text-sm leading-relaxed">{b.desc}</p>
               </motion.div>
             );

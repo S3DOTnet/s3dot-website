@@ -1,24 +1,31 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Clock, Wallet, TrendingUp } from "lucide-react";
 import NetworkBackground from "./NetworkBackground";
 import LineIcon from "./LineIcon";
+import SectionBridge from "./SectionBridge";
 
 const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
+
+const kpis = [
+  { icon: Clock, label: "時間削減", desc: "繰り返し業務をAIが代行" },
+  { icon: Wallet, label: "人件費最適化", desc: "限られた人員で成果を最大化" },
+  { icon: TrendingUp, label: "利益向上", desc: "生まれた時間を売上へ直結" },
+];
 
 export default function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
 
   const container: Variants = {
     hidden: {},
-    visible: shouldReduceMotion ? {} : { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
+    visible: shouldReduceMotion ? {} : { transition: { staggerChildren: 0.09, delayChildren: 0.12 } },
   };
   const reveal: Variants = {
-    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 },
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 },
     visible: shouldReduceMotion
       ? { opacity: 1, y: 0, transition: { duration: 0 } }
-      : { opacity: 1, y: 0, transition: { duration: 0.75, ease: "easeOut" as const } },
+      : { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" as const } },
   };
 
   return (
@@ -55,7 +62,7 @@ export default function HeroSection() {
       />
       <div
         className="absolute bottom-0 left-0 right-0 pointer-events-none"
-        style={{ height: "220px", background: "linear-gradient(to bottom, transparent, rgba(8,12,16,0.96))" }}
+        style={{ height: "180px", background: "linear-gradient(to bottom, transparent, rgba(8,12,16,0.96))" }}
       />
 
       <motion.div
@@ -63,11 +70,11 @@ export default function HeroSection() {
         initial="hidden"
         animate="visible"
         className="relative z-10 flex flex-col items-center text-center w-full mx-auto px-6 sm:px-10"
-        style={{ maxWidth: "1080px", paddingTop: "clamp(6rem, 15vh, 9rem)", paddingBottom: "clamp(3rem, 8vh, 5rem)" }}
+        style={{ maxWidth: "1120px", paddingTop: "clamp(5rem, 12vh, 7.5rem)", paddingBottom: "clamp(2rem, 5vh, 3rem)" }}
       >
         <motion.div
           variants={reveal}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 md:mb-8"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 md:mb-6"
           style={{ background: "rgba(0,200,255,0.07)", border: "1px solid rgba(0,200,255,0.24)" }}
         >
           <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00C8FF", boxShadow: "0 0 8px #00C8FF" }} />
@@ -76,7 +83,7 @@ export default function HeroSection() {
           </span>
         </motion.div>
 
-        <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(1.75rem, 5.4vw, 3.75rem)", lineHeight: 1.28 }}>
+        <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(2rem, 6.4vw, 4.4rem)", lineHeight: 1.2 }}>
           どうせ使うAIなら、
           <br />
           <span className="gradient-text-blue-purple">早く始めた企業が有利です。</span>
@@ -84,50 +91,68 @@ export default function HeroSection() {
 
         <motion.p
           variants={reveal}
-          className="mt-6 md:mt-8"
-          style={{ fontSize: "clamp(0.92rem, 1.6vw, 1.1rem)", lineHeight: 1.9, color: "rgba(232,237,242,0.72)", maxWidth: "620px" }}
+          className="mt-5 md:mt-6"
+          style={{ fontSize: "clamp(0.92rem, 1.6vw, 1.12rem)", lineHeight: 1.85, color: "rgba(232,237,242,0.72)", maxWidth: "640px" }}
         >
-          AIは「いつか必要になるもの」ではありません。
-          <br className="hidden sm:block" />
-          すでに多くの企業が、業務時間削減・人件費最適化・生産性向上のために
-          AI活用を始めています。
+          AIは「いつか必要になるもの」ではありません。すでに多くの企業が、
+          業務時間削減・人件費最適化・生産性向上のためにAI活用を始めています。
         </motion.p>
 
         <motion.div
           variants={reveal}
-          className="mt-8 md:mt-10 px-5 py-4 md:px-8 md:py-5 rounded-2xl"
+          className="mt-6 md:mt-7 px-5 py-3.5 md:px-8 md:py-4 rounded-2xl"
           style={{
-            background: "linear-gradient(145deg, rgba(0,200,255,0.06), rgba(123,94,255,0.06))",
-            border: "1px solid rgba(0,200,255,0.18)",
+            background: "linear-gradient(145deg, rgba(0,200,255,0.07), rgba(123,94,255,0.07))",
+            border: "1px solid rgba(0,200,255,0.2)",
           }}
         >
-          <p className="font-bold text-white" style={{ fontSize: "clamp(1rem, 2vw, 1.3rem)", lineHeight: 1.6 }}>
+          <p className="font-bold text-white" style={{ fontSize: "clamp(1rem, 2.1vw, 1.35rem)", lineHeight: 1.55 }}>
             AIを使う会社と、使わない会社。
             <br />
             これから企業の差は<span className="gradient-text">広がります。</span>
           </p>
         </motion.div>
 
-        <motion.div variants={reveal} className="mt-9 md:mt-12 w-full flex justify-center">
+        {/* KPI強調行 */}
+        <motion.div variants={reveal} className="mt-7 md:mt-9 grid grid-cols-3 gap-2.5 md:gap-4 w-full max-w-2xl">
+          {kpis.map((k) => {
+            const Icon = k.icon;
+            return (
+              <div
+                key={k.label}
+                className="card-luxury rounded-xl px-2.5 py-3.5 md:px-4 md:py-5 flex flex-col items-center gap-1.5 md:gap-2 text-center"
+              >
+                <Icon size={18} className="md:w-5 md:h-5" style={{ color: "#00C8FF" }} />
+                <p className="font-bold text-white leading-tight" style={{ fontSize: "clamp(0.78rem, 1.6vw, 0.95rem)" }}>{k.label}</p>
+                <p className="hidden sm:block text-s3-dim leading-snug" style={{ fontSize: "0.68rem" }}>{k.desc}</p>
+              </div>
+            );
+          })}
+        </motion.div>
+
+        <motion.div variants={reveal} className="mt-7 md:mt-9 w-full flex justify-center">
           <a
             href={LINE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white w-full sm:w-auto py-4 px-8 sm:px-12 transition-all duration-200 hover:brightness-110 hover:scale-[1.02]"
+            className="animate-cta-pulse group inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white w-full sm:w-auto py-4 sm:py-5 px-8 sm:px-14 transition-all duration-200 hover:brightness-110 hover:scale-[1.03]"
             style={{
-              fontSize: "clamp(0.9rem, 1.3vw, 1.02rem)",
+              fontSize: "clamp(0.95rem, 1.4vw, 1.08rem)",
               background: "linear-gradient(90deg, #06C755 0%, #059C46 100%)",
-              boxShadow: "0 0 26px rgba(6,199,85,0.32), 0 8px 24px rgba(0,0,0,0.35)",
             }}
           >
-            <LineIcon size={19} />
+            <LineIcon size={20} />
             無料AI活用相談をLINEで受ける
-            <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
           </a>
         </motion.div>
-        <motion.p variants={reveal} className="mt-4 text-xs" style={{ color: "rgba(143,164,184,0.6)" }}>
+        <motion.p variants={reveal} className="mt-3.5 text-xs" style={{ color: "rgba(143,164,184,0.6)" }}>
           相談は無料・登録1分。しつこい営業はしません。
         </motion.p>
+
+        <motion.div variants={reveal}>
+          <SectionBridge text="毎月、何時間の業務をAIに任せられるか" />
+        </motion.div>
       </motion.div>
     </section>
   );
