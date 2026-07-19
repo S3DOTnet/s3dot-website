@@ -24,7 +24,7 @@ export default function BenefitsSection() {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
           className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.55rem, 3.8vw, 2.6rem)", lineHeight: 1.4 }}
         >
-          AIを導入した会社だけが得られる、<span className="gradient-text">時間と利益。</span>
+          仕組みを変えた会社だけが得られる、<span className="gradient-text">時間と利益。</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}

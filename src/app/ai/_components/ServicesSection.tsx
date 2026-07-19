@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import { Rocket, Workflow, Code2, MessageSquareText, Sparkles } from "lucide-react";
 
 const services = [
-  { icon: Rocket, title: "AI導入支援", desc: "現状の業務を整理し、コスト削減と利益改善につながる形でAIを設計・実装します。", color: "#00C8FF" },
-  { icon: Workflow, title: "業務自動化", desc: "繰り返し作業やデータ処理を自動化し、人件費と時間のムダを削減します。", color: "#7B5EFF" },
-  { icon: Code2, title: "企業専用AI開発", desc: "既存システムと連携する御社専用のAIシステムで、業務効率と利益率を高めます。", color: "#00E5A0" },
-  { icon: MessageSquareText, title: "AIチャットボット開発", desc: "問い合わせ対応や社内ヘルプデスクを代行し、対応にかかる人件費を削減します。", color: "#00C8FF" },
-  { icon: Sparkles, title: "生成AI活用支援", desc: "ChatGPT等の生成AIを、実務で成果につながる形で活用できるよう支援します。", color: "#7B5EFF" },
+  { icon: Rocket, title: "AI導入支援", desc: "資料作成や定型業務など御社の日々の業務を整理し、コスト削減と利益改善につながる形で導入まで支援します。", color: "#00C8FF" },
+  { icon: Workflow, title: "業務自動化", desc: "入力作業や集計など繰り返しの業務を自動化し、人件費と時間のムダを削減します。", color: "#7B5EFF" },
+  { icon: Code2, title: "企業専用AI開発", desc: "受発注や顧客管理など既存システムと連携する御社専用のシステムを開発し、業務効率と利益率を高めます。", color: "#00E5A0" },
+  { icon: MessageSquareText, title: "AIチャットボット開発", desc: "問い合わせ対応や社内質問をAIがサポートし、対応時間と人件費を削減します。", color: "#00C8FF" },
+  { icon: Sparkles, title: "生成AI活用支援", desc: "文章作成や社内資料づくりなど日々の実務で使いこなせるよう支援し、作業時間を短縮します。", color: "#7B5EFF" },
 ];
 
 export default function ServicesSection() {

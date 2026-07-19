@@ -79,18 +79,14 @@ export default function HeroSection() {
         >
           <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00C8FF", boxShadow: "0 0 8px #00C8FF" }} />
           <span className="font-mono uppercase" style={{ fontSize: "10px", letterSpacing: "0.28em", color: "rgba(0,200,255,0.85)" }}>
-            経営者のためのAI導入・業務改善パートナー
+            経営者のための業務改善パートナー
           </span>
         </motion.div>
 
-        <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(1.55rem, 6vw, 4.1rem)", lineHeight: 1.3 }}>
-          どうせ使うAIなら、
+        <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(1.65rem, 5.6vw, 3.8rem)", lineHeight: 1.35 }}>
+          毎月発生している無駄な作業時間を、
           <br />
-          <span className="gradient-text-blue-purple">
-            1日でも早く導入した企業が
-            <br />
-            これから勝ちます。
-          </span>
+          <span className="gradient-text-blue-purple">利益につながる時間へ。</span>
         </motion.h1>
 
         <motion.p
@@ -98,9 +94,9 @@ export default function HeroSection() {
           className="mt-5 md:mt-6"
           style={{ fontSize: "clamp(0.92rem, 1.6vw, 1.12rem)", lineHeight: 1.85, color: "rgba(232,237,242,0.72)", maxWidth: "640px" }}
         >
-          毎月発生している無駄な作業時間と、増え続ける人件費。
-          それを放置するか、AIで削減して利益に変えるか。
-          すでに多くの企業が動き出しています。
+          資料作成やメール対応、情報検索など、日々の業務の中には、
+          仕組みを変えるだけで減らせる時間があります。
+          それに気づけるかどうかで、これからの差が生まれます。
         </motion.p>
 
         <motion.div
@@ -112,9 +108,9 @@ export default function HeroSection() {
           }}
         >
           <p className="font-bold text-white" style={{ fontSize: "clamp(1rem, 2.1vw, 1.35rem)", lineHeight: 1.55 }}>
-            AIを使う会社と、使わない会社。
+            手作業のまま数年を過ごす会社と、仕組みを変える会社。
             <br />
-            これから企業の差は<span className="gradient-text">広がります。</span>
+            これから、<span className="gradient-text">業務の効率と利益に差が生まれます。</span>
           </p>
         </motion.div>
 

@@ -57,6 +57,7 @@ export default function ProblemSection() {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
           className="text-s3-muted text-sm md:text-base leading-relaxed max-w-xl mx-auto"
         >
+          今、社員の方が手作業で行っているこれらの業務の中には、<span className="text-white font-semibold">AIに任せられる仕事</span>があります。
           その時間には、必ず<span className="text-white font-semibold">人件費というコスト</span>が発生しています。
           本来、社員が集中すべきなのは、<span className="text-white font-semibold">営業・企画・顧客対応など利益に直結する仕事</span>のはずです。
         </motion.p>

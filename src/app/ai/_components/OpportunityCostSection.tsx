@@ -18,7 +18,7 @@ export default function OpportunityCostSection() {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
           className="font-bold text-white mb-5" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.4rem)", lineHeight: 1.45 }}
         >
-          AIを導入しないことで、
+          何もしないことで、
           <br />
           本来削減できる<span className="gradient-text">時間やコスト</span>を、
           <br />
@@ -30,9 +30,9 @@ export default function OpportunityCostSection() {
           className="text-s3-muted leading-relaxed max-w-lg mx-auto"
           style={{ fontSize: "clamp(0.9rem, 1.4vw, 1rem)" }}
         >
-          AI化すれば削減できたはずの人件費を、毎月そのまま払い続ける。
+          本来削減できたはずの人件費を、毎月そのまま払い続ける。
           浮くはずだった時間が、単純作業に使われ続ける。
-          その間にも、AIを導入した企業は、同じ人数でより多くの成果を出し始めています。
+          その間にも、仕組みを変えた企業は、同じ人数でより多くの成果を出し始めています。
         </motion.p>
 
         <motion.p

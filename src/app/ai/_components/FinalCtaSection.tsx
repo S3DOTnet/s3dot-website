@@ -33,13 +33,13 @@ export default function FinalCtaSection() {
         >
           あなたの会社にも、
           <br />
-          AIで<span className="gradient-text">人件費を削減できる業務</span>が必ずあります。
+          仕組み化で<span className="gradient-text">人件費を削減できる業務</span>が必ずあります。
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
           className="text-s3-muted text-sm md:text-base leading-relaxed mb-6"
         >
-          まずは現在の業務で、AI化できる部分を無料で診断します。
+          まずは、現在の業務のどこにAIを活かせるか、無料で診断します。
         </motion.p>
 
         <motion.div
