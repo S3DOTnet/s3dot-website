@@ -224,6 +224,12 @@ export default function HeroSection() {
             overflowWrap: "break-word",
           }}
         >
+          AIを導入したいけれど、
+          <br className="sm:hidden" />
+          何から始めればいいかわからない。
+          <br className="sm:hidden" />
+          そんな企業のためのAI活用パートナーです。
+          <br className="sm:hidden" />
           使わない方がコストも時間も、
           <br className="sm:hidden" />
           確実に高くつく時代へ。

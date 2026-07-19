@@ -189,7 +189,7 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
               <p
                 style={{ fontSize: "clamp(0.9rem, 1.6vw, 1rem)", color: "rgba(143,164,184,0.9)", lineHeight: "1.85" }}
               >
-                AIに詳しくなくても大丈夫。<br />まずはお気軽にご相談ください。
+                「AI導入について相談する」「業務改善について相談する」だけでも大丈夫。<br />AIに詳しくなくても、まずはお気軽にご相談ください。
               </p>
             </motion.div>
 
