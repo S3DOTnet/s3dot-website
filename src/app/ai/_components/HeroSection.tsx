@@ -9,9 +9,9 @@ import SectionBridge from "./SectionBridge";
 const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
 
 const kpis = [
-  { icon: Clock, label: "時間削減", desc: "毎月数十時間の無駄をゼロへ" },
-  { icon: Wallet, label: "人件費最適化", desc: "増員せず、今の人員で利益を伸ばす" },
-  { icon: TrendingUp, label: "利益向上", desc: "浮いた時間を売上に直結する仕事へ" },
+  { icon: Clock, label: "時間削減" },
+  { icon: Wallet, label: "人件費最適化" },
+  { icon: TrendingUp, label: "利益向上" },
 ];
 
 export default function HeroSection() {
@@ -118,18 +118,17 @@ export default function HeroSection() {
           </p>
         </motion.div>
 
-        {/* KPI強調行 */}
-        <motion.div variants={reveal} className="mt-7 md:mt-9 grid grid-cols-3 gap-2.5 md:gap-4 w-full max-w-2xl">
-          {kpis.map((k) => {
+        {/* KPI強調行 — カードではなく一列の軽量表示 */}
+        <motion.div variants={reveal} className="mt-7 md:mt-8 flex items-center justify-center flex-wrap gap-x-5 sm:gap-x-8 gap-y-2.5">
+          {kpis.map((k, i) => {
             const Icon = k.icon;
             return (
-              <div
-                key={k.label}
-                className="card-luxury rounded-xl px-2.5 py-3.5 md:px-4 md:py-5 flex flex-col items-center gap-1.5 md:gap-2 text-center"
-              >
-                <Icon size={18} className="md:w-5 md:h-5" style={{ color: "#00C8FF" }} />
-                <p className="font-bold text-white leading-tight" style={{ fontSize: "clamp(0.78rem, 1.6vw, 0.95rem)" }}>{k.label}</p>
-                <p className="hidden sm:block text-s3-dim leading-snug" style={{ fontSize: "0.68rem" }}>{k.desc}</p>
+              <div key={k.label} className="flex items-center gap-4 sm:gap-8">
+                {i > 0 && <span className="hidden sm:block w-px h-4" style={{ background: "rgba(143,164,184,0.25)" }} />}
+                <div className="flex items-center gap-1.5">
+                  <Icon size={16} style={{ color: "#00C8FF" }} />
+                  <span className="text-white font-bold" style={{ fontSize: "0.9rem" }}>{k.label}</span>
+                </div>
               </div>
             );
           })}

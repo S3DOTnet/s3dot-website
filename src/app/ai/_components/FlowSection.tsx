@@ -35,7 +35,7 @@ export default function FlowSection() {
             className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px"
             style={{ background: "linear-gradient(90deg, rgba(0,200,255,0.35), rgba(123,94,255,0.35))" }}
           />
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-6 md:gap-5">
             {steps.map((s, i) => {
               const Icon = s.icon;
               return (
@@ -45,21 +45,21 @@ export default function FlowSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-30px" }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="relative flex flex-col items-center text-center gap-2.5"
+                  className="relative flex flex-col items-center text-center gap-2"
                 >
                   <div
-                    className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center"
+                    className="relative z-10 w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center"
                     style={{
                       background: "linear-gradient(145deg, rgba(0,200,255,0.12), rgba(123,94,255,0.12))",
                       border: "1px solid rgba(0,200,255,0.3)",
                       boxShadow: "0 0 24px rgba(0,200,255,0.10)",
                     }}
                   >
-                    <Icon size={23} style={{ color: "#00C8FF" }} />
+                    <Icon size={18} className="md:w-[23px] md:h-[23px]" style={{ color: "#00C8FF" }} />
                   </div>
-                  <p className="font-mono" style={{ fontSize: "0.7rem", color: "rgba(0,200,255,0.75)", letterSpacing: "0.1em" }}>{s.step}</p>
+                  <p className="font-mono" style={{ fontSize: "0.65rem", color: "rgba(0,200,255,0.75)", letterSpacing: "0.1em" }}>{s.step}</p>
                   <p className="text-white font-bold text-sm md:text-base">{s.title}</p>
-                  <p className="text-s3-muted text-sm leading-relaxed max-w-[220px]">{s.desc}</p>
+                  <p className="hidden sm:block text-s3-muted text-sm leading-relaxed max-w-[220px]">{s.desc}</p>
                 </motion.div>
               );
             })}

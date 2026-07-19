@@ -43,19 +43,18 @@ export default function BeforeAfterSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.55, delay: i * 0.1 }}
-                className="card-luxury rounded-xl p-4 md:p-5 grid grid-cols-1 md:grid-cols-[auto_1fr_auto_1fr] items-center gap-3 md:gap-5"
+                className="rounded-xl p-4 md:p-5 grid grid-cols-1 md:grid-cols-[auto_1fr_auto_1fr] items-center gap-3 md:gap-5"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(30,45,61,0.9)" }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: "rgba(0,200,255,0.10)", border: "1px solid rgba(0,200,255,0.24)" }}>
-                    <Icon size={16} style={{ color: "#00C8FF" }} />
-                  </div>
+                  <Icon size={16} style={{ color: "#00C8FF" }} />
                   <p className="text-white font-bold text-sm whitespace-nowrap">{r.label}</p>
                 </div>
 
-                <div className="rounded-lg px-4 py-2.5" style={{ background: "rgba(74,96,112,0.08)", border: "1px solid rgba(74,96,112,0.2)" }}>
-                  <p className="uppercase font-mono mb-1" style={{ fontSize: "0.62rem", color: "rgba(143,164,184,0.6)", letterSpacing: "0.12em" }}>Before</p>
-                  <p className="text-s3-muted text-sm">{r.before}</p>
-                </div>
+                <p className="text-s3-muted text-sm">
+                  <span className="font-mono mr-1.5" style={{ fontSize: "0.62rem", color: "rgba(143,164,184,0.55)" }}>BEFORE</span>
+                  {r.before}
+                </p>
 
                 <div className="hidden md:flex items-center justify-center">
                   <ArrowRight size={18} className="text-s3-blue" />
@@ -64,10 +63,10 @@ export default function BeforeAfterSection() {
                   <ArrowRight size={14} className="rotate-90" />
                 </div>
 
-                <div className="rounded-lg px-4 py-2.5" style={{ background: "rgba(0,200,255,0.06)", border: "1px solid rgba(0,200,255,0.24)" }}>
-                  <p className="uppercase font-mono mb-1" style={{ fontSize: "0.62rem", color: "rgba(0,200,255,0.75)", letterSpacing: "0.12em" }}>After</p>
-                  <p className="text-white font-medium text-sm">{r.after}</p>
-                </div>
+                <p className="text-white font-medium text-sm">
+                  <span className="font-mono mr-1.5" style={{ fontSize: "0.62rem", color: "rgba(0,200,255,0.75)" }}>AFTER</span>
+                  {r.after}
+                </p>
               </motion.div>
             );
           })}
