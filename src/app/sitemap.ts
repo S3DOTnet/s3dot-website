@@ -7,6 +7,7 @@ const pages: Array<{
   priority: number;
 }> = [
   { path: "/",        changeFrequency: "monthly", priority: 1.0 },
+  { path: "/ai",      changeFrequency: "monthly", priority: 0.9 },
   { path: "/service", changeFrequency: "monthly", priority: 0.8 },
   { path: "/case",    changeFrequency: "monthly", priority: 0.7 },
   { path: "/price",   changeFrequency: "monthly", priority: 0.8 },
