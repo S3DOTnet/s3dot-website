@@ -38,8 +38,8 @@ export default function AiLandingPage() {
         <DifferentiationSection />
         <ServicesSection />
         <MidCtaBanner
-          text="自社に合ったAI活用、無料で診断します。"
-          sub="LINEで気軽に、今の課題をお聞かせください。"
+          text="その業務、人件費をかけずにAIに任せられます。"
+          sub="無料診断で、御社の削減余地を確認しませんか。"
         />
         <FlowSection />
         <ClosingSection />

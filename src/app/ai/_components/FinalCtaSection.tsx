@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ClipboardCheck, Lightbulb, Route } from "lucide-react";
+import { ArrowRight, ClipboardCheck, Lightbulb, Route, Rocket, Clock, ShieldCheck } from "lucide-react";
 import LineIcon from "./LineIcon";
 
 const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
@@ -10,6 +10,12 @@ const points = [
   { icon: ClipboardCheck, text: "AI化できる業務" },
   { icon: Lightbulb, text: "改善できる可能性" },
   { icon: Route, text: "導入までの流れ" },
+];
+
+const reasons = [
+  { icon: Rocket, title: "先行者利益", desc: "早く始めた企業から、AIによる時間と利益を積み上げています。" },
+  { icon: Clock, title: "先送りのコスト", desc: "検討している間も、人件費と機会損失は発生し続けます。" },
+  { icon: ShieldCheck, title: "リスクゼロで開始", desc: "相談は無料。無理な勧誘や契約の強要は一切ありません。" },
 ];
 
 export default function FinalCtaSection() {
@@ -31,9 +37,9 @@ export default function FinalCtaSection() {
           initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
           className="font-bold text-white mb-4" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.9rem)", lineHeight: 1.35 }}
         >
-          あなたの会社では、
+          あなたの会社にも、
           <br />
-          AIで<span className="gradient-text">改善できる業務</span>が必ずあります。
+          AIで<span className="gradient-text">人件費を削減できる業務</span>が必ずあります。
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
@@ -59,6 +65,38 @@ export default function FinalCtaSection() {
               </div>
             );
           })}
+        </motion.div>
+
+        {/* 今、始めるべき理由 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}
+          className="mb-8 md:mb-10"
+        >
+          <p className="uppercase font-mono tracking-[0.2em] text-s3-blue mb-3.5" style={{ fontSize: "0.68rem" }}>
+            今、始めるべき理由
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {reasons.map((r) => {
+              const Icon = r.icon;
+              return (
+                <div
+                  key={r.title}
+                  className="card-luxury rounded-xl p-4 flex items-start gap-3 text-left"
+                >
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: "rgba(0,200,255,0.10)", border: "1px solid rgba(0,200,255,0.24)" }}
+                  >
+                    <Icon size={15} style={{ color: "#00C8FF" }} />
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-sm mb-0.5">{r.title}</p>
+                    <p className="text-s3-muted leading-relaxed" style={{ fontSize: "0.76rem" }}>{r.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.35 }}>

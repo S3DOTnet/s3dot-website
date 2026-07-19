@@ -26,7 +26,7 @@ export default function FlowSection() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
             className="font-bold text-white" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.5rem)", lineHeight: 1.4 }}
           >
-            導入までの<span className="gradient-text">流れ</span>
+            無料相談から始める、<span className="gradient-text">導入までの流れ</span>
           </motion.h2>
         </div>
 

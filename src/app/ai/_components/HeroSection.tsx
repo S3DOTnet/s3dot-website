@@ -9,9 +9,9 @@ import SectionBridge from "./SectionBridge";
 const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
 
 const kpis = [
-  { icon: Clock, label: "時間削減", desc: "繰り返し業務をAIが代行" },
-  { icon: Wallet, label: "人件費最適化", desc: "限られた人員で成果を最大化" },
-  { icon: TrendingUp, label: "利益向上", desc: "生まれた時間を売上へ直結" },
+  { icon: Clock, label: "時間削減", desc: "毎月数十時間の無駄をゼロへ" },
+  { icon: Wallet, label: "人件費最適化", desc: "増員せず、今の人員で利益を伸ばす" },
+  { icon: TrendingUp, label: "利益向上", desc: "浮いた時間を売上に直結する仕事へ" },
 ];
 
 export default function HeroSection() {
@@ -79,14 +79,18 @@ export default function HeroSection() {
         >
           <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00C8FF", boxShadow: "0 0 8px #00C8FF" }} />
           <span className="font-mono uppercase" style={{ fontSize: "10px", letterSpacing: "0.28em", color: "rgba(0,200,255,0.85)" }}>
-            AI導入・業務改善パートナー
+            経営者のためのAI導入・業務改善パートナー
           </span>
         </motion.div>
 
-        <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(2rem, 6.4vw, 4.4rem)", lineHeight: 1.2 }}>
+        <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(1.55rem, 6vw, 4.1rem)", lineHeight: 1.3 }}>
           どうせ使うAIなら、
           <br />
-          <span className="gradient-text-blue-purple">早く始めた企業が有利です。</span>
+          <span className="gradient-text-blue-purple">
+            1日でも早く導入した企業が
+            <br />
+            これから勝ちます。
+          </span>
         </motion.h1>
 
         <motion.p
@@ -94,8 +98,9 @@ export default function HeroSection() {
           className="mt-5 md:mt-6"
           style={{ fontSize: "clamp(0.92rem, 1.6vw, 1.12rem)", lineHeight: 1.85, color: "rgba(232,237,242,0.72)", maxWidth: "640px" }}
         >
-          AIは「いつか必要になるもの」ではありません。すでに多くの企業が、
-          業務時間削減・人件費最適化・生産性向上のためにAI活用を始めています。
+          毎月発生している無駄な作業時間と、増え続ける人件費。
+          それを放置するか、AIで削減して利益に変えるか。
+          すでに多くの企業が動き出しています。
         </motion.p>
 
         <motion.div
@@ -151,7 +156,7 @@ export default function HeroSection() {
         </motion.p>
 
         <motion.div variants={reveal}>
-          <SectionBridge text="毎月、何時間の業務をAIに任せられるか" />
+          <SectionBridge text="毎月、いくらの人件費を無駄にしているか" />
         </motion.div>
       </motion.div>
     </section>

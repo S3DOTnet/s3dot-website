@@ -93,14 +93,14 @@ export default function ProblemSection() {
           <p className="mt-5 text-s3-muted text-sm leading-relaxed">
             その時間には、必ず<span className="text-white font-semibold">人件費というコスト</span>が発生しています。
             <br className="hidden sm:block" />
-            経営者にとって、これは放置できるコストではありません。
+            本来、社員が集中すべきなのは、<span className="text-white font-semibold">営業・企画・顧客対応など利益に直結する仕事</span>のはずです。
           </p>
           <p className="mt-2" style={{ fontSize: "0.7rem", color: "rgba(74,96,112,0.9)" }}>
             ※ 一般的な業務量・時給2,500円換算をもとにした目安の試算です。実際の時間・費用は業種・体制により異なります。
           </p>
         </motion.div>
 
-        <SectionBridge text="この差は、これからどうなっていくのか" />
+        <SectionBridge text="このコスト、これからどうなっていくのか" />
       </div>
     </section>
   );

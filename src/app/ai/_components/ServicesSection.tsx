@@ -27,10 +27,16 @@ export default function ServicesSection() {
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-bold text-white" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.5rem)", lineHeight: 1.4 }}
+            className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.5rem)", lineHeight: 1.4 }}
           >
-            提供する<span className="gradient-text">サービス</span>
+            あなたの会社の<span className="gradient-text">利益を増やす</span>AI活用
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-s3-muted text-sm md:text-base"
+          >
+            業務理解から導入・運用まで、コスト削減と利益向上に直結する形でご支援します。
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-5 max-w-5xl mx-auto">
