@@ -6,8 +6,8 @@ import { SITE_URL } from "@/lib/site-metadata";
  * 生成される内容:
  *   User-agent: *
  *   Allow: /
- *   Sitemap: https://s3dot.com/sitemap.xml
- *   Host: https://s3dot.com
+ *   Sitemap: https://www.s3dot.com/sitemap.xml
+ *   Host: https://www.s3dot.com
  */
 export default function robots(): MetadataRoute.Robots {
   return {

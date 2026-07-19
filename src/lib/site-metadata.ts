@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const SITE_NAME = "S3DOT";
-export const SITE_URL = "https://s3dot.com";
+export const SITE_URL = "https://www.s3dot.com";
 export const X_ACCOUNT = "@s3dot_ai";
 
 export const SOCIAL_IMAGE = {

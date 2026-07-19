@@ -59,7 +59,7 @@ export default function SitemapCard({ href, label, desc, accent }: Props) {
         className="text-[0.72rem] font-mono"
         style={{ color: "rgba(74,96,112,0.6)" }}
       >
-        {href.startsWith("/") ? "https://s3dot.com" + href : href}
+        {href.startsWith("/") ? "https://www.s3dot.com" + href : href}
       </span>
     </a>
   );

@@ -2,9 +2,9 @@ import type { NextRequest } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 
-const SITE_URL = "https://s3dot.com";
+const SITE_URL = "https://www.s3dot.com";
 const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
-const ALLOWED_SITE_ORIGINS = new Set([SITE_URL, "https://www.s3dot.com"]);
+const ALLOWED_SITE_ORIGINS = new Set([SITE_URL, "https://s3dot.com"]);
 const CONTACT_URL = `${SITE_URL}/contact`;
 const MAX_REQUEST_BYTES = 32 * 1024;
 const RATE_WINDOW_MS = 60_000;

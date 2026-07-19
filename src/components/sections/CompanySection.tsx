@@ -31,8 +31,8 @@ const info: InfoItem[] = [
   {
     icon: ExternalLink,
     label: "Webサイト",
-    value: "s3dot.com",
-    href: "https://s3dot.com",
+    value: "www.s3dot.com",
+    href: "https://www.s3dot.com",
     color: "#7B5EFF",
     colClass: "md:col-span-2 lg:col-span-1",
   },
