@@ -37,7 +37,7 @@ export default function StickyMobileCta() {
             style={{ background: "linear-gradient(90deg, #06C755 0%, #059C46 100%)" }}
           >
             <LineIcon size={17} />
-            無料AI活用相談をLINEで受ける
+            無料AI活用診断をLINEで受ける
           </a>
         </motion.div>
       )}

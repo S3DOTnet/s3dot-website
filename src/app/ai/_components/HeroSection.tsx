@@ -147,7 +147,7 @@ export default function HeroSection() {
             }}
           >
             <LineIcon size={20} />
-            無料AI活用相談をLINEで受ける
+            無料AI活用診断をLINEで受ける
             <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
           </a>
         </motion.div>

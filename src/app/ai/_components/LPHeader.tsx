@@ -42,8 +42,8 @@ export default function LPHeader() {
           }}
         >
           <LineIcon size={15} />
-          <span className="hidden sm:inline">無料LINE相談</span>
-          <span className="sm:hidden">LINE相談</span>
+          <span className="hidden sm:inline">無料AI活用診断</span>
+          <span className="sm:hidden">AI無料診断</span>
         </a>
       </div>
     </header>

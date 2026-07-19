@@ -54,9 +54,9 @@ export default function DifferentiationSection() {
           className="max-w-2xl mx-auto text-center mb-7 md:mb-10"
         >
           <p className="text-s3-muted text-sm md:text-base leading-relaxed">
-            S3DOTは、AIツールを販売するだけの会社ではありません。
+            S3DOTは、AIツールを販売する会社ではありません。
             <br />
-            <span className="text-white font-semibold">企業の業務を理解し、利益につながるAI活用を設計する会社</span>です。
+            <span className="text-white font-semibold">企業の利益改善を、AIを使って実現する会社</span>です。
           </p>
         </motion.div>
 

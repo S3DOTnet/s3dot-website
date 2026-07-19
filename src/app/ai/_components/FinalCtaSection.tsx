@@ -7,8 +7,8 @@ import LineIcon from "./LineIcon";
 const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
 
 const points = [
-  { icon: ClipboardCheck, text: "AI化できる業務" },
-  { icon: Lightbulb, text: "改善できる可能性" },
+  { icon: ClipboardCheck, text: "利益改善できる業務" },
+  { icon: Lightbulb, text: "コスト削減の可能性" },
   { icon: Route, text: "導入までの流れ" },
 ];
 
@@ -45,7 +45,7 @@ export default function FinalCtaSection() {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
           className="text-s3-muted text-sm md:text-base leading-relaxed mb-6"
         >
-          LINEで簡単に相談できます。以下を整理してお伝えします。
+          LINEで簡単に無料診断を受けられます。以下を整理してお伝えします。
         </motion.p>
 
         <motion.div
@@ -111,7 +111,7 @@ export default function FinalCtaSection() {
             }}
           >
             <LineIcon size={20} />
-            無料AI活用相談をLINEで受ける
+            無料AI活用診断をLINEで受ける
             <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
           </a>
           <p className="mt-3.5 text-xs" style={{ color: "rgba(143,164,184,0.6)" }}>相談は無料です。しつこい営業はしません。</p>

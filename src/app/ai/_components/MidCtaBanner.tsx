@@ -42,7 +42,7 @@ export default function MidCtaBanner({ text, sub }: Props) {
             style={{ background: "linear-gradient(90deg, #06C755 0%, #059C46 100%)", fontSize: "0.9rem" }}
           >
             <LineIcon size={16} />
-            無料LINE相談
+            無料AI活用診断
             <ArrowRight size={14} />
           </a>
         </motion.div>
