@@ -53,7 +53,7 @@ src/
     layout.tsx           # メタデータ・OGP・GA4
     sitemap.ts / robots.ts
     api/contact/route.ts # 問い合わせフォーム送信API
-    case/ contact/ faq/ price/ service/ legal/ privacy/ terms/ sitemap/
+    case/ company/ contact/ faq/ price/ service/ legal/ privacy/ terms/ sitemap/
   components/
     layout/               # Header, Footer
     sections/              # トップページの各セクション
@@ -70,6 +70,14 @@ public/
 ## 開発記録
 
 日報・週報・設計・アイデア・不具合などの開発記録は `docs/` で管理します。分類と命名規則は `docs/README.md` を参照してください。
+
+## プロジェクト管理ドキュメント
+
+現在の実装状況、開発ルールの要点、今後の方向性は次のファイルを参照してください。
+
+- [PROJECT_STATUS.md](./PROJECT_STATUS.md): 現在の実装状況・進捗
+- [DEVELOPMENT_RULES.md](./DEVELOPMENT_RULES.md): 開発ルールの要点整理
+- [FUTURE_ROADMAP.md](./FUTURE_ROADMAP.md): 今後の方向性・残タスク
 
 ## デプロイ
 
