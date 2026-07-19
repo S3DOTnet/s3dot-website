@@ -43,8 +43,8 @@ export default function DifferentiationSection() {
             <X size={13} style={{ color: "#8FA4B8" }} />
           </div>
           <p className="text-s3-muted text-sm leading-relaxed">
-            多くの企業は、「ChatGPTを契約した」で終わっています。
-            重要なのは、<span className="text-white font-semibold">自社の業務にどうAIを組み込むか</span>です。
+            多くの企業は、AIツールを導入するだけで終わっています。
+            重要なのは、<span className="text-white font-semibold">自社の業務にどう組み込み、どの業務を改善し、どれだけ利益につなげるか</span>です。
           </p>
         </motion.div>
 
@@ -56,7 +56,7 @@ export default function DifferentiationSection() {
           <p className="text-s3-muted text-sm md:text-base leading-relaxed">
             S3DOTは、AIツールを販売する会社ではありません。
             <br />
-            <span className="text-white font-semibold">企業の利益改善を、AIを使って実現する会社</span>です。
+            <span className="text-white font-semibold">企業ごとの業務を分析し、最適なAI活用方法を設計・導入・改善まで支援する会社</span>です。
           </p>
         </motion.div>
 

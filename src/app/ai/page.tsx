@@ -31,13 +31,13 @@ export default function AiLandingPage() {
         <ProblemSection />
         <CrisisSection />
         <OpportunityCostSection />
+        <DifferentiationSection />
         <MidCtaBanner
           text="「様子見」の間にも、コストは積み上がっています。"
           sub="まずは無料診断で、自社の現状を整理しませんか。"
         />
         <BenefitsSection />
         <BeforeAfterSection />
-        <DifferentiationSection />
         <ServicesSection />
         <MidCtaBanner
           text="その業務、人件費をかけずにAIに任せられます。"
