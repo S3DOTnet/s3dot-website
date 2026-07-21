@@ -1,25 +1,17 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { ArrowRight, Clock, Wallet, TrendingUp } from "lucide-react";
 import NetworkBackground from "./NetworkBackground";
-import LineIcon from "./LineIcon";
+import LineCtaButton from "./LineCtaButton";
+import TrustNote from "./TrustNote";
 import SectionBridge from "./SectionBridge";
-
-const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
-
-const kpis = [
-  { icon: Clock, label: "時間削減" },
-  { icon: Wallet, label: "人件費最適化" },
-  { icon: TrendingUp, label: "利益向上" },
-];
 
 export default function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
 
   const container: Variants = {
     hidden: {},
-    visible: shouldReduceMotion ? {} : { transition: { staggerChildren: 0.09, delayChildren: 0.12 } },
+    visible: shouldReduceMotion ? {} : { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
   };
   const reveal: Variants = {
     hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 },
@@ -29,14 +21,8 @@ export default function HeroSection() {
   };
 
   return (
-    <section
-      className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden"
-      style={{ background: "#080C10" }}
-    >
-      {/* AIネットワーク背景 */}
-      <NetworkBackground opacity={0.55} />
-
-      {/* Aurora glow */}
+    <section className="relative overflow-hidden" style={{ background: "#080C10" }}>
+      <NetworkBackground opacity={0.5} />
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="hidden sm:block"
@@ -55,10 +41,9 @@ export default function HeroSection() {
           }}
         />
       </div>
-
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 88% 78% at 50% 42%, transparent 32%, rgba(8,12,16,0.7) 100%)" }}
+        style={{ background: "radial-gradient(ellipse 88% 78% at 50% 30%, transparent 34%, rgba(8,12,16,0.7) 100%)" }}
       />
       <div
         className="absolute bottom-0 left-0 right-0 pointer-events-none"
@@ -70,90 +55,72 @@ export default function HeroSection() {
         initial="hidden"
         animate="visible"
         className="relative z-10 flex flex-col items-center text-center w-full mx-auto px-6 sm:px-10"
-        style={{ maxWidth: "1120px", paddingTop: "clamp(5rem, 12vh, 7.5rem)", paddingBottom: "clamp(2rem, 5vh, 3rem)" }}
+        style={{ maxWidth: "820px", paddingTop: "clamp(5.5rem, 13vh, 8rem)", paddingBottom: "clamp(2.5rem, 6vh, 4rem)" }}
       >
-        <motion.div
-          variants={reveal}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 md:mb-6"
-          style={{ background: "rgba(0,200,255,0.07)", border: "1px solid rgba(0,200,255,0.24)" }}
-        >
-          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00C8FF", boxShadow: "0 0 8px #00C8FF" }} />
-          <span className="font-mono uppercase" style={{ fontSize: "10px", letterSpacing: "0.28em", color: "rgba(0,200,255,0.85)" }}>
-            経営者のための業務改善パートナー
+        <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(1.7rem, 5.6vw, 3.6rem)", lineHeight: 1.35 }}>
+          どうせ使うAIなら、
+          <br />
+          <span className="gradient-text-blue-purple">
+            早く始めた企業が
+            <br className="sm:hidden" />
+            有利です。
           </span>
-        </motion.div>
-
-        <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(1.65rem, 5.6vw, 3.8rem)", lineHeight: 1.35 }}>
-          毎月発生している
-          <br />
-          無駄な作業時間を、
-          <br />
-          <span className="gradient-text-blue-purple">利益につながる時間へ。</span>
         </motion.h1>
 
-        <motion.p
-          variants={reveal}
-          className="mt-5 md:mt-6"
-          style={{ fontSize: "clamp(0.92rem, 1.6vw, 1.12rem)", lineHeight: 1.85, color: "rgba(232,237,242,0.72)", maxWidth: "640px" }}
-        >
-          資料作成やメール対応、情報検索など、日々の業務の中には、
-          仕組みを変えるだけで減らせる時間があります。
-          それに気づけるかどうかで、これからの差が生まれます。
-        </motion.p>
-
         <motion.div
           variants={reveal}
-          className="mt-6 md:mt-7 px-5 py-3.5 md:px-8 md:py-4 rounded-2xl"
+          className="mt-6 md:mt-7 px-5 py-4 md:px-8 md:py-5 rounded-2xl"
           style={{
             background: "linear-gradient(145deg, rgba(0,200,255,0.07), rgba(123,94,255,0.07))",
             border: "1px solid rgba(0,200,255,0.2)",
           }}
         >
-          <p className="font-bold text-white" style={{ fontSize: "clamp(1rem, 2.1vw, 1.35rem)", lineHeight: 1.55 }}>
-            手作業のまま数年を過ごす会社と、仕組みを変える会社。
+          <p className="font-bold text-white" style={{ fontSize: "clamp(1rem, 2.1vw, 1.3rem)", lineHeight: 1.6 }}>
+            人を増やす前に、
             <br />
-            これから、<span className="gradient-text">業務の効率と利益に差が生まれます。</span>
+            今ある仕事を<span className="gradient-text">減らせないか</span>
+            <br className="sm:hidden" />
+            確認してください。
           </p>
         </motion.div>
 
-        {/* KPI強調行 — カードではなく一列の軽量表示 */}
-        <motion.div variants={reveal} className="mt-7 md:mt-8 flex items-center justify-center flex-wrap gap-x-5 sm:gap-x-8 gap-y-2.5">
-          {kpis.map((k, i) => {
-            const Icon = k.icon;
-            return (
-              <div key={k.label} className="flex items-center gap-4 sm:gap-8">
-                {i > 0 && <span className="hidden sm:block w-px h-4" style={{ background: "rgba(143,164,184,0.25)" }} />}
-                <div className="flex items-center gap-1.5">
-                  <Icon size={16} style={{ color: "#00C8FF" }} />
-                  <span className="text-white font-bold" style={{ fontSize: "0.9rem" }}>{k.label}</span>
-                </div>
-              </div>
-            );
-          })}
+        <motion.div
+          variants={reveal}
+          className="mt-7 md:mt-8 flex flex-col gap-4"
+          style={{ fontSize: "clamp(0.88rem, 1.5vw, 1.02rem)", lineHeight: 1.9, color: "rgba(232,237,242,0.68)", maxWidth: "620px" }}
+        >
+          <p>見積書、請求書、資料作成、メール返信、データ入力、情報検索。</p>
+          <p>社員が毎月繰り返している仕事の中には、AIやシステムに任せられる可能性がある業務が数多くあります。</p>
         </motion.div>
 
-        <motion.div variants={reveal} className="mt-7 md:mt-9 w-full flex justify-center">
-          <a
-            href={LINE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="animate-cta-pulse group inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white w-full sm:w-auto py-4 sm:py-5 px-8 sm:px-14 transition-all duration-200 hover:brightness-110 hover:scale-[1.03]"
-            style={{
-              fontSize: "clamp(0.95rem, 1.4vw, 1.08rem)",
-              background: "linear-gradient(90deg, #06C755 0%, #059C46 100%)",
-            }}
-          >
-            <LineIcon size={20} />
-            無料AI活用診断をLINEで受ける
-            <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
-          </a>
+        <motion.div variants={reveal} className="mt-6 md:mt-7 max-w-xl">
+          <p className="text-white font-semibold" style={{ fontSize: "clamp(0.92rem, 1.6vw, 1.08rem)", lineHeight: 1.85 }}>
+            S3DOTは、AIツールを販売するだけの
+            <br className="sm:hidden" />
+            会社ではありません。
+          </p>
+          <p className="mt-2" style={{ fontSize: "clamp(0.88rem, 1.5vw, 1.02rem)", lineHeight: 1.85, color: "rgba(232,237,242,0.68)" }}>
+            現在の業務を確認し、削減できる作業を見つけ、実際に仕事で使える仕組みとして導入する会社です。
+          </p>
         </motion.div>
-        <motion.p variants={reveal} className="mt-3.5 text-xs" style={{ color: "rgba(143,164,184,0.6)" }}>
-          相談は無料・登録1分。しつこい営業はしません。
+
+        <motion.p
+          variants={reveal}
+          className="mt-8 md:mt-9 font-bold gradient-text"
+          style={{ fontSize: "clamp(1.15rem, 2.6vw, 1.6rem)" }}
+        >
+          削れる時間を、利益を生む時間へ。
         </motion.p>
 
+        <motion.div variants={reveal} className="mt-7 md:mt-9 w-full flex justify-center">
+          <LineCtaButton location="hero" className="w-full sm:w-auto" />
+        </motion.div>
+        <motion.div variants={reveal} className="mt-4">
+          <TrustNote />
+        </motion.div>
+
         <motion.div variants={reveal}>
-          <SectionBridge text="毎月、いくらの人件費を無駄にしているか" />
+          <SectionBridge text="毎月、いくらの人件費を払っていますか" />
         </motion.div>
       </motion.div>
     </section>

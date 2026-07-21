@@ -4,40 +4,52 @@ import { motion } from "framer-motion";
 import { Globe, Smartphone, Sparkles } from "lucide-react";
 import NetworkBackground from "./NetworkBackground";
 
-const waves = [
+const eras = [
   {
     icon: Globe,
-    era: "1990年代〜",
-    label: "インターネット",
-    headline: "情報とスピードが、企業の武器になった。",
-    body: "早く活用した企業は、新しい可能性を広げました。「まだ必要ない」と変化を後回しにした企業との差は、そこから生まれています。",
+    num: "01",
+    era: "INTERNET",
+    color: "#00C8FF",
+    body: [
+      "インターネットが普及した当時も、「まだ必要ない」「今までの方法で十分」と考える企業は少なくありませんでした。",
+      "しかし、早く活用した企業は、情報収集、営業、顧客獲得、仕事のスピードを大きく変えました。",
+      "変化を後回しにした企業は、後からその差を埋める必要がありました。",
+    ],
   },
   {
     icon: Smartphone,
-    era: "2000年代〜",
-    label: "スマートフォン",
-    headline: "人と情報が、常につながる時代に。",
-    body: "活用した企業は、顧客との接点や仕事の進め方を進化させました。変化を受け入れる企業ほど、新しい時代の流れを掴んできました。",
+    num: "02",
+    era: "SMARTPHONE",
+    color: "#8B7CFF",
+    body: [
+      "スマートフォンも、最初から仕事の必需品だったわけではありません。",
+      "しかし、普及すると顧客との接点、連絡方法、集客、決済、働き方まで大きく変わりました。",
+      "早く適応した企業ほど、新しい市場と顧客接点を獲得しました。",
+    ],
   },
   {
     icon: Sparkles,
-    era: "2020年代〜",
-    label: "AI",
-    headline: "そして今、次の大きな波はAIです。",
-    body: "AIを活用する企業と、「まだ早い」と様子を見る企業。その差は、時間・人件費・競争力の差として、これから広がっていきます。",
+    num: "03",
+    era: "AI",
+    color: "#7B5EFF",
+    body: [
+      "そして現在、次の大きな変化がAIです。",
+      "今はまだ、「本当に必要なのか」「もう少し様子を見よう」と考える企業も多くあります。",
+      "しかし、AIを業務へ活用する企業は、すでに時間、対応速度、生産性の改善を始めています。",
+    ],
   },
 ];
 
 export default function CrisisSection() {
   return (
-    <section className="relative py-10 md:py-16 bg-s3-bg overflow-hidden">
-      <NetworkBackground opacity={0.22} />
+    <section className="relative py-16 md:py-24 bg-s3-bg overflow-hidden">
+      <NetworkBackground opacity={0.3} />
       <div className="absolute inset-0 pointer-events-none">
-        <div style={{ position: "absolute", left: "50%", top: "0%", transform: "translateX(-50%)", width: 700, height: 400, background: "radial-gradient(ellipse, rgba(123,94,255,0.08) 0%, transparent 70%)", filter: "blur(80px)" }} />
+        <div style={{ position: "absolute", left: "50%", top: "0%", transform: "translateX(-50%)", width: 900, height: 500, background: "radial-gradient(ellipse, rgba(123,94,255,0.1) 0%, transparent 70%)", filter: "blur(90px)" }} />
       </div>
 
-      <div className="relative max-w-[1100px] mx-auto px-6">
-        <div className="max-w-2xl mx-auto text-center mb-8 md:mb-12">
+      <div className="relative max-w-[820px] mx-auto px-6">
+        <div className="text-center mb-12 md:mb-16">
           <motion.p
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
             className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-3"
@@ -46,48 +58,51 @@ export default function CrisisSection() {
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-bold text-white" style={{ fontSize: "clamp(1.55rem, 3.8vw, 2.6rem)", lineHeight: 1.4 }}
+            className="font-black text-white" style={{ fontSize: "clamp(1.7rem, 4.4vw, 3rem)", lineHeight: 1.4 }}
           >
             大きな変化のたびに、
             <br />
-            <span className="gradient-text-blue-purple">企業の差は広がってきました。</span>
+            <span className="gradient-text-blue-purple">
+              企業の差は
+              <br className="sm:hidden" />
+              広がってきました。
+            </span>
           </motion.h2>
         </div>
 
-        <div className="relative max-w-3xl mx-auto">
+        {/* タイムライン */}
+        <div className="relative">
           <div
-            className="hidden md:block absolute left-1/2 top-6 bottom-6 w-px -translate-x-1/2"
-            style={{ background: "linear-gradient(to bottom, rgba(0,200,255,0.3), rgba(123,94,255,0.3))" }}
+            className="absolute left-6 md:left-8 top-2 bottom-2 w-px"
+            style={{ background: "linear-gradient(to bottom, rgba(0,200,255,0.35), rgba(123,94,255,0.5))" }}
           />
-          <div className="flex flex-col gap-4 md:gap-5">
-            {waves.map((w, i) => {
-              const Icon = w.icon;
-              const isLast = i === waves.length - 1;
+          <div className="flex flex-col gap-12 md:gap-16">
+            {eras.map((e, i) => {
+              const Icon = e.icon;
               return (
                 <motion.div
-                  key={w.label}
-                  initial={{ opacity: 0, y: 28 }}
+                  key={e.era}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.55, delay: i * 0.12 }}
-                  className="relative card-luxury rounded-xl p-5 md:p-6 flex flex-col sm:flex-row items-start gap-4"
-                  style={isLast ? { border: "1px solid rgba(123,94,255,0.35)", boxShadow: "0 0 30px rgba(123,94,255,0.12)" } : undefined}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="relative pl-16 md:pl-20"
                 >
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                    className="absolute left-0 top-0 w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center"
                     style={{
-                      background: isLast ? "linear-gradient(135deg, rgba(0,200,255,0.18), rgba(123,94,255,0.18))" : "rgba(0,200,255,0.10)",
-                      border: `1px solid ${isLast ? "rgba(123,94,255,0.4)" : "rgba(0,200,255,0.24)"}`,
+                      background: `linear-gradient(135deg, ${e.color}2A, ${e.color}0D)`,
+                      border: `1px solid ${e.color}55`,
+                      boxShadow: `0 0 24px ${e.color}22`,
                     }}
                   >
-                    <Icon size={21} style={{ color: isLast ? "#7B5EFF" : "#00C8FF" }} />
+                    <Icon size={22} style={{ color: e.color }} />
                   </div>
-                  <div>
-                    <p className="font-mono" style={{ fontSize: "0.68rem", color: "rgba(143,164,184,0.7)" }}>
-                      {w.era} {w.label}
-                    </p>
-                    <p className="text-white font-bold mt-1" style={{ fontSize: "1.05rem" }}>{w.headline}</p>
-                    <p className="text-s3-muted mt-1.5 leading-relaxed" style={{ fontSize: "0.85rem" }}>{w.body}</p>
+                  <p className="font-mono" style={{ fontSize: "0.7rem", letterSpacing: "0.2em", color: e.color }}>{e.num} / {e.era}</p>
+                  <div className="mt-2 flex flex-col gap-2">
+                    {e.body.map((line, li) => (
+                      <p key={li} className="text-s3-muted leading-relaxed" style={{ fontSize: "0.92rem" }}>{line}</p>
+                    ))}
                   </div>
                 </motion.div>
               );
@@ -95,17 +110,34 @@ export default function CrisisSection() {
           </div>
         </div>
 
+        {/* 締め */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-center mt-14 md:mt-18"
+        >
+          <p className="text-s3-muted leading-loose" style={{ fontSize: "clamp(0.88rem, 1.5vw, 1rem)" }}>
+            インターネットも、スマートフォンも、
+            <br />
+            最初から全員が使っていたわけではありません。
+            <br />
+            変化を早く受け入れた企業が、
+            <br />
+            次の時代のスタンダードをつくってきました。
+          </p>
+          <p className="text-white font-bold mt-4" style={{ fontSize: "clamp(1.1rem, 2.4vw, 1.4rem)" }}>
+            今、その波は<span className="gradient-text">AI</span>です。
+          </p>
+        </motion.div>
+
+        {/* 追加の強調 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-9 md:mt-12 max-w-xl mx-auto"
+          className="mt-9 md:mt-11 max-w-lg mx-auto rounded-2xl px-6 py-6 md:px-8 md:py-7 text-center"
+          style={{ background: "linear-gradient(145deg, rgba(0,200,255,0.06), rgba(123,94,255,0.08))", border: "1px solid rgba(123,94,255,0.24)" }}
         >
-          <p className="text-s3-muted leading-loose text-sm md:text-base">
-            インターネットも、スマートフォンも、最初から全員が使っていたわけではありません。
-            <br />
-            変化を受け入れた企業が、次の時代のスタンダードを作ってきました。
-          </p>
-          <p className="text-white font-bold mt-3" style={{ fontSize: "clamp(1.05rem, 2.2vw, 1.3rem)" }}>
-            今、その波は<span className="gradient-text">AI</span>です。
+          <p className="text-s3-muted text-sm leading-relaxed">問題は、AIを使うかどうかではありません。</p>
+          <p className="text-white font-bold mt-1.5" style={{ fontSize: "clamp(0.98rem, 1.9vw, 1.15rem)" }}>
+            競合より先に、<span className="gradient-text">自社の利益へ変えられるか</span>どうかです。
           </p>
         </motion.div>
       </div>
