@@ -17,7 +17,7 @@ export default function NetworkBackground({ opacity = 1 }: { opacity?: number })
     <svg
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid slice"
-      className="absolute inset-0 w-full h-full pointer-events-none hidden sm:block"
+      className="absolute inset-0 w-full h-full pointer-events-none"
       style={{ opacity }}
       aria-hidden="true"
     >

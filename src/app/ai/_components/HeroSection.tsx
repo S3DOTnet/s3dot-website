@@ -25,7 +25,6 @@ export default function HeroSection() {
       <NetworkBackground opacity={0.5} />
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="hidden sm:block"
           style={{
             position: "absolute", width: "120vw", height: "85vh", top: "-20%", left: "-10%",
             background: "radial-gradient(ellipse at 50% 40%, rgba(0,200,255,0.10) 0%, rgba(0,140,210,0.02) 46%, transparent 66%)",
@@ -33,7 +32,6 @@ export default function HeroSection() {
           }}
         />
         <div
-          className="hidden sm:block"
           style={{
             position: "absolute", width: "70vw", height: "60vh", top: "-5%", right: "-14%",
             background: "radial-gradient(ellipse at center, rgba(123,94,255,0.09) 0%, transparent 70%)",
