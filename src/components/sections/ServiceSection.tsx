@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import {
   MessageCircle,
@@ -18,6 +19,7 @@ const services = [
     body: "企業ごとの課題に合わせて、AI活用の方法をご提案します。",
     tags: ["無料相談あり", "課題整理", "導入計画"],
     color: "#00C8FF",
+    href: "/ai",
   },
   {
     icon: Settings,
@@ -26,6 +28,7 @@ const services = [
     body: "既存の業務の流れを変えずに、AIを自然に取り入れ、負担を軽くします。",
     tags: ["フロー最適化", "コスト削減", "ミス削減"],
     color: "#7B5EFF",
+    href: undefined,
   },
   {
     icon: Zap,
@@ -34,6 +37,7 @@ const services = [
     body: "日々の事務作業や定型業務をAIで効率化します。",
     tags: ["時間削減", "省人化", "RPA"],
     color: "#00E5A0",
+    href: undefined,
   },
   {
     icon: Sparkles,
@@ -42,6 +46,7 @@ const services = [
     body: "画像・動画・文章・音声など、広告やSNSに使えるコンテンツ制作をAIで支援します。",
     tags: ["画像生成", "動画制作", "テキスト生成"],
     color: "#00C8FF",
+    href: undefined,
   },
   {
     icon: Code2,
@@ -50,6 +55,7 @@ const services = [
     body: "会社独自の業務に合わせたAIツールを開発します。",
     tags: ["オーダーメイド", "API連携", "運用サポート"],
     color: "#7B5EFF",
+    href: undefined,
   },
 ];
 
@@ -60,6 +66,7 @@ function ServiceCard({
   body,
   tags,
   color,
+  href,
   index,
 }: (typeof services)[0] & { index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -101,6 +108,18 @@ function ServiceCard({
         <p className="text-xs text-s3-muted leading-relaxed">{sub}</p>
       </div>
       <p className="text-sm text-s3-muted leading-relaxed flex-1">{body}</p>
+
+      {/* LP導線 */}
+      {href && (
+        <Link
+          href={href}
+          className="group/lp inline-flex items-center gap-1 text-xs font-semibold w-fit transition-colors duration-200 hover:brightness-125"
+          style={{ color }}
+        >
+          無料AI業務改善診断を見る
+          <span className="transition-transform duration-200 group-hover/lp:translate-x-0.5">→</span>
+        </Link>
+      )}
 
       {/* Tags */}
       <div className="flex flex-wrap gap-2">

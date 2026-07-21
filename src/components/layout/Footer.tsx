@@ -8,6 +8,7 @@ const serviceLinks = [
   { label: "活用イメージ・事例", href: "/case" },
   { label: "料金",               href: "/price" },
   { label: "よくある質問",       href: "/faq" },
+  { label: "無料AI業務改善診断", href: "/ai" },
 ];
 
 const companyLinks = [
