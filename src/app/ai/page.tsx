@@ -6,10 +6,8 @@ import HeroSection from "./_components/HeroSection";
 import ProblemSection from "./_components/ProblemSection";
 import CrisisSection from "./_components/CrisisSection";
 import OpportunityCostSection from "./_components/OpportunityCostSection";
-import MidCtaBanner from "./_components/MidCtaBanner";
-import BenefitsSection from "./_components/BenefitsSection";
-import BeforeAfterSection from "./_components/BeforeAfterSection";
 import DifferentiationSection from "./_components/DifferentiationSection";
+import BeforeAfterSection from "./_components/BeforeAfterSection";
 import ServicesSection from "./_components/ServicesSection";
 import FlowSection from "./_components/FlowSection";
 import ClosingSection from "./_components/ClosingSection";
@@ -32,17 +30,8 @@ export default function AiLandingPage() {
         <CrisisSection />
         <OpportunityCostSection />
         <DifferentiationSection />
-        <MidCtaBanner
-          text="「様子見」の間にも、コストは積み上がっています。"
-          sub="まずは無料診断で、自社の現状を整理しませんか。"
-        />
-        <BenefitsSection />
         <BeforeAfterSection />
         <ServicesSection />
-        <MidCtaBanner
-          text="その業務、人件費をかけずにAIに任せられます。"
-          sub="無料診断で、御社の削減余地を確認しませんか。"
-        />
         <FlowSection />
         <ClosingSection />
         <FinalCtaSection />

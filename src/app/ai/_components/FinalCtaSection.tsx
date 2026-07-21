@@ -33,7 +33,13 @@ export default function FinalCtaSection() {
         >
           あなたの会社にも、
           <br />
-          仕組み化で<span className="gradient-text">人件費を削減できる業務</span>が必ずあります。
+          <span className="gradient-text">
+            人件費と作業時間を
+            <br className="sm:hidden" />
+            削減できる業務
+          </span>
+          <br className="sm:hidden" />
+          が眠っています。
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}

@@ -84,7 +84,9 @@ export default function HeroSection() {
         </motion.div>
 
         <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(1.65rem, 5.6vw, 3.8rem)", lineHeight: 1.35 }}>
-          毎月発生している無駄な作業時間を、
+          毎月発生している
+          <br />
+          無駄な作業時間を、
           <br />
           <span className="gradient-text-blue-purple">利益につながる時間へ。</span>
         </motion.h1>

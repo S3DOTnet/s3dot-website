@@ -32,7 +32,6 @@ export default function OpportunityCostSection() {
         >
           本来削減できたはずの人件費を、毎月そのまま払い続ける。
           浮くはずだった時間が、単純作業に使われ続ける。
-          その間にも、仕組みを変えた企業は、同じ人数でより多くの成果を出し始めています。
         </motion.p>
 
         <motion.p

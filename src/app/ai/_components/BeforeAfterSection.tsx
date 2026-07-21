@@ -4,14 +4,15 @@ import { motion } from "framer-motion";
 import { FileText, Mail, Search, ArrowRight } from "lucide-react";
 
 const rows = [
-  { icon: FileText, label: "資料作成", before: "数時間かけて作成", after: "AIが下書き・整理をサポート" },
-  { icon: Mail, label: "メール対応", before: "毎回文章を一から作成", after: "AIが返信作成をサポート" },
-  { icon: Search, label: "情報検索", before: "資料をあちこち探す", after: "AIへ質問するだけ" },
+  { icon: FileText, label: "資料作成", before: "過去資料を探し、数時間かけて一から作成", after: "必要事項を伝えるだけで、AIが下書きと構成を作成" },
+  { icon: Mail, label: "メール対応", before: "内容を確認し、毎回文章を一から考える", after: "要点を入力するだけで、返信文をすぐに作成" },
+  { icon: Search, label: "情報検索", before: "複数のフォルダや資料から必要情報を探す", after: "質問するだけで、社内情報から回答を探せる" },
 ];
 
 export default function BeforeAfterSection() {
   return (
-    <section className="relative py-10 md:py-16 bg-s3-bg overflow-hidden">
+    <section className="relative py-10 md:py-16 bg-s3-surface overflow-hidden section-grid noise-overlay">
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg,transparent,rgba(0,200,255,0.22),transparent)" }} />
       <div className="absolute inset-0 pointer-events-none">
         <div style={{ position: "absolute", right: "0%", top: "10%", width: 500, height: 500, background: "radial-gradient(circle, rgba(0,200,255,0.05) 0%, transparent 70%)", filter: "blur(70px)" }} />
       </div>
@@ -25,12 +26,18 @@ export default function BeforeAfterSection() {
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-bold text-white" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.5rem)", lineHeight: 1.4 }}
+            className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.5rem)", lineHeight: 1.4 }}
           >
-            導入前と導入後で、
+            仕組みを変えるだけで、
             <br className="md:hidden" />
             <span className="gradient-text">ここまで変わる。</span>
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-s3-muted text-sm md:text-base"
+          >
+            浮いた時間は、そのまま利益につながる時間になります。
+          </motion.p>
         </div>
 
         <div className="max-w-3xl mx-auto flex flex-col gap-3">
