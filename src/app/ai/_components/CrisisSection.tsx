@@ -42,7 +42,7 @@ const eras = [
 
 export default function CrisisSection() {
   return (
-    <section className="relative py-16 md:py-24 bg-s3-bg overflow-hidden">
+    <section className="relative py-14 md:py-20 bg-s3-bg overflow-hidden">
       <NetworkBackground opacity={0.3} />
       <div className="absolute inset-0 pointer-events-none">
         <div style={{ position: "absolute", left: "50%", top: "0%", transform: "translateX(-50%)", width: 900, height: 500, background: "radial-gradient(ellipse, rgba(123,94,255,0.1) 0%, transparent 70%)", filter: "blur(90px)" }} />

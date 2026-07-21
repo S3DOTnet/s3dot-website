@@ -55,7 +55,7 @@ export default function HeroSection() {
         initial="hidden"
         animate="visible"
         className="relative z-10 flex flex-col items-center text-center w-full mx-auto px-6 sm:px-10"
-        style={{ maxWidth: "820px", paddingTop: "clamp(5.5rem, 13vh, 8rem)", paddingBottom: "clamp(2.5rem, 6vh, 4rem)" }}
+        style={{ maxWidth: "820px", paddingTop: "clamp(5rem, 11vh, 7rem)", paddingBottom: "clamp(2rem, 5vh, 3rem)" }}
       >
         <motion.h1 variants={reveal} className="font-black text-white tracking-tight" style={{ fontSize: "clamp(1.7rem, 5.6vw, 3.6rem)", lineHeight: 1.35 }}>
           どうせ使うAIなら、
@@ -69,7 +69,7 @@ export default function HeroSection() {
 
         <motion.div
           variants={reveal}
-          className="mt-6 md:mt-7 px-5 py-4 md:px-8 md:py-5 rounded-2xl"
+          className="mt-5 md:mt-6 px-5 py-4 md:px-8 md:py-5 rounded-2xl"
           style={{
             background: "linear-gradient(145deg, rgba(0,200,255,0.07), rgba(123,94,255,0.07))",
             border: "1px solid rgba(0,200,255,0.2)",
@@ -84,38 +84,27 @@ export default function HeroSection() {
           </p>
         </motion.div>
 
-        <motion.div
+        <motion.p
           variants={reveal}
-          className="mt-7 md:mt-8 flex flex-col gap-4"
-          style={{ fontSize: "clamp(0.88rem, 1.5vw, 1.02rem)", lineHeight: 1.9, color: "rgba(232,237,242,0.68)", maxWidth: "620px" }}
+          className="mt-5 md:mt-6"
+          style={{ fontSize: "clamp(0.9rem, 1.5vw, 1.04rem)", lineHeight: 1.85, color: "rgba(232,237,242,0.7)", maxWidth: "560px" }}
         >
-          <p>見積書、請求書、資料作成、メール返信、データ入力、情報検索。</p>
-          <p>社員が毎月繰り返している仕事の中には、AIやシステムに任せられる可能性がある業務が数多くあります。</p>
-        </motion.div>
-
-        <motion.div variants={reveal} className="mt-6 md:mt-7 max-w-xl">
-          <p className="text-white font-semibold" style={{ fontSize: "clamp(0.92rem, 1.6vw, 1.08rem)", lineHeight: 1.85 }}>
-            S3DOTは、AIツールを販売するだけの
-            <br className="sm:hidden" />
-            会社ではありません。
-          </p>
-          <p className="mt-2" style={{ fontSize: "clamp(0.88rem, 1.5vw, 1.02rem)", lineHeight: 1.85, color: "rgba(232,237,242,0.68)" }}>
-            現在の業務を確認し、削減できる作業を見つけ、実際に仕事で使える仕組みとして導入する会社です。
-          </p>
-        </motion.div>
+          S3DOTは、御社の業務を確認し、AIやシステムへ任せられる作業を見つけ、
+          実際に仕事で使える仕組みとして導入します。
+        </motion.p>
 
         <motion.p
           variants={reveal}
-          className="mt-8 md:mt-9 font-bold gradient-text"
+          className="mt-6 md:mt-7 font-bold gradient-text"
           style={{ fontSize: "clamp(1.15rem, 2.6vw, 1.6rem)" }}
         >
           削れる時間を、利益を生む時間へ。
         </motion.p>
 
-        <motion.div variants={reveal} className="mt-7 md:mt-9 w-full flex justify-center">
+        <motion.div variants={reveal} className="mt-6 md:mt-8 w-full flex justify-center">
           <LineCtaButton location="hero" className="w-full sm:w-auto" />
         </motion.div>
-        <motion.div variants={reveal} className="mt-4">
+        <motion.div variants={reveal} className="mt-3.5">
           <TrustNote />
         </motion.div>
 

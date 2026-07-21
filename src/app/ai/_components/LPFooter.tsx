@@ -3,8 +3,11 @@ import { SITE_URL } from "@/lib/site-metadata";
 
 export default function LPFooter() {
   return (
-    <footer className="bg-s3-bg" style={{ borderTop: "1px solid rgba(30,45,61,0.7)" }}>
-      <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-12">
+    <footer id="ai-footer" className="bg-s3-bg" style={{ borderTop: "1px solid rgba(30,45,61,0.7)" }}>
+      <div
+        className="max-w-[1200px] mx-auto px-6 pt-10 md:pt-12 md:pb-12"
+        style={{ paddingBottom: "max(2.5rem, calc(2.5rem + env(safe-area-inset-bottom)))" }}
+      >
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6 mb-6">
           <div className="flex flex-col items-center md:items-start gap-2.5">
             <a href={`${SITE_URL}/`} className="inline-flex items-center gap-2.5 group">

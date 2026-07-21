@@ -17,9 +17,14 @@ export default function LPHeader() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass border-b border-s3-border/60" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ${
+        scrolled ? "border-s3-border/60" : "border-transparent"
       }`}
+      style={{
+        background: "rgba(6,9,14,0.9)",
+        backdropFilter: "blur(14px)",
+        WebkitBackdropFilter: "blur(14px)",
+      }}
     >
       <div className="max-w-[1200px] mx-auto px-5 md:px-6 h-14 md:h-16 flex items-center justify-between">
         <a href={`${SITE_URL}/`} className="flex items-center gap-2 group" aria-label="S3DOT公式サイト">
@@ -30,7 +35,7 @@ export default function LPHeader() {
           <span className="hidden md:inline text-xs text-s3-dim ml-1">公式サイト</span>
         </a>
 
-        <LineCtaButton location="header" size="sm" label="無料AI診断" className="px-3.5 py-2 md:px-5 md:py-2.5 text-xs md:text-sm" />
+        <LineCtaButton location="header" size="sm" label="無料AI診断" pulse={false} className="px-3.5 py-2 md:px-5 md:py-2.5 text-xs md:text-sm" />
       </div>
     </header>
   );

@@ -5,23 +5,26 @@ import { ClipboardList } from "lucide-react";
 import LineCtaButton from "./LineCtaButton";
 import TrustNote, { FULL_LINES } from "./TrustNote";
 
-const items = [
-  "現在困っている業務",
-  "AI化、自動化できる可能性がある業務",
-  "削減できる作業時間の目安",
-  "人件費、外注費を減らせる可能性",
-  "優先して改善すべき業務",
-  "導入の難易度",
-  "活用できる既存ツール",
-  "専用開発が必要かどうか",
-  "導入する場合の費用感",
-  "最初に行うべきこと",
+const groups = [
+  {
+    label: "業務",
+    items: ["現在困っている業務", "AI化、自動化できる可能性がある業務", "優先して改善すべき業務"],
+  },
+  {
+    label: "効果",
+    items: ["削減できる作業時間の目安", "人件費、外注費を減らせる可能性"],
+  },
+  {
+    label: "導入方法",
+    items: ["導入の難易度", "活用できる既存ツール", "専用開発が必要かどうか", "導入する場合の費用感", "最初に行うべきこと"],
+  },
 ];
 
 export default function DiagnosisSection() {
   return (
     <section
-      className="relative py-16 md:py-24 overflow-hidden"
+      id="ai-diagnosis"
+      className="relative py-14 md:py-20 overflow-hidden"
       style={{ background: "linear-gradient(150deg, #0A0E1A 0%, #130F26 45%, #170F2C 100%)" }}
     >
       <div className="absolute inset-0 pointer-events-none">
@@ -59,15 +62,24 @@ export default function DiagnosisSection() {
           className="rounded-2xl px-6 py-7 md:px-10 md:py-9 mb-9 md:mb-11 text-left"
           style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(255,255,255,0.09)", backdropFilter: "blur(12px)" }}
         >
-          <p className="flex items-center gap-2 text-white font-semibold mb-5" style={{ fontSize: "0.92rem" }}>
+          <p className="flex items-center gap-2 text-white font-semibold mb-6" style={{ fontSize: "0.92rem" }}>
             <ClipboardList size={16} style={{ color: "#00C8FF" }} />
             診断で整理する内容
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2.5">
-            {items.map((item) => (
-              <div key={item} className="flex items-start gap-2">
-                <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ background: "#00C8FF" }} />
-                <span style={{ color: "rgba(232,237,242,0.8)", fontSize: "0.9rem" }}>{item}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-6">
+            {groups.map((group) => (
+              <div key={group.label}>
+                <p className="uppercase font-mono mb-2.5" style={{ fontSize: "0.66rem", letterSpacing: "0.15em", color: "rgba(0,200,255,0.7)" }}>
+                  {group.label}
+                </p>
+                <div className="flex flex-col gap-2">
+                  {group.items.map((item) => (
+                    <div key={item} className="flex items-start gap-2">
+                      <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ background: "#00C8FF" }} />
+                      <span style={{ color: "rgba(232,237,242,0.8)", fontSize: "0.87rem", lineHeight: 1.6 }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

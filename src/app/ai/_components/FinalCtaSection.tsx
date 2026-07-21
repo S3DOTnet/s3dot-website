@@ -6,7 +6,7 @@ import TrustNote, { FULL_LINES } from "./TrustNote";
 
 export default function FinalCtaSection() {
   return (
-    <section className="relative py-16 md:py-22 bg-s3-surface overflow-hidden section-grid noise-overlay">
+    <section id="ai-final-cta" className="relative py-14 md:py-20 bg-s3-surface overflow-hidden section-grid noise-overlay">
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg,transparent,rgba(6,199,85,0.25),transparent)" }} />
       <div className="absolute inset-0 pointer-events-none">
         <div style={{ position: "absolute", left: "50%", top: "30%", transform: "translateX(-50%)", width: 700, height: 400, background: "radial-gradient(ellipse, rgba(0,200,255,0.06) 0%, rgba(123,94,255,0.05) 50%, transparent 70%)", filter: "blur(80px)" }} />
@@ -33,7 +33,7 @@ export default function FinalCtaSection() {
         </motion.p>
 
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
-          <LineCtaButton location="final_cta" className="w-full sm:w-auto" />
+          <LineCtaButton location="final_cta" pulse={false} className="w-full sm:w-auto" />
           <div className="mt-5">
             <TrustNote lines={FULL_LINES} />
           </div>

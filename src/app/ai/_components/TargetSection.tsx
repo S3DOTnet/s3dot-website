@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { CheckSquare } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckSquare, ChevronDown } from "lucide-react";
 
 const targets = [
   "何から始めればいいか分からない",
@@ -17,7 +18,28 @@ const targets = [
   "AI導入の費用対効果が分からない",
 ];
 
+const VISIBLE_COUNT = 6;
+
+function TargetItem({ text, index }: { text: string; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -12 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.4, delay: (index % VISIBLE_COUNT) * 0.04 }}
+      className="flex items-start gap-2.5"
+    >
+      <CheckSquare size={15} className="shrink-0 mt-0.5" style={{ color: "#00E5A0" }} />
+      <span className="text-s3-muted text-sm leading-relaxed">{text}</span>
+    </motion.div>
+  );
+}
+
 export default function TargetSection() {
+  const [expanded, setExpanded] = useState(false);
+  const shown = targets.slice(0, VISIBLE_COUNT);
+  const rest = targets.slice(VISIBLE_COUNT);
+
   return (
     <section className="relative py-14 md:py-20 bg-s3-bg overflow-hidden">
       <div className="relative max-w-[820px] mx-auto px-6">
@@ -38,20 +60,43 @@ export default function TargetSection() {
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3.5 max-w-2xl mx-auto mb-10 md:mb-12">
-          {targets.map((t, i) => (
-            <motion.div
-              key={t}
-              initial={{ opacity: 0, x: -12 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.4, delay: i * 0.04 }}
-              className="flex items-start gap-2.5"
-            >
-              <CheckSquare size={15} className="shrink-0 mt-0.5" style={{ color: "#00E5A0" }} />
-              <span className="text-s3-muted text-sm leading-relaxed">{t}</span>
-            </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3.5 max-w-2xl mx-auto mb-4">
+          {shown.map((t, i) => (
+            <TargetItem key={t} text={t} index={i} />
           ))}
+        </div>
+
+        <AnimatePresence initial={false}>
+          {expanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{ overflow: "hidden" }}
+              className="max-w-2xl mx-auto"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3.5 pt-1">
+                {rest.map((t, i) => (
+                  <TargetItem key={t} text={t} index={i} />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="text-center mt-6 mb-10 md:mb-12">
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+            className="inline-flex items-center gap-1.5 text-s3-blue font-medium hover:brightness-125 transition-all"
+            style={{ fontSize: "0.85rem" }}
+          >
+            {expanded ? "閉じる" : "その他の該当例を見る"}
+            <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.25 }}>
+              <ChevronDown size={15} />
+            </motion.span>
+          </button>
         </div>
 
         <motion.p

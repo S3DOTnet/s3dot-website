@@ -5,7 +5,7 @@ import NetworkBackground from "./NetworkBackground";
 
 export default function ClosingSection() {
   return (
-    <section className="relative py-16 md:py-22 bg-s3-bg overflow-hidden">
+    <section className="relative py-14 md:py-20 bg-s3-bg overflow-hidden">
       <NetworkBackground opacity={0.28} />
       <div className="absolute inset-0 pointer-events-none">
         <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 800, height: 500, background: "radial-gradient(ellipse, rgba(0,200,255,0.06) 0%, rgba(123,94,255,0.05) 50%, transparent 70%)", filter: "blur(90px)" }} />

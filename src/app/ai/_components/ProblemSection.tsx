@@ -44,13 +44,16 @@ export default function ProblemSection() {
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
             className="text-s3-muted text-sm md:text-base max-w-lg mx-auto"
           >
+            見積書、請求書、資料作成、メール返信、データ入力、情報検索。
+            <br className="hidden sm:block" />
             多くの会社では、社員が能力を発揮する前に、繰り返し作業へ時間を取られています。
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3.5 max-w-2xl mx-auto mb-9 md:mb-11">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 max-w-2xl mx-auto mb-9 md:mb-11">
           {tasks.map((t, i) => {
             const Icon = t.icon;
+            const primary = i < 4;
             return (
               <motion.div
                 key={t.text}
@@ -60,8 +63,13 @@ export default function ProblemSection() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
                 className="flex items-start gap-2.5"
               >
-                <Icon size={15} className="shrink-0 mt-0.5" style={{ color: "#00C8FF" }} />
-                <span className="text-s3-muted text-sm leading-relaxed">{t.text}</span>
+                <Icon size={15} className="shrink-0 mt-0.5" style={{ color: primary ? "#00C8FF" : "rgba(0,200,255,0.5)" }} />
+                <span
+                  className="leading-relaxed"
+                  style={{ fontSize: primary ? "0.9rem" : "0.85rem", color: primary ? "#C7D2DC" : "rgba(143,164,184,0.75)" }}
+                >
+                  {t.text}
+                </span>
               </motion.div>
             );
           })}

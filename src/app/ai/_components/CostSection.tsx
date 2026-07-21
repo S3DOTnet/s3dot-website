@@ -70,7 +70,7 @@ export default function CostSection() {
 
         <motion.p
           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-center mb-10 md:mb-12" style={{ fontSize: "0.72rem", color: "#8892A0" }}
+          className="text-center mb-10 md:mb-12" style={{ fontSize: "0.76rem", color: "#5A6474" }}
         >
           ※ これは、1日8時間・月20営業日として計算した一例です。実際の削減効果は、業務内容や運用方法によって異なります。
         </motion.p>
