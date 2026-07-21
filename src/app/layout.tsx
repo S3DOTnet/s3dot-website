@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import JsonLd from "@/components/seo/JsonLd";
+import SafariReflowFix from "@/components/SafariReflowFix";
 import { SITE_URL, SOCIAL_IMAGE, X_ACCOUNT } from "@/lib/site-metadata";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
@@ -97,6 +98,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body className="min-h-full flex flex-col bg-s3-bg text-s3-text">
+        <SafariReflowFix />
         {children}
       </body>
       {/* ① Google Analytics 4（@next/third-parties、GA_ID 設定時のみ全ページで動作） */}
