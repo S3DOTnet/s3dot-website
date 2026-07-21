@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import "./globals.css";
 import JsonLd from "@/components/seo/JsonLd";
 import SafariReflowFix from "@/components/SafariReflowFix";
 import { SITE_URL, SOCIAL_IMAGE, X_ACCOUNT } from "@/lib/site-metadata";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
+/* ── Google Tag Manager コンテナID ──
+   全ページで読み込むため環境変数ではなく固定値として管理する */
+const GTM_ID = "GTM-P46TGDBV";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -94,10 +99,31 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`${inter.variable} h-full antialiased`}>
       <head>
+        {/* Google Tag Manager（beforeInteractive: 必ずhead内に挿入される） */}
+        <Script
+          id="gtm-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`,
+          }}
+        />
         {/* ⑤ 構造化データ（JSON-LD） */}
         <JsonLd />
       </head>
       <body className="min-h-full flex flex-col bg-s3-bg text-s3-text">
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <SafariReflowFix />
         {children}
       </body>
