@@ -1,174 +1,158 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { Reveal, SectionHead, SideLabel, TextLink } from "@/components/ui/design";
 
+/* 想定効果（Before → After のバーは、掲載している数値をそのまま比率にしたもの） */
 const cases = [
   {
     industry: "小売業",
     tag: "コンテンツ制作",
     title: "商品説明文500件を、\n1日で量産",
     body: "EC担当者が1件30分かけて書いていた商品説明文も、AIなら一括生成が可能。品質を保ちながらコストを抑え、売場展開のスピードアップが期待できます。",
-    metric: "×20 制作速度",
+    figure: "×20",
+    figureLabel: "制作速度",
     metricSub: "制作コスト 1/5",
-    color: "#00C8FF",
-    tag2: "Before → After",
+    before: { label: "1件 30分", w: 100 },
+    after:  { label: "一括生成", w: 5 },
   },
   {
     industry: "サービス業",
     tag: "業務自動化",
     title: "問い合わせ対応を\n24時間365日自動化",
     body: "よくある質問への返答をAIチャットボットが自動対応。深夜・休日も顧客対応を止めずに、スタッフの負担軽減と顧客満足度の向上が見込めます。",
-    metric: "24h 自動対応",
+    figure: "24h",
+    figureLabel: "自動対応",
     metricSub: "対応時間 1/3",
-    color: "#7B5EFF",
-    tag2: "Before → After",
+    before: { label: "対応時間", w: 100 },
+    after:  { label: "1/3", w: 33 },
   },
   {
     industry: "飲食・食品",
     tag: "SNS・集客",
     title: "SNS投稿を、\n週1作業でまるごと自動化",
     body: "月のSNS投稿計画・文章・画像キャプションをAIが一括生成。担当者の作業時間を大幅に減らしながら、投稿頻度アップによる集客効果が期待できます。",
-    metric: "月8h → 1h",
+    figure: "8h→1h",
+    figureLabel: "月の作業時間",
     metricSub: "投稿頻度 ×3",
-    color: "#00E5A0",
-    tag2: "Before → After",
+    before: { label: "月 8h", w: 100 },
+    after:  { label: "月 1h", w: 12.5 },
   },
   {
     industry: "士業・コンサル",
     tag: "業務効率化",
     title: "議事録・要約を\nその場で自動生成",
     body: "1時間の会議録音から議事録・アクションアイテム・要約を5分で自動生成。会議後の作業負担をなくし、本来の業務に集中できる時間を生み出せます。",
-    metric: "2h → 5分",
+    figure: "2h→5min",
+    figureLabel: "議事録作成",
     metricSub: "精度 向上",
-    color: "#00C8FF",
-    tag2: "Before → After",
+    before: { label: "2時間", w: 100 },
+    after:  { label: "5分", w: 4 },
   },
   {
     industry: "製造・物流",
     tag: "データ活用",
     title: "毎朝の集計レポートを\nゼロ工数で自動配信",
     body: "担当者が毎朝1時間かけていたデータ集計・レポート作成を自動化し、毎朝の自動配信も可能に。ヒューマンエラーの削減も見込めます。",
-    metric: "毎朝ゼロ工数",
+    figure: "0",
+    figureLabel: "毎朝の集計工数",
     metricSub: "ヒューマンエラー 0件",
-    color: "#7B5EFF",
-    tag2: "Before → After",
+    before: { label: "毎朝 1時間", w: 100 },
+    after:  { label: "ゼロ工数", w: 0 },
   },
   {
     industry: "建設・不動産",
     tag: "書類・提案",
     title: "提案書・見積書の\n下書きを即生成",
     body: "案件情報を入力するだけで、提案書の下書きをAIが生成。営業担当者は修正・確認するだけで完成でき、提案件数の増加が期待できます。",
-    metric: "提案件数 ×2",
+    figure: "×2",
+    figureLabel: "提案件数",
     metricSub: "作成時間 1/4",
-    color: "#00E5A0",
-    tag2: "Before → After",
+    before: { label: "作成時間", w: 100 },
+    after:  { label: "1/4", w: 25 },
   },
 ];
 
-export default function PickUpSection({ hideHeading = false }: { hideHeading?: boolean }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
+function BarRow({ label, w, accent }: { label: string; w: number; accent?: boolean }) {
   return (
-    <section className="relative py-16 md:py-28 bg-s3-surface overflow-hidden section-grid noise-overlay">
-      {/* BG — Green/Teal 右グロー (Serviceと差別化) */}
-      <div className="hidden sm:block" style={{ position:"absolute", right:"-5%", top:"30%", width:600, height:600, background:"radial-gradient(ellipse, rgba(0,229,160,0.06) 0%, rgba(0,229,160,0.012) 50%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
-      <div className="hidden sm:block" style={{ position:"absolute", left:"5%", bottom:"10%", width:500, height:500, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
-      {/* 上部アクセントライン */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background:"linear-gradient(90deg,transparent,rgba(0,229,160,0.28),transparent)" }} />
+    <div className="flex items-center gap-3 nx-code text-[10px] tracking-[0.1em]" style={{ color: accent ? "var(--nx-accent)" : "#8FA4B8" }}>
+      <span className="w-[46px] shrink-0">{label}</span>
+      <span className="flex-1 h-1.5 rounded-[3px] overflow-hidden" style={{ background: "rgba(140,205,255,0.08)" }}>
+        <i className="block h-full rounded-[3px]" style={{ width: `${Math.max(w, 1.5)}%`, background: accent ? "var(--nx-accent)" : "#4A6070" }} />
+      </span>
+    </div>
+  );
+}
 
-      <div className="relative max-w-[1200px] mx-auto px-6">
-        {/* Heading */}
+export default function PickUpSection({ hideHeading = false }: { hideHeading?: boolean }) {
+  return (
+    <section className="nx nx-grid relative py-20 md:py-32 bg-s3-bg overflow-hidden nx-sec-line">
+      {!hideHeading && <SideLabel text="SEC.04 — PICK UP" />}
+      <div className="relative max-w-[1248px] mx-auto px-5 md:px-6 xl:px-12">
         {!hideHeading && (
-          <div ref={ref} className="mb-10 md:mb-16 text-center">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
-            >
-              Pick Up
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-bold"
-              style={{ fontSize: "clamp(1.5rem, 7.5vw, 3rem)" }}
-            >
-              <span className="text-white inline-block">どんな業種でも、</span>
-              <span className="gradient-text inline-block">変えられることがある。</span>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-5 text-s3-muted text-lg max-w-xl mx-auto"
-            >
-              業種・規模に関係なく、<br className="sm:hidden" />AIでこんな「変化」が生み出せます。
-            </motion.p>
-          </div>
+          <SectionHead
+            num="04"
+            label="PICK UP"
+            title={<><span className="inline-block">どんな業種でも、</span><br /><span className="inline-block">変えられることがある。</span></>}
+            titleStyle={{ fontSize: "clamp(1.9rem, 4.6vw, 3.75rem)" }}
+            desc={<>業種・規模に関係なく、<br className="hidden md:inline" />AIでこんな「変化」が生み出せます。</>}
+            link={<TextLink href="/case">活用イメージ・事例を見る</TextLink>}
+          />
         )}
 
-        {/* 3×2 grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
           {cases.map((c, i) => (
-            <motion.div
+            <Reveal
+              as="article"
               key={c.title}
-              initial={{ opacity: 0, y: 44, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.55, delay: i * 0.08 }}
-              className="relative card-luxury card-shine rounded-xl overflow-hidden group cursor-default"
+              delay={i * 0.08}
+              className="nx-panel hover overflow-hidden p-[22px] md:p-[30px] flex flex-col gap-3.5 md:gap-5"
             >
-              {/* Top accent */}
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${c.color}, transparent)`, opacity: 0.7 }} />
+              {/* 透かし番号 */}
+              <span
+                className="absolute right-2.5 md:right-3.5 bottom-[-16px] md:bottom-[-22px] nx-tech font-bold leading-none pointer-events-none select-none"
+                style={{ fontSize: "clamp(5.5rem, 9vw, 8rem)", color: "transparent", WebkitTextStroke: "1px var(--nx-line)" }}
+                aria-hidden="true"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
 
-              <div className="p-6 flex flex-col gap-4 h-full">
-                {/* Header */}
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold" style={{ color: c.color, background: `${c.color}15`, border: `1px solid ${c.color}25` }}>
-                    {c.industry}
-                  </span>
-                  <span className="text-[11px] text-s3-dim">{c.tag}</span>
-                </div>
-
-                {/* Metric */}
-                <div>
-                  <p className="text-[10px] tracking-wide text-s3-dim mb-1">想定効果</p>
-                  <p className="text-xl font-bold font-mono" style={{ color: c.color }}>
-                    {c.metric}
-                  </p>
-                  <p className="text-xs text-s3-muted mt-0.5">{c.metricSub}</p>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-[15px] font-bold text-white leading-snug whitespace-pre-line">
-                  {c.title}
-                </h3>
-
-                {/* Body */}
-                <p className="text-sm text-s3-muted leading-relaxed flex-1">{c.body}</p>
-
+              <div className="nx-meta">
+                <span className="flex gap-2 tracking-normal" style={{ fontFamily: "var(--font-jp)" }}>
+                  <span className="px-2.5 py-1 rounded-[3px] text-[11px] md:text-xs font-bold" style={{ background: "var(--nx-accent)", color: "#080C10" }}>{c.industry}</span>
+                  <span className="px-2.5 py-1 rounded-[3px] text-[11px] md:text-xs text-s3-muted" style={{ border: "1px solid var(--nx-line)" }}>{c.tag}</span>
+                </span>
+                <span className="text-[10px]">CASE {String(i + 1).padStart(2, "0")} / 06</span>
               </div>
-            </motion.div>
+
+              {/* 数字 */}
+              <div className="py-4 md:py-5 flex justify-between items-end gap-3" style={{ borderTop: "1px solid var(--nx-line)", borderBottom: "1px solid var(--nx-line)" }}>
+                <div className="flex flex-col gap-1.5">
+                  <span className="nx-code text-[10px] md:text-[11px] tracking-[0.16em] text-s3-muted">想定効果 · {c.figureLabel}</span>
+                  <span className="nx-tech font-semibold leading-none tracking-[-0.03em] nx-glow" style={{ fontSize: "clamp(2.9rem, 4vw, 4rem)", color: "var(--nx-accent)" }}>{c.figure}</span>
+                </div>
+                <span className="text-xs md:text-[13px] font-bold px-2.5 py-1.5 rounded-[3px] whitespace-nowrap text-s3-text" style={{ border: "1px solid var(--nx-line)" }}>{c.metricSub}</span>
+              </div>
+
+              {/* Before → After */}
+              <div className="flex flex-col gap-2">
+                <BarRow label="BEFORE" w={c.before.w} />
+                <BarRow label="AFTER" w={c.after.w} accent />
+                <div className="flex justify-between text-xs text-s3-muted pl-[58px]">
+                  <span>{c.before.label}</span>
+                  <span className="font-bold text-s3-text">→ {c.after.label}</span>
+                </div>
+              </div>
+
+              <h3 className="text-lg md:text-[21px] font-black leading-[1.5] tracking-[-0.01em] text-s3-text whitespace-pre-line">{c.title}</h3>
+              <p className="text-[13px] md:text-sm leading-[1.95] text-s3-muted">{c.body}</p>
+            </Reveal>
           ))}
         </div>
 
-        {/* Note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-10 text-center text-xs text-s3-dim"
-        >
+        <p className="mt-6 text-xs text-s3-muted">
           ※ 掲載の内容はAI活用の想定効果イメージです。特定企業における実績ではありません。
-        </motion.p>
+        </p>
       </div>
-
-      <div className="section-divider mt-16 md:mt-32" />
     </section>
   );
 }

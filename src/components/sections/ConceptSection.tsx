@@ -1,124 +1,87 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Users, Sprout, Rocket } from "lucide-react";
+import { Corners, Reveal, SectionHead, SideLabel } from "@/components/ui/design";
 
 const values = [
   {
     number: "01",
-    Icon: Users,
+    key: "HONEST",
     title: "売らない。一緒に考える。",
     body: "S3DOTはAIを「売る」会社ではありません。あなたの課題を聞き、本当に必要かどうかから一緒に考えます。「導入しない」という結論も、誠実にお伝えします。",
-    color: "#00C8FF",
   },
   {
     number: "02",
-    Icon: Sprout,
+    key: "SMALL START",
     title: "小さく始めて、確かめる。",
     body: "大きな投資から始める必要はありません。効果が確認できる小さな一歩から。リスクを最小化しながら、実績を積み上げていきます。",
-    color: "#00E5A0",
   },
   {
     number: "03",
-    Icon: Rocket,
+    key: "COMMIT",
     title: "定着するまで、伴走する。",
     body: "導入して終わりではありません。現場で本当に使われるか、文化として根付くか。S3DOTはそこまでコミットします。",
-    color: "#7B5EFF",
   },
 ];
 
+/* サービス名の流れる帯（装飾） */
+const tickerItems = ["AI導入支援", "業務改善", "業務自動化", "AI制作", "専用AIシステム開発", "LINE連携", "チャットボット", "社内AI", "AI事務員"];
+
 export default function ConceptSection() {
-  const ref    = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="concept" className="relative py-16 md:py-28 bg-s3-bg overflow-hidden section-grid noise-overlay">
-      {/* BG — Electric Blue 中央グロー */}
-      <div className="hidden sm:block" style={{ position:"absolute", left:"50%", top:"40%", transform:"translate(-50%,-50%)", width:1000, height:700, background:"radial-gradient(ellipse, rgba(0,200,255,0.055) 0%, rgba(0,200,255,0.012) 45%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
-      {/* 上部アクセントライン */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background:"linear-gradient(90deg,transparent,rgba(0,200,255,0.25),transparent)" }} />
-
-      <div className="relative max-w-[1200px] mx-auto px-6">
-        {/* Heading */}
-        <div ref={ref} className="text-center mb-12 md:mb-20">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-5"
-          >
-            Concept
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold leading-tight"
-          >
-            <span className="text-white inline-block">AIを、</span>
-            <span className="gradient-text inline-block">もっと身近にする。</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 text-s3-muted text-lg max-w-2xl mx-auto leading-relaxed"
-          >
-            AIは難しくない。<br className="sm:hidden" />難しく考えすぎているだけ。
-            <br className="sm:hidden" /><br className="hidden md:block" />
-            S3DOTは、その「壁」を<br className="sm:hidden" />一緒に取り除くパートナーです。
-          </motion.p>
-        </div>
-
-        {/* Value cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          {values.map((v, i) => (
-            <motion.div
-              key={v.number}
-              initial={{ opacity: 0, y: 40, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: i * 0.14 }}
-              className="card-luxury card-shine rounded-xl p-5 md:p-8 flex flex-col gap-4 md:gap-5 group cursor-default"
-            >
-              {/* Number + Icon */}
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs tracking-widest" style={{ color: v.color }}>{v.number}</span>
-                {/* Lucideアイコン — 発光グラスボックス */}
-                <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center"
-                  style={{
-                    background: `radial-gradient(circle, ${v.color}22 0%, ${v.color}06 100%)`,
-                    border: `1px solid ${v.color}30`,
-                    boxShadow: `0 0 16px ${v.color}1E, inset 0 1px 0 rgba(255,255,255,0.07)`,
-                  }}
-                >
-                  <v.Icon
-                    size={19}
-                    style={{ color: v.color, filter: `drop-shadow(0 0 5px ${v.color}99)` }}
-                  />
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-xl font-bold text-white leading-snug">{v.title}</h3>
-
-              {/* Body */}
-              <p className="text-s3-muted text-sm leading-relaxed flex-1">{v.body}</p>
-
-              {/* Bottom line (hover) */}
-              <div
-                className="h-px w-0 group-hover:w-full transition-all duration-500 ease-out"
-                style={{ background: `linear-gradient(90deg, ${v.color}, transparent)` }}
-              />
-            </motion.div>
+    <>
+      {/* ── 流れる帯 ── */}
+      <div
+        className="nx h-14 md:h-[72px] overflow-hidden flex items-center"
+        style={{ borderTop: "1px solid var(--nx-line)", borderBottom: "1px solid var(--nx-line)", background: "rgba(8,12,16,0.85)" }}
+        aria-hidden="true"
+      >
+        <div className="nx-marquee nx-tech text-base md:text-[22px] font-semibold tracking-[0.06em] text-s3-muted pl-6 md:pl-10 gap-6 md:gap-10">
+          {[...tickerItems, ...tickerItems].map((t, i) => (
+            <span key={i} className="flex items-center gap-6 md:gap-10">
+              {t}
+              <i className="w-1.5 h-1.5 rotate-45" style={{ background: "var(--nx-accent)" }} />
+            </span>
           ))}
         </div>
-
       </div>
 
-      <div className="section-divider mt-16 md:mt-32" />
-    </section>
+      <section id="concept" className="nx nx-grid relative py-20 md:py-32 bg-s3-bg overflow-hidden">
+        <SideLabel text="SEC.01 — CONCEPT" />
+        <div className="relative max-w-[1248px] mx-auto px-5 md:px-6 xl:px-12">
+          <SectionHead
+            num="01"
+            label="CONCEPT"
+            title={<>AIを、<br />もっと<span style={{ color: "var(--nx-accent)" }}>身近</span>にする。</>}
+            desc={<>AIは難しくない。<br className="hidden md:inline" />難しく考えすぎているだけ。<br /><strong className="text-s3-text font-bold">S3DOTは、その「壁」を一緒に取り除くパートナーです。</strong></>}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5">
+            {values.map((v, i) => (
+              <Reveal
+                as="article"
+                key={v.number}
+                delay={i * 0.12}
+                className="nx-panel hover overflow-hidden p-6 md:p-9 flex flex-col gap-4 md:gap-[18px]"
+              >
+                <Corners />
+                <div className="nx-meta">
+                  <span>PROTOCOL</span>
+                  <span style={{ color: "var(--nx-accent)" }}>{v.key}</span>
+                </div>
+                <span
+                  className="nx-tech font-semibold leading-none tracking-[-0.04em]"
+                  style={{ fontSize: "clamp(3.25rem, 6vw, 6rem)", color: "transparent", WebkitTextStroke: "1px var(--nx-accent)" }}
+                >
+                  {v.number}
+                </span>
+                <h3 className="text-xl md:text-[26px] font-black tracking-[-0.02em] text-s3-text">{v.title}</h3>
+                <p className="text-[13px] md:text-sm leading-[2] text-s3-muted">{v.body}</p>
+                <i className="nx-bar" style={{ animationDelay: `${-1.3 * (i + 1)}s` }} aria-hidden="true" />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

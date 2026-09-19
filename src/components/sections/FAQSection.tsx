@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
+import { Btn, Reveal, SectionTag, SideLabel, TextLink } from "@/components/ui/design";
 
 /* ── FAQ データ ─────────────────────────────── */
 const faqs = [
@@ -75,65 +76,33 @@ function FAQItem({
   isOpen: boolean;
   onToggle: () => void;
 }) {
+  const shouldReduceMotion = useReducedMotion();
   const questionId = `faq-question-${index}`;
   const answerId = `faq-answer-${index}`;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5, delay: index * 0.07 }}
-      className="rounded-xl overflow-hidden transition-all duration-300"
-      style={{
-        background: isOpen
-          ? "rgba(0,200,255,0.04)"
-          : "rgba(15,21,25,0.5)",
-        border: isOpen
-          ? "1px solid rgba(0,200,255,0.22)"
-          : "1px solid rgba(30,45,61,0.8)",
-        boxShadow: isOpen
-          ? "0 0 28px rgba(0,200,255,0.06), inset 0 1px 0 rgba(255,255,255,0.05)"
-          : "none",
-        backdropFilter: "blur(12px)",
-      }}
-    >
+    <Reveal as="li" delay={index * 0.06} className="nx-panel overflow-hidden list-none">
+      {isOpen && (
+        <span className="absolute left-0 top-0 bottom-0 w-0.5" style={{ background: "var(--nx-accent)", boxShadow: "0 0 14px var(--nx-accent-glow)" }} aria-hidden="true" />
+      )}
+
       {/* Question */}
       <button
         id={questionId}
         onClick={onToggle}
-        className="w-full flex items-center justify-between gap-4 px-4 py-4 md:px-6 md:py-5 text-left group"
+        className="w-full min-h-16 md:min-h-[72px] px-4 py-3.5 md:px-6 md:py-4 flex items-center gap-3.5 md:gap-[18px] text-left transition-colors duration-200 hover:bg-[rgba(0,200,255,0.05)]"
         aria-expanded={isOpen}
         aria-controls={answerId}
       >
-        <div className="flex items-start gap-3 flex-1 min-w-0">
-          <span
-            className="shrink-0 text-xs font-mono font-bold tracking-widest mt-0.5"
-            style={{ color: "#00C8FF" }}
-          >
-            Q.
-          </span>
-          <span
-            className="text-[0.92rem] font-semibold leading-snug transition-colors duration-200"
-            style={{ color: isOpen ? "#E8EDF2" : "rgba(232,237,242,0.85)" }}
-          >
-            {faq.q}
-          </span>
-        </div>
-
+        <span className="shrink-0 nx-tech text-[15px] font-semibold" style={{ color: "var(--nx-accent)" }}>
+          Q.{String(index + 1).padStart(2, "0")}
+        </span>
+        <span className="flex-1 text-[15px] md:text-lg font-bold leading-[1.5] text-s3-text">{faq.q}</span>
         <span
-          className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300"
-          style={{
-            background: isOpen ? "rgba(0,200,255,0.15)" : "rgba(30,45,61,0.9)",
-            border: isOpen
-              ? "1px solid rgba(0,200,255,0.35)"
-              : "1px solid rgba(30,45,61,0.8)",
-          }}
+          className="shrink-0 w-[34px] h-[34px] rounded-full flex items-center justify-center transition-all duration-300"
+          style={{ border: "1px solid var(--nx-line)", color: isOpen ? "var(--nx-accent)" : "#E8EDF2" }}
         >
-          {isOpen
-            ? <Minus size={12} style={{ color: "#00C8FF" }} />
-            : <Plus  size={12} className="text-s3-muted group-hover:text-s3-blue transition-colors" />
-          }
+          {isOpen ? <Minus size={14} strokeWidth={2} /> : <Plus size={14} strokeWidth={2} />}
         </span>
       </button>
 
@@ -145,46 +114,26 @@ function FAQItem({
             id={answerId}
             role="region"
             aria-labelledby={questionId}
-            initial={{ height: 0, opacity: 0 }}
+            initial={shouldReduceMotion ? false : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
+            exit={shouldReduceMotion ? undefined : { height: 0, opacity: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{ overflow: "hidden" }}
           >
-            <div className="px-4 pb-4 md:px-6 md:pb-6">
-              <div
-                className="mb-5 h-px"
-                style={{
-                  background: "linear-gradient(90deg, rgba(0,200,255,0.3), transparent)",
-                }}
-              />
-
-              {/* タグ（Q5のみ） */}
-              {faq.tags && (
-                <div className="flex flex-wrap gap-2 mb-5 ml-5 md:ml-6">
-                  {faq.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-0.5 rounded-full text-[11px] font-medium"
-                      style={{
-                        color: "#00C8FF",
-                        background: "rgba(0,200,255,0.10)",
-                        border: "1px solid rgba(0,200,255,0.22)",
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div className="ml-5 md:ml-6 space-y-3">
+            <div className="flex gap-3.5 md:gap-[18px] px-4 pb-4 md:px-6 md:pb-6">
+              <span className="shrink-0 w-[38px] nx-tech text-[15px] font-semibold" style={{ color: "var(--nx-ok)" }}>A.</span>
+              <div className="min-w-0 flex-1">
+                {faq.tags && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {faq.tags.map((tag) => (
+                      <span key={tag} className="nx-chip" style={{ color: "var(--nx-accent)", borderColor: "var(--nx-accent-line)", background: "var(--nx-accent-soft)" }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 {faq.a.map((line, i) => (
-                  <p
-                    key={i}
-                    className="text-sm leading-[1.9]"
-                    style={{ color: "rgba(143,164,184,0.95)" }}
-                  >
+                  <p key={i} className="text-[13px] md:text-[15px] leading-[2]" style={{ color: "var(--nx-soft)" }}>
                     {line}
                   </p>
                 ))}
@@ -193,63 +142,42 @@ function FAQItem({
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </Reveal>
   );
 }
 
 /* ── Main ─────────────────────────────────────── */
 export default function FAQSection({ hideHeading = false }: { hideHeading?: boolean }) {
-  const ref    = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
   const [openIdx, setOpenIdx] = useState<number | null>(null);
-
   const toggle = (i: number) => setOpenIdx(openIdx === i ? null : i);
 
   return (
-    <section
-      id="faq"
-      className="relative py-16 md:py-28 bg-s3-surface overflow-hidden section-grid noise-overlay"
-    >
-      {/* 上部アクセントライン */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background:
-            "linear-gradient(90deg,transparent,rgba(0,200,255,0.20),transparent)",
-        }}
-      />
+    <section id="faq" className="nx nx-grid relative py-20 md:py-32 bg-s3-bg overflow-hidden nx-sec-line">
+      {!hideHeading && <SideLabel text="SEC.07 — FAQ" />}
+      <div className={`relative mx-auto px-5 md:px-6 xl:px-12 ${hideHeading ? "max-w-[900px]" : "max-w-[1248px] grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-6 items-start"}`}>
 
-      {/* BG glow */}
-      <div className="hidden sm:block" style={{ position:"absolute", right:"-5%", top:"25%", width:500, height:500, background:"radial-gradient(ellipse, rgba(123,94,255,0.055) 0%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
-      <div className="hidden sm:block" style={{ position:"absolute", left:"-5%", bottom:"20%", width:400, height:400, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
-
-      <div className="relative max-w-[760px] mx-auto px-6">
-
-        {/* ── Heading ── */}
+        {/* ── 左: 見出し ── */}
         {!hideHeading && (
-          <div ref={ref} className="mb-10 md:mb-14 text-center">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
-            >
-              FAQ
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl md:text-5xl font-bold"
-            >
-              <span className="text-white">よくある</span>
-              <span className="gradient-text">ご質問</span>
-            </motion.h2>
+          <div className="lg:col-span-4 flex flex-col gap-5 md:gap-7">
+            <SectionTag num="07" label="FAQ" />
+            <h2 className="font-black leading-[1.18] tracking-[-0.04em] text-s3-text" style={{ fontSize: "clamp(2.1rem, 4.4vw, 3.75rem)" }}>
+              よくある<br className="hidden lg:inline" />ご質問
+            </h2>
+            <p className="text-sm md:text-base leading-[2] text-s3-muted">
+              AIは難しいものではありません。<br />まずは相談することから。
+            </p>
+            <p className="text-sm md:text-base leading-[2] text-s3-muted">
+              <strong className="text-s3-text font-bold">AIを、もっと身近に。</strong><br />それがS3DOTの想いです。
+            </p>
+            <div className="flex flex-col gap-2 w-full lg:max-w-[320px] mt-1">
+              <Btn href="/contact#contact-form">無料相談はこちら</Btn>
+              <TextLink href="/faq">よくある質問をすべて見る</TextLink>
+            </div>
           </div>
         )}
 
-        {/* ── Accordion ── */}
-        <div className="space-y-2.5">
+        {/* ── 右: アコーディオン ── */}
+        <ul className={`flex flex-col gap-2.5 ${hideHeading ? "" : "lg:col-start-6 lg:col-span-7"}`}>
           {faqs.map((faq, i) => (
             <FAQItem
               key={i}
@@ -259,44 +187,21 @@ export default function FAQSection({ hideHeading = false }: { hideHeading?: bool
               onToggle={() => toggle(i)}
             />
           ))}
-        </div>
+        </ul>
 
-        {/* ── Brand closing message ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mt-16 text-center"
-        >
-          <div
-            className="mx-auto mb-8 h-px max-w-xs"
-            style={{
-              background:
-                "linear-gradient(90deg, transparent, rgba(0,200,255,0.25), transparent)",
-            }}
-          />
-          <p className="text-xs text-s3-muted leading-[2.2] tracking-wide">
-            AIは難しいものではありません。<br />
-            まずは相談することから。
-          </p>
-          <p className="mt-3 text-sm font-semibold" style={{ color: "#00C8FF" }}>
-            AIを、もっと身近に。
-          </p>
-          <p className="mt-1 text-xs text-s3-dim tracking-wide">
-            それがS3DOTの想いです。
-          </p>
-
-          <a
-            href="/contact#contact-form"
-            className="inline-flex items-center gap-2 mt-8 px-7 py-3 rounded-lg text-sm font-semibold text-s3-blue border border-s3-blue/35 hover:border-s3-blue/65 hover:bg-s3-blue/5 transition-all duration-200 tracking-wide"
-          >
-            無料相談はこちら →
-          </a>
-        </motion.div>
+        {/* 下層ページ（/faq）用の締め */}
+        {hideHeading && (
+          <div className="mt-12 md:mt-16 flex flex-col items-center gap-4 text-center">
+            <p className="text-sm md:text-base leading-[2] text-s3-muted">
+              AIは難しいものではありません。まずは相談することから。<br />
+              <strong className="text-s3-text font-bold">AIを、もっと身近に。</strong>それがS3DOTの想いです。
+            </p>
+            <div className="w-full sm:w-[320px]">
+              <Btn href="/contact#contact-form">無料相談はこちら</Btn>
+            </div>
+          </div>
+        )}
       </div>
-
-      <div className="section-divider mt-14 md:mt-28" />
     </section>
   );
 }

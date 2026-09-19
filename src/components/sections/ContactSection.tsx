@@ -1,54 +1,47 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { MessageSquare, Mail, ArrowRight } from "lucide-react";
 import ContactForm from "@/components/sections/ContactForm";
-
-const LineIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
-  </svg>
-);
+import { Btn, Corners, FloorGrid, Gyro, LineIcon, Reveal, Ring, SectionTag, SideLabel, LINE_URL } from "@/components/ui/design";
 
 const MAIL_HREF = `mailto:contact@s3dot.net?subject=${encodeURIComponent("【S3DOT】無料相談・お問い合わせ")}&body=${encodeURIComponent("お名前：\n会社名・屋号：\n\nご相談内容：\nAI導入・業務改善・ホームページ制作・LINE連携・その他\n\n現在お困りのこと：\n\nご希望の内容：\n相談したい・費用を知りたい・導入を検討している\n\nご希望の連絡方法：\nメール・電話・LINE\n\nその他：")}`;
 
 const options = [
   {
     icon: MessageSquare,
+    code: "FORM",
     label: "無料相談（フォーム）",
     desc: "まずはお気軽にどうぞ。",
     cta: "相談フォームへ",
-    color: "#00C8FF",
     isLine: false,
     href: "#contact-form",
   },
   {
     icon: Mail,
+    code: "MAIL",
     label: "メールで問い合わせ",
     desc: "具体的なご要望があればメールでお送りください。",
     cta: "メールを送る",
-    color: "#7B5EFF",
     isLine: false,
     href: MAIL_HREF,
   },
   {
     icon: null,
+    code: "LINE",
     label: "公式LINEで相談",
     desc: "LINEで気軽にご相談ください。スマホからでも簡単です。",
     cta: "LINEで相談する",
-    color: "#06C755",
     isLine: true,
-    href: "https://line.me/R/ti/p/@377ryvgd",
+    href: LINE_URL,
   },
 ];
 
 export default function ContactSection({ hideIntro = false }: { hideIntro?: boolean }) {
-  const ref    = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
   const formContainerRef = useRef<HTMLDivElement>(null);
   const hasCorrectedInitialHashScroll = useRef(false);
 
+  /* /contact#contact-form で直接開いたとき、固定ヘッダー分を考慮してフォーム位置へ補正する（既存の挙動を維持） */
   useEffect(() => {
     if (
       !hideIntro ||
@@ -137,227 +130,112 @@ export default function ContactSection({ hideIntro = false }: { hideIntro?: bool
   }, [hideIntro]);
 
   return (
-    <section id="contact" className="relative py-16 md:py-28 bg-s3-bg overflow-hidden section-grid noise-overlay">
-      {/* Aurora */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="hidden sm:block" style={{ position:"absolute", width:"80vw", height:"70vh", top:"-20%", left:"10%", background:"radial-gradient(ellipse at center, rgba(0,200,255,0.08) 0%, rgba(0,200,255,0.022) 45%, transparent 70%)", filter:"blur(60px)", animation:"aurora-drift 22s ease-in-out infinite" }} />
-        <div className="hidden sm:block" style={{ position:"absolute", width:"60vw", height:"50vh", bottom:"-10%", right:"5%", background:"radial-gradient(ellipse at center, rgba(123,94,255,0.06) 0%, transparent 70%)", filter:"blur(80px)", animation:"aurora-drift 28s ease-in-out infinite reverse", animationDelay:"-10s" }} />
-      </div>
-      <div className="absolute inset-0 hero-grid" style={{ opacity: 0.2 }} />
+    <section id="contact" className="nx nx-grid relative py-20 md:py-32 bg-s3-bg overflow-hidden nx-sec-line">
+      {!hideIntro && (
+        <>
+          <SideLabel text="SEC.08 — CONTACT" />
+          {/* 背景: 計器リング + ジャイロコア + フロアグリッド */}
+          <div className="hidden md:block absolute left-1/2 top-[-520px] -ml-[500px] w-[1000px] h-[1000px] opacity-50 pointer-events-none" aria-hidden="true">
+            <Ring d={1000} dash="1 9" cls="nx-spin" dur={140} accent />
+            <Ring d={860} dash="60 14" cls="nx-spinr" dur={160} />
+            <i className="absolute left-1/2 top-1/2 w-[900px] h-[900px] -ml-[450px] -mt-[450px] rounded-full" style={{ background: "radial-gradient(circle, var(--nx-accent-soft) 0%, transparent 65%)" }} />
+          </div>
+          <div className="absolute md:left-1/2 md:top-10 md:-ml-[260px] right-[-60px] top-16 md:right-auto opacity-50 md:opacity-55 pointer-events-none" aria-hidden="true">
+            <div className="md:hidden"><Gyro size={260} /></div>
+            <div className="hidden md:block"><Gyro size={520} /></div>
+          </div>
+          <FloorGrid low />
+        </>
+      )}
 
-      <div className="relative max-w-[1200px] mx-auto px-6">
+      <div className="relative max-w-[1248px] mx-auto px-5 md:px-6 xl:px-12">
 
-        {/* ── ① 見出し ── */}
+        {/* ── ① 見出し + CTA ── */}
         {!hideIntro && (
-          <div ref={ref} className="text-center mb-12 md:mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="mb-7 flex justify-center"
+          <div className="flex flex-col items-start md:items-center md:text-center gap-5 md:gap-8">
+            <SectionTag num="08" label="CONTACT" />
+            <Reveal
+              as="h2"
+              className="font-black leading-[1.15] tracking-[-0.05em] text-s3-text"
+              style={{ fontSize: "clamp(2.5rem, 6.4vw, 5.75rem)", fontFeatureSettings: '"palt"' }}
             >
-              <span
-                className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs tracking-[0.22em] font-medium text-s3-blue uppercase"
-                style={{ background: "rgba(0,200,255,0.07)", border: "1px solid rgba(0,200,255,0.18)" }}
-              >
-                Contact
-              </span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-black tracking-[-0.025em] leading-[1.2] mb-6"
-              style={{ fontSize: "clamp(1.75rem, 5.5vw, 4.8rem)", fontFeatureSettings: '"palt"' }}
-            >
-              <span className="text-white">「これもAIでできますか？」</span>
-            </motion.h2>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mb-12 max-w-lg mx-auto"
-            >
-              <p
-                className="font-medium mb-3"
-                style={{ fontSize: "clamp(1rem, 1.8vw, 1.1rem)", color: "rgba(232,237,242,0.75)" }}
-              >
-                その一言から始まるご相談が、一番多いです。
-              </p>
-              <p
-                style={{ fontSize: "clamp(0.9rem, 1.6vw, 1rem)", color: "rgba(143,164,184,0.9)", lineHeight: "1.85" }}
-              >
-                「AI導入について相談する」「業務改善について相談する」だけでも大丈夫。<br />AIに詳しくなくても、まずはお気軽にご相談ください。
-              </p>
-            </motion.div>
-
-            {/* ── ② CTAボタン ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              {/* Primary → フォームへスクロール */}
-              <a
-                href="#contact-form"
-                className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white overflow-hidden transition-all duration-300 hover:scale-[1.04] hover:brightness-115 w-full sm:w-auto py-3 sm:py-[1.1rem] px-7 sm:px-12"
-                style={{
-                  fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
-                  letterSpacing: "0.03em",
-                  background: "linear-gradient(90deg, #00C8FF 0%, #7B5EFF 100%)",
-                  boxShadow:
-                    "0 0 28px rgba(0,200,255,0.50)," +
-                    "0 0 70px rgba(0,200,255,0.20)," +
-                    "0 0 140px rgba(123,94,255,0.15)," +
-                    "0 8px 28px rgba(0,0,0,0.40)",
-                }}
-              >
-                <span className="relative z-10">まずは無料で相談する</span>
-                <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
-              </a>
-
-              {/* Secondary — LINE */}
-              <a
-                href="https://line.me/R/ti/p/@377ryvgd"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl font-bold text-white transition-all duration-200 hover:brightness-110 hover:scale-[1.02] w-full sm:w-auto py-3 sm:py-[1.1rem] px-7 sm:px-12"
-                style={{
-                  fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
-                  letterSpacing: "0.02em",
-                  background: "linear-gradient(90deg, #06C755 0%, #059C46 100%)",
-                  boxShadow: "0 0 20px rgba(6,199,85,0.30), 0 4px 16px rgba(0,0,0,0.3)",
-                }}
-              >
-                <LineIcon />
-                公式LINEで相談する
-              </a>
-            </motion.div>
-
-            <p className="mt-5 text-xs text-s3-dim tracking-wide">
-              相談は無料です。
+              「これもAIで<br />
+              <span className="nx-glow" style={{ color: "var(--nx-accent)" }}>できますか？</span>」
+            </Reveal>
+            <p className="text-sm md:text-[17px] leading-[2] text-s3-muted">
+              その一言から始まるご相談が、一番多いです。<br className="hidden md:inline" />
+              「AI導入について相談する」「業務改善について相談する」だけでも大丈夫。<br className="hidden md:inline" />
+              AIに詳しくなくても、まずはお気軽にご相談ください。
             </p>
+            <div className="w-full flex flex-col md:flex-row md:items-center md:justify-center gap-3 md:gap-3.5">
+              <div className="w-full md:w-[300px]">
+                <Btn href="#contact-form">まずは無料で相談する</Btn>
+              </div>
+              <div className="w-full md:w-[270px]">
+                <Btn href={LINE_URL} variant="line">公式LINEで相談する</Btn>
+              </div>
+              <span className="nx-code text-xs md:pl-2.5" style={{ color: "var(--nx-ok)" }}>● 相談は無料です。</span>
+            </div>
           </div>
         )}
 
-        {/* ── ③ Contactカード ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 max-w-3xl mx-auto">
+        {/* ── ② 相談方法カード ── */}
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-2.5 md:gap-5 ${hideIntro ? "" : "mt-10 md:mt-16"}`}>
           {options.map((opt, i) => {
             const Icon = opt.icon;
             return (
               /* native <a> でリンクを保証 */
-              <a
+              <Reveal
+                as="a"
                 key={opt.label}
                 href={opt.href}
-                className="group block"
                 {...(opt.isLine ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                delay={i * 0.08}
+                className="nx-panel hover flex flex-row md:flex-col items-center md:items-stretch gap-4 md:gap-3 p-5 md:p-[30px] text-s3-text no-underline"
               >
-                <motion.div
-                  initial={{ opacity: 0, y: 32, scale: 0.97 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.55, delay: i * 0.1 }}
-                  className="card-luxury card-shine rounded-xl flex flex-col gap-4 md:gap-5 transition-all duration-300 hover:-translate-y-1 h-full p-5 md:p-7"
-                  style={{
-                    borderColor: i === 0 ? `${opt.color}28` : undefined,
-                    boxShadow: i === 0
-                      ? `0 0 28px ${opt.color}10, inset 0 1px 0 rgba(255,255,255,0.07)`
-                      : undefined,
-                  }}
+                <div className="nx-meta shrink-0 md:shrink">
+                  {opt.isLine
+                    ? <span style={{ color: "#06C755" }}><LineIcon size={26} /></span>
+                    : Icon && <Icon size={26} strokeWidth={1.4} style={{ color: "var(--nx-accent)" }} />
+                  }
+                  <span className="hidden md:inline">{opt.code}</span>
+                </div>
+                <div className="flex-1 min-w-0 flex flex-col gap-1 md:gap-3 md:mt-1.5">
+                  <span className="text-base md:text-[21px] font-black">{opt.label}</span>
+                  <span className="text-xs md:text-sm leading-[1.7] md:leading-[1.8] text-s3-muted">{opt.desc}</span>
+                </div>
+                <span
+                  className="shrink-0 md:mt-1.5 md:pt-4 flex items-center justify-between gap-2 text-[15px] font-bold"
+                  style={{ color: opt.isLine ? "#06C755" : "var(--nx-accent)" }}
                 >
-                  {/* アイコン */}
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                    style={{
-                      background: `radial-gradient(circle, ${opt.color}22 0%, ${opt.color}08 100%)`,
-                      border: `1px solid ${opt.color}30`,
-                      boxShadow: `0 0 16px ${opt.color}1C, inset 0 1px 0 rgba(255,255,255,0.07)`,
-                    }}
-                  >
-                    {opt.isLine
-                      ? <span style={{ color: opt.color }}><LineIcon /></span>
-                      : Icon && <Icon size={20} style={{ color: opt.color, filter: `drop-shadow(0 0 5px ${opt.color}cc)` }} />
-                    }
-                  </div>
-
-                  {/* テキスト */}
-                  <div className="flex-1">
-                    <p
-                      className="font-bold text-white mb-2 leading-snug"
-                      style={{ fontSize: "0.95rem", letterSpacing: "0.01em" }}
-                    >
-                      {opt.label}
-                    </p>
-                    <p
-                      className="leading-relaxed"
-                      style={{ fontSize: "0.78rem", color: "rgba(143,164,184,0.9)" }}
-                    >
-                      {opt.desc}
-                    </p>
-                  </div>
-
-                  {/* CTA テキスト */}
-                  <span
-                    className="text-xs font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-200"
-                    style={{ color: opt.color }}
-                  >
-                    {opt.cta}
-                    <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform duration-200" />
-                  </span>
-                </motion.div>
-              </a>
+                  <span className="hidden md:inline">{opt.cta}</span>
+                  <ArrowRight size={18} />
+                </span>
+              </Reveal>
             );
           })}
         </div>
 
-        {/* ── ④ 無料相談フォーム ── */}
-        <motion.div
+        {/* ── ③ 無料相談フォーム ── */}
+        <Reveal
           ref={formContainerRef}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-16 md:mt-24 max-w-2xl mx-auto"
+          delay={0.1}
+          className="relative mt-10 md:mt-16 rounded-md"
+          style={{ border: "1px solid var(--nx-line)", background: "rgba(8,12,20,0.88)", padding: "clamp(1.75rem, 5vw, 4rem) clamp(1.25rem, 6vw, 5rem)" }}
         >
-          {/* セクションヘッダー */}
-          <div className="text-center mb-10">
-            <div
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs tracking-[0.22em] font-medium text-s3-blue uppercase mb-5"
-              style={{ background: "rgba(0,200,255,0.07)", border: "1px solid rgba(0,200,255,0.18)" }}
-            >
-              Free Consultation
+          <Corners />
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3.5 md:gap-10 mb-8 md:mb-11">
+            <div className="flex flex-col gap-4 md:gap-5">
+              <SectionTag num="09" label="FREE CONSULTATION" />
+              <h3 className="font-black tracking-[-0.03em] text-s3-text" style={{ fontSize: "clamp(1.75rem, 3.4vw, 3rem)" }}>無料相談フォーム</h3>
             </div>
-            <h3
-              className="font-bold text-white mb-3"
-              style={{ fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)" }}
-            >
-              無料相談フォーム
-            </h3>
-            <p className="text-s3-muted text-sm leading-relaxed">
-              内容を確認後、原則2営業日以内にご連絡いたします。
+            <p className="text-[13px] md:text-[15px] leading-[1.9] text-s3-muted md:text-right">
+              内容を確認後、<br className="hidden md:inline" />原則2営業日以内にご連絡いたします。
             </p>
           </div>
-
-          {/* フォーム本体 */}
-          <div
-            className="rounded-2xl"
-            style={{
-              background: "rgba(15,21,25,0.6)",
-              border: "1px solid rgba(30,45,61,0.8)",
-              backdropFilter: "blur(20px)",
-              boxShadow: "0 0 0 1px rgba(0,200,255,0.04), 0 24px 80px rgba(0,0,0,0.4), 0 0 60px rgba(0,200,255,0.04)",
-              padding: "clamp(1.5rem, 4vw, 2.5rem)",
-            }}
-          >
-            <ContactForm />
-          </div>
-        </motion.div>
+          <ContactForm />
+        </Reveal>
       </div>
-
-      <div className="section-divider mt-14 md:mt-28" />
     </section>
   );
 }

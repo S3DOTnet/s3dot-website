@@ -5,6 +5,7 @@ import Link from "next/link";
 import TransparentLogo from "@/components/ui/TransparentLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Arrow, LineIcon, LINE_URL } from "@/components/ui/design";
 
 const navLinks = [
   { href: "/service", label: "サービス" },
@@ -14,7 +15,6 @@ const navLinks = [
   { href: "/company", label: "会社情報" },
 ];
 
-const LINE_URL = "https://line.me/R/ti/p/@377ryvgd";
 const MOBILE_MENU_ID = "mobile-navigation";
 
 export default function Header() {
@@ -106,38 +106,37 @@ export default function Header() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          menuOpen
-            ? "bg-s3-bg border-b border-s3-border/60"
-            : scrolled
-            ? "glass border-b border-s3-border/60"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
+      {/* 入場アニメーションは CSS（.nx-drop）。JS が動かなくてもヘッダーは表示される */}
+      <header className="nx nx-drop fixed top-0 left-0 right-0 z-50 px-4 pt-3 md:px-6 md:pt-4">
+        {/* 浮かせた計器パネル風のバー */}
+        <div
+          className="max-w-[1248px] mx-auto h-16 lg:h-[72px] px-3 lg:px-3 lg:pl-6 flex items-center justify-between rounded-md transition-all duration-300"
+          style={{
+            border: "1px solid var(--nx-line)",
+            background: menuOpen ? "#080C10" : scrolled ? "rgba(8,12,16,0.88)" : "rgba(8,12,16,0.65)",
+            backdropFilter: "blur(14px)",
+            WebkitBackdropFilter: "blur(14px)",
+          }}
+        >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-3 group pl-1">
             <TransparentLogo
               src="/images/logo.png"
               alt="S3DOT"
-              className="w-10 h-10 object-contain"
+              className="w-9 h-9 lg:w-10 lg:h-10 object-contain"
             />
-            <span className="text-[15px] font-semibold tracking-wider text-s3-text group-hover:text-s3-blue transition-colors">
+            <span className="nx-tech text-[15px] lg:text-[17px] font-bold tracking-[0.26em] text-s3-text group-hover:text-s3-blue transition-colors">
               S3DOT
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-9" aria-label="メイン">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-s3-muted hover:text-s3-blue transition-colors tracking-wide whitespace-nowrap"
+                className="text-sm text-s3-muted hover:text-s3-text transition-colors whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -145,17 +144,28 @@ export default function Header() {
           </nav>
 
           {/* CTA + Hamburger */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2.5">
+            <a
+              href={LINE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nx-btn nx-btn-g sm hidden lg:inline-flex"
+            >
+              LINE相談
+            </a>
             <Link
               href="/contact#contact-form"
-              className="hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded text-sm font-semibold text-white gradient-cta hover:brightness-110 transition-all glow-blue whitespace-nowrap"
+              className="nx-btn nx-btn-p sm hidden lg:inline-flex"
+              style={{ boxShadow: "0 0 24px var(--nx-accent-glow)" }}
             >
               無料相談
+              <Arrow size={14} />
             </Link>
             <button
               ref={menuButtonRef}
               onClick={() => setMenuOpen((open) => !open)}
-              className="lg:hidden p-3 text-s3-muted hover:text-s3-blue transition-colors"
+              className="lg:hidden w-11 h-11 flex items-center justify-center rounded-md text-s3-text hover:text-s3-blue transition-colors"
+              style={{ border: "1px solid var(--nx-line)" }}
               aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"}
               aria-expanded={menuOpen}
               aria-controls={MOBILE_MENU_ID}
@@ -164,7 +174,7 @@ export default function Header() {
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -179,60 +189,73 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-16 bottom-0 z-[60] bg-s3-bg lg:hidden"
+            className="nx fixed inset-x-0 top-[76px] bottom-0 z-[60] bg-s3-bg lg:hidden"
           >
-            <button
-              data-menu-close
-              onClick={() => setMenuOpen(false)}
-              className="absolute -top-11 right-6 p-2 text-s3-muted hover:text-s3-blue"
-              aria-label="メニューを閉じる"
-            >
-              <X size={24} />
-            </button>
             <div className="h-full overflow-y-auto overscroll-contain">
-              <div className="min-h-full flex flex-col items-center justify-center gap-8 py-8">
-                {navLinks.map((link, i) => (
+              <div className="min-h-full flex flex-col px-4 py-5">
+                <div
+                  className="rounded-md p-4 flex flex-col"
+                  style={{ border: "1px solid var(--nx-line)", background: "rgba(8,12,16,0.96)" }}
+                >
+                  <div className="flex items-center justify-between pb-3 mb-1" style={{ borderBottom: "1px solid var(--nx-line-s)" }}>
+                    <span className="nx-code text-[11px] tracking-[0.22em] text-s3-muted">MENU</span>
+                    <button
+                      data-menu-close
+                      onClick={() => setMenuOpen(false)}
+                      className="w-10 h-10 flex items-center justify-center rounded-md text-s3-muted hover:text-s3-blue"
+                      aria-label="メニューを閉じる"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+
+                  {navLinks.map((link, i) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="block py-3.5 px-2 text-[15px] font-medium text-s3-text hover:text-s3-blue transition-colors"
+                        style={{ borderBottom: "1px solid var(--nx-line-s)" }}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  ))}
+
                   <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.07 }}
+                    transition={{ delay: navLinks.length * 0.05 }}
+                    className="flex flex-col gap-2.5 pt-4"
                   >
                     <Link
-                      href={link.href}
+                      href="/contact#contact-form"
                       onClick={() => setMenuOpen(false)}
-                      className="text-2xl font-semibold text-s3-text hover:text-s3-blue transition-colors"
+                      className="nx-btn nx-btn-p"
+                      style={{ height: 52 }}
                     >
-                      {link.label}
+                      <span className="flex-1">無料相談</span>
+                      <Arrow />
                     </Link>
+                    <a
+                      href={LINE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMenuOpen(false)}
+                      className="nx-btn nx-btn-line"
+                      style={{ height: 52 }}
+                    >
+                      <LineIcon />
+                      <span className="flex-1">公式LINEで相談</span>
+                      <Arrow />
+                    </a>
                   </motion.div>
-                ))}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: navLinks.length * 0.07 }}
-                  className="mt-4"
-                >
-                  <Link
-                    href="/contact#contact-form"
-                    onClick={() => setMenuOpen(false)}
-                    className="inline-flex px-8 py-3 rounded text-base font-semibold text-white gradient-cta glow-blue"
-                  >
-                    無料相談
-                  </Link>
-                </motion.div>
-                <motion.a
-                  href={LINE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMenuOpen(false)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: (navLinks.length + 1) * 0.07 }}
-                  className="px-8 py-3 rounded text-base font-semibold text-white bg-[#06C755] hover:brightness-110 transition-all"
-                >
-                  公式LINEで相談
-                </motion.a>
+                </div>
               </div>
             </div>
           </motion.div>

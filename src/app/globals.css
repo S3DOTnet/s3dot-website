@@ -51,6 +51,11 @@
   --color-s3-text: #E8EDF2;
   --color-s3-muted: #8FA4B8;
   --color-s3-dim: #4A6070;
+
+  /* 新デザイン用フォント（layout.tsx の next/font 変数を参照） */
+  --font-jp: var(--font-zen-kaku), var(--font-sans), system-ui, sans-serif;
+  --font-tech: var(--font-chakra), var(--font-zen-kaku), sans-serif;
+  --font-code: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 :root {
@@ -422,3 +427,268 @@
 ::-webkit-scrollbar-track { background: #080C10; }
 ::-webkit-scrollbar-thumb { background: #1E2D3D; border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: #00C8FF; }
+
+/* ═══════════════════════════════════════════════════════════
+   NX — 新デザイン（未来的HUD）共通スタイル
+   トップページ全セクション + Header/Footer で使用
+═══════════════════════════════════════════════════════════ */
+:root {
+  --nx-accent: #00C8FF;
+  --nx-accent-soft: rgba(0, 200, 255, 0.12);
+  --nx-accent-line: rgba(0, 200, 255, 0.4);
+  --nx-accent-glow: rgba(0, 200, 255, 0.45);
+  --nx-purple: #7B5EFF;
+  --nx-ok: #00E5A0;
+  --nx-line: rgba(140, 205, 255, 0.16);
+  --nx-line-s: rgba(140, 205, 255, 0.08);
+  --nx-panel: rgba(11, 16, 26, 0.78);
+  --nx-soft: #C7D0DC;
+}
+
+/* Tailwind の utilities（hidden / md:… など）で上書きできるよう components レイヤーに置く */
+@layer components {
+
+/* ── 基本 ── */
+.nx { font-family: var(--font-jp); }
+.nx-tech { font-family: var(--font-tech); }
+.nx-code { font-family: var(--font-code); }
+.nx-grid {
+  background-image:
+    linear-gradient(rgba(140,205,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140,205,255,0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.nx-sec-line { border-top: 1px solid var(--nx-line-s); }
+
+/* ── 見出しラベル ── */
+.nx-tag {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-code); font-size: 12px; letter-spacing: 0.22em; color: #8FA4B8;
+}
+.nx-tag .n { color: var(--nx-accent); }
+.nx-tag .l { width: 56px; height: 1px; background: var(--nx-line); }
+.nx-dot {
+  width: 7px; height: 7px; border-radius: 4px; flex-shrink: 0;
+  background: var(--nx-accent); box-shadow: 0 0 12px var(--nx-accent-glow);
+}
+.nx-dot.ok { background: var(--nx-ok); box-shadow: 0 0 10px var(--nx-ok); }
+
+/* ── パネル / カード ── */
+.nx-panel {
+  position: relative; border: 1px solid var(--nx-line); border-radius: 6px; background: var(--nx-panel);
+  transition: border-color .35s, transform .35s, box-shadow .35s;
+}
+.nx-panel.hover:hover {
+  border-color: rgba(0,200,255,0.6); transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+}
+.nx-c { position: absolute; width: 14px; height: 14px; pointer-events: none; border: 0 solid var(--nx-accent-line); }
+.nx-c.c1 { left: -1px; top: -1px; border-left-width: 1px; border-top-width: 1px; }
+.nx-c.c2 { right: -1px; top: -1px; border-right-width: 1px; border-top-width: 1px; }
+.nx-c.c3 { left: -1px; bottom: -1px; border-left-width: 1px; border-bottom-width: 1px; }
+.nx-c.c4 { right: -1px; bottom: -1px; border-right-width: 1px; border-bottom-width: 1px; }
+.nx-chip {
+  font-family: var(--font-code); font-size: 11px; padding: 5px 10px; border-radius: 3px;
+  border: 1px solid var(--nx-line); color: #8FA4B8;
+}
+.nx-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; color: #8FA4B8;
+}
+.nx-outline { color: transparent; -webkit-text-stroke: 1.2px #8FA4B8; }
+.nx-grad {
+  background: linear-gradient(180deg, #ffffff 30%, #8FD3FF 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.nx-glow { text-shadow: 0 0 24px var(--nx-accent-glow); }
+
+/* ── ボタン ── */
+.nx-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  height: 60px; padding: 0 26px; border-radius: 4px; font-size: 16px; font-weight: 700;
+  text-decoration: none; box-sizing: border-box;
+  transition: filter .25s, transform .25s, border-color .25s, background-color .25s;
+}
+.nx-btn-p { background: var(--nx-accent); color: #080C10; box-shadow: 0 0 32px var(--nx-accent-glow); }
+.nx-btn-p:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.nx-btn-g { background: rgba(11,16,26,0.7); border: 1px solid var(--nx-line); color: #E8EDF2; font-weight: 500; }
+.nx-btn-g:hover { border-color: rgba(0,200,255,0.6); background: rgba(0,200,255,0.08); }
+.nx-btn-line { background: #06C755; color: #ffffff; box-shadow: 0 0 24px rgba(6,199,85,0.35); }
+.nx-btn-line:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.nx-btn.sm { height: 44px; padding: 0 18px; font-size: 13px; gap: 8px; }
+.nx-tlink {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
+  font-size: 14px; font-weight: 700; color: var(--nx-accent); text-decoration: none; transition: opacity .2s;
+}
+.nx-tlink:hover { opacity: .8; }
+
+/* ── 装飾: リング / 軌道 / 球体 ── */
+.nx-ring { position: absolute; left: 50%; top: 50%; color: var(--nx-line); }
+.nx-ring.acc { color: var(--nx-accent-line); }
+.nx-spin { animation: nx-spin 60s linear infinite; }
+.nx-spinr { animation: nx-spin 90s linear infinite reverse; }
+.nx-orbit { position: absolute; left: 50%; top: 50%; }
+.nx-orbit span {
+  position: absolute; left: 50%; border-radius: 50%;
+  background: var(--nx-accent); box-shadow: 0 0 16px var(--nx-accent);
+}
+.nx-hero-orb { isolation: isolate; }
+/* 球体の周囲に落とす薄い光（線をぼかさないよう、球体の外側だけ） */
+.nx-hero-orb::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,200,255,.10) 0%, rgba(0,200,255,.03) 45%, transparent 70%);
+  animation: nx-orb-aura 5.2s ease-in-out infinite;
+}
+.nx-orb { position: relative; }
+.nx-orb-svg, .nx-orb-canvas { position: absolute; inset: 0; display: block; }
+.nx-orb-svg { transition: opacity .5s ease; }
+.nx-orb.is-live .nx-orb-svg { opacity: 0; }      /* Canvas が動いたら静止SVGを隠す（JS 未起動時は SVG が残る） */
+.nx-globe-wrap { position: relative; }
+.nx-globe-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,200,255,.14), rgba(0,200,255,.025) 52%, transparent 72%);
+  animation: nx-globe-core 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.nx-globe {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  animation: nx-spinY 28s linear infinite;
+}
+.nx-globe .gm { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--nx-accent-line); }
+.nx-globe .gl { position: absolute; border-radius: 50%; border: 1px solid rgba(140,205,255,0.18); }
+.nx-globe .ge { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--nx-accent); box-shadow: 0 0 24px var(--nx-accent-glow); }
+.nx-globe .gd { position: absolute; border-radius: 50%; background: #E8EDF2; }
+.nx-globe .gd.big { background: var(--nx-accent); box-shadow: 0 0 14px var(--nx-accent-glow); }
+
+/* ── 装飾: オーロラ / フロアグリッド ── */
+.nx-aurora { position: absolute; border-radius: 50%; pointer-events: none; }
+.nx-aurora.a1 { background: radial-gradient(circle, var(--nx-accent-soft) 0%, transparent 60%); animation: nx-aur1 18s ease-in-out infinite alternate; }
+.nx-aurora.a2 { background: radial-gradient(circle, rgba(123,94,255,0.14) 0%, transparent 60%); animation: nx-aur2 22s ease-in-out infinite alternate; }
+.nx-floor-wrap { position: absolute; left: -30%; right: -30%; bottom: 0; height: 300px; perspective: 520px; overflow: hidden; pointer-events: none; }
+.nx-floor-wrap.low { height: 240px; }
+.nx-floor {
+  position: absolute; left: 0; right: 0; top: 0; height: 900px; transform-origin: 50% 0; transform: rotateX(64deg); opacity: .55;
+  background-image: linear-gradient(var(--nx-accent-line) 1px, transparent 1px), linear-gradient(90deg, var(--nx-accent-line) 1px, transparent 1px);
+  background-size: 80px 80px; animation: nx-floor 3s linear infinite;
+}
+.nx-floor-fade { position: absolute; inset: 0; background: linear-gradient(180deg, #080C10 0%, rgba(8,12,16,0.2) 55%, #080C10 100%); }
+
+/* ── 装飾: ニューラルネット / ジャイロ / レーダー ── */
+.nx-neural { display: block; width: 100%; height: auto; }
+.nx-neural .lk { stroke: var(--nx-line); stroke-width: 1; }
+.nx-neural .flow { stroke: var(--nx-accent); stroke-width: 1.2; stroke-dasharray: 5 16; animation: nx-dash 2.4s linear infinite; }
+.nx-neural .node { fill: var(--nx-accent-soft); animation: nx-node 3.2s ease-in-out infinite; }
+.nx-neural .nd { fill: #080C10; stroke: var(--nx-accent); stroke-width: 1.2; }
+.nx-gyro { position: relative; perspective: 1560px; }
+.nx-gyro > div { position: absolute; inset: 0; transform-style: preserve-3d; }
+.nx-gyro span { position: absolute; border-radius: 50%; }
+.nx-gyro .gy1 { inset: 0; border: 1px solid var(--nx-accent); box-shadow: 0 0 22px var(--nx-accent-glow), inset 0 0 22px var(--nx-accent-soft); animation: nx-gy1 14s linear infinite; }
+.nx-gyro .gy2 { inset: 9%; border: 1px dashed var(--nx-accent-line); animation: nx-gy2 18s linear infinite; }
+.nx-gyro .gy3 { inset: 20%; border: 1px solid rgba(123,94,255,0.5); animation: nx-gy3 22s linear infinite; }
+.nx-gyro .core { left: 50%; top: 50%; width: 11%; height: 11%; transform: translate(-50%,-50%); background: var(--nx-accent); box-shadow: 0 0 40px var(--nx-accent), 0 0 90px var(--nx-accent-glow); animation: nx-core 2.8s ease-in-out infinite; }
+.nx-gyro .halo { left: 50%; top: 50%; width: 40%; height: 40%; transform: translate(-50%,-50%); background: radial-gradient(circle, var(--nx-accent-soft) 0%, transparent 70%); }
+.nx-radar { position: relative; flex-shrink: 0; }
+.nx-radar span { position: absolute; border-radius: 50%; }
+.nx-radar .r1 { inset: 0; border: 1px solid var(--nx-line); }
+.nx-radar .r2 { inset: 22%; border: 1px solid var(--nx-line); }
+.nx-radar .r3 { inset: 44%; border: 1px solid var(--nx-accent-line); }
+.nx-radar .rx { left: 50%; top: 0; bottom: 0; width: 1px; background: var(--nx-line-s); border-radius: 0; }
+.nx-radar .ry { top: 50%; left: 0; right: 0; height: 1px; background: var(--nx-line-s); border-radius: 0; }
+.nx-radar .sweep { inset: 0; background: conic-gradient(from 0deg, transparent 0deg, transparent 280deg, var(--nx-accent-soft) 330deg, var(--nx-accent-line) 360deg); animation: nx-spin 4s linear infinite; }
+.nx-radar .rd { left: 58%; top: 40%; width: 8px; height: 8px; margin: -4px 0 0 -4px; background: var(--nx-accent); box-shadow: 0 0 14px var(--nx-accent); }
+
+/* ── 装飾: 光の枠 / タイピング / 進行ライン ── */
+.nx-glow-wrap { position: relative; border-radius: 6px; overflow: hidden; padding: 1px; display: flex; }
+.nx-conic {
+  position: absolute; left: -50%; top: -50%; width: 200%; height: 200%; opacity: .9;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 200deg, var(--nx-accent) 290deg, transparent 360deg);
+  animation: nx-spin 5s linear infinite;
+}
+.nx-type {
+  display: inline-block; overflow: hidden; white-space: nowrap; width: 0; border-right: 2px solid var(--nx-accent);
+  animation: nx-typing 2.6s steps(38, end) .5s forwards, nx-caret .8s step-end infinite;
+}
+.nx-pulse { animation: nx-pulse 2.4s ease-in-out infinite; }
+.nx-blink { animation: nx-blink 1s steps(1) infinite; }
+.nx-bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; transform-origin: left; background: linear-gradient(90deg, var(--nx-accent), transparent); animation: nx-bar 4s ease-in-out infinite alternate; }
+.nx-travel { position: absolute; top: -3px; width: 60px; height: 7px; margin-left: -30px; border-radius: 4px; background: var(--nx-accent); box-shadow: 0 0 18px var(--nx-accent); animation: nx-travel 5s cubic-bezier(.6,0,.4,1) infinite; }
+.nx-travely { position: absolute; left: -3px; width: 7px; height: 50px; margin-top: -25px; border-radius: 4px; background: var(--nx-accent); box-shadow: 0 0 16px var(--nx-accent); animation: nx-travely 5s cubic-bezier(.6,0,.4,1) infinite; }
+.nx-scan { position: absolute; left: 0; right: 0; top: 0; height: 80px; background: linear-gradient(180deg, transparent, var(--nx-accent-soft), transparent); pointer-events: none; animation: nx-scan 7s linear infinite; }
+.nx-marquee { display: flex; gap: 40px; white-space: nowrap; animation: nx-marquee 44s linear infinite; }
+
+/* ── 表示アニメーション（JS に依存しない） ──
+   .nx-rise / .nx-drop: CSS キーフレームで読み込み時に現れる（ハイドレーション不要）
+   .nx-reveal: 既定は表示。JS が画面外の要素にだけ .nx-hidden を付け、画面に入ったら外す */
+.nx-rise { animation: nx-rise .8s cubic-bezier(.2,.7,.2,1) both; }
+.nx-drop { animation: nx-drop .6s ease-out both; }
+.nx-reveal {
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s;
+}
+/* 隠す側は遷移なし（JS起動直後に「見えてから消える」ちらつきを出さない）。表示側だけ .nx-reveal の transition で現れる */
+.nx-reveal.nx-hidden { opacity: 0; transform: translateY(24px); transition: none; }
+
+/* ── フォーム入力（新デザイン） ── */
+.nx-fld {
+  width: 100%; box-sizing: border-box; background: rgba(8,12,16,0.75); border: 1px solid rgba(140,205,255,0.2);
+  border-radius: 4px; padding: 14px 16px; font-size: 15px; color: #E8EDF2; outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.nx-fld:focus { border-color: rgba(0,200,255,0.8); box-shadow: 0 0 0 3px rgba(0,200,255,0.18); }
+.nx-fld::placeholder { color: #6B7686; }
+}
+
+/* ── keyframes ── */
+@keyframes nx-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes nx-drop { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+@keyframes nx-spin { to { transform: rotate(360deg); } }
+@keyframes nx-spinY { from { transform: rotateX(-18deg) rotateY(0); } to { transform: rotateX(-18deg) rotateY(360deg); } }
+@keyframes nx-orb-aura {
+  0%, 100% { opacity: .55; transform: scale(.96); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+@keyframes nx-globe-core {
+  0%, 100% { opacity: .35; transform: scale(.92); }
+  50% { opacity: .85; transform: scale(1.08); }
+}
+@keyframes nx-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+@keyframes nx-blink { 50% { opacity: 0; } }
+@keyframes nx-marquee { to { transform: translateX(-50%); } }
+@keyframes nx-scan { 0% { transform: translateY(-10%); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(900%); opacity: 0; } }
+@keyframes nx-travel { 0% { left: 0; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+@keyframes nx-travely { 0% { top: 0; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes nx-aur1 { from { transform: translate(0,0) scale(1); } to { transform: translate(120px,60px) scale(1.15); } }
+@keyframes nx-aur2 { from { transform: translate(0,0) scale(1.1); } to { transform: translate(-140px,-40px) scale(.95); } }
+@keyframes nx-floor { to { background-position: 0 80px, 0 0; } }
+@keyframes nx-dash { to { stroke-dashoffset: -42; } }
+@keyframes nx-node { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@keyframes nx-typing { to { width: 38ch; } }
+@keyframes nx-caret { 50% { border-color: transparent; } }
+@keyframes nx-gy1 { from { transform: rotateX(66deg) rotateZ(0); } to { transform: rotateX(66deg) rotateZ(360deg); } }
+@keyframes nx-gy2 { from { transform: rotateY(0) rotateX(24deg); } to { transform: rotateY(360deg) rotateX(24deg); } }
+@keyframes nx-gy3 { from { transform: rotateX(0) rotateY(-30deg); } to { transform: rotateX(360deg) rotateY(-30deg); } }
+@keyframes nx-core { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: .9; } 50% { transform: translate(-50%,-50%) scale(1.25); opacity: 1; } }
+@keyframes nx-bar { from { transform: scaleX(.35); } to { transform: scaleX(1); } }
+
+/* prefers-reduced-motion 時（上の共通ルールでアニメーションは停止）: タイピング行は全文表示 */
+@media (prefers-reduced-motion: reduce) {
+  .nx-type { width: 38ch; }
+}
+
+/* モバイル軽量化: 球体はCSS transformのみで動かし、重い背景とジャイロを停止 */
+@media (max-width: 640px) {
+  .nx-globe { animation-duration: 32s; }
+  .nx-gyro .gy1, .nx-gyro .gy2, .nx-gyro .gy3 { animation-duration: 0s; }
+  .nx-hero-orb::before { inset: 14%; }
+  .nx-grid { background-image: none; }
+}
