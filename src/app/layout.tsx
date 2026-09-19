@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Zen_Kaku_Gothic_New, Chakra_Petch, JetBrains_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import "./globals.css";
@@ -15,6 +15,26 @@ const GTM_ID = "GTM-P46TGDBV";
 
 const inter = Inter({
   variable: "--font-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+/* ── 新デザイン用フォント（next/font で自己ホスト。globals.css の --font-jp / --font-tech / --font-code から参照） ── */
+const zenKaku = Zen_Kaku_Gothic_New({
+  variable: "--font-zen-kaku",
+  weight: ["400", "500", "700", "900"],
+  subsets: ["latin"],
+  preload: false, /* 日本語フォントはサブセットが大きいため、preload せず自己ホスト配信のみ行う */
+  display: "swap",
+});
+const chakraPetch = Chakra_Petch({
+  variable: "--font-chakra",
+  weight: ["500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
   display: "swap",
 });
@@ -97,7 +117,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ja" className={`${inter.variable} h-full antialiased`}>
+    <html lang="ja" className={`${inter.variable} ${zenKaku.variable} ${chakraPetch.variable} ${jetBrainsMono.variable} h-full antialiased`}>
       <head>
         {/* Google Tag Manager（beforeInteractive: 必ずhead内に挿入される） */}
         <Script

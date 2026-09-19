@@ -92,9 +92,9 @@ const API_ERROR_MESSAGES: Record<string, string> = {
 /* ── 共通 CSS 変数 ── */
 const inputBase: React.CSSProperties = {
   width: "100%",
-  background: "rgba(15, 21, 25, 0.9)",
-  border: "1px solid rgba(30, 45, 61, 0.9)",
-  borderRadius: "0.75rem",
+  background: "rgba(8, 12, 16, 0.75)",
+  border: "1px solid rgba(140, 205, 255, 0.2)",
+  borderRadius: "4px",
   color: "#E8EDF2",
   fontSize: "0.9rem",
   outline: "none",
@@ -169,7 +169,7 @@ function Label({ htmlFor, children, required }: { htmlFor: string; children: Rea
     >
       {children}
       {required && (
-        <span className="ml-1.5 text-xs font-bold" style={{ color: "#F87171" }}>必須</span>
+        <span className="ml-2 px-1.5 py-0.5 rounded-[3px] text-[10px] font-bold tracking-[0.1em]" style={{ background: "#00C8FF", color: "#080C10", fontFamily: "var(--font-code)" }}>必須</span>
       )}
     </label>
   );
@@ -201,8 +201,8 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 function focusStyle(isFocused: boolean, hasError: boolean): React.CSSProperties {
   if (hasError) return errorStyle;
   if (isFocused) return {
-    borderColor: "rgba(0,200,255,0.55)",
-    boxShadow: "0 0 0 3px rgba(0,200,255,0.10)",
+    borderColor: "rgba(0,200,255,0.8)",
+    boxShadow: "0 0 0 3px rgba(0,200,255,0.18)",
   };
   return {};
 }
@@ -509,7 +509,7 @@ export default function ContactForm() {
             style={{ color: "rgba(232,237,242,0.9)" }}
           >
             ご相談内容
-            <span className="ml-1.5 text-xs font-bold" style={{ color: "#F87171" }}>必須</span>
+            <span className="ml-2 px-1.5 py-0.5 rounded-[3px] text-[10px] font-bold tracking-[0.1em]" style={{ background: "#00C8FF", color: "#080C10", fontFamily: "var(--font-code)" }}>必須</span>
           </legend>
           <p id="cf-topics-help" className="text-xs text-s3-dim mb-3">複数選択できます</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -518,10 +518,10 @@ export default function ContactForm() {
               return (
                 <label
                   key={topic}
-                  className="flex items-center gap-3 cursor-pointer rounded-xl px-4 py-3 transition-all duration-200"
+                  className="flex items-center gap-3 cursor-pointer rounded-[4px] px-4 py-3 min-h-12 transition-all duration-200"
                   style={{
-                    background: checked ? "rgba(0,200,255,0.08)" : "rgba(15,21,25,0.7)",
-                    border: checked ? "1px solid rgba(0,200,255,0.35)" : "1px solid rgba(30,45,61,0.9)",
+                    background: checked ? "rgba(0,200,255,0.08)" : "rgba(8,12,16,0.6)",
+                    border: checked ? "1px solid rgba(0,200,255,0.5)" : "1px solid rgba(140,205,255,0.16)",
                     boxShadow: checked ? "0 0 12px rgba(0,200,255,0.08)" : "none",
                   }}
                 >
@@ -647,7 +647,7 @@ export default function ContactForm() {
               )}
             </span>
             <span className="text-sm leading-relaxed" style={{ color: "rgba(232,237,242,0.8)" }}>
-              <span className="mr-1.5 text-xs font-bold" style={{ color: "#F87171" }}>必須</span>
+              <span className="mr-2 px-1.5 py-0.5 rounded-[3px] text-[10px] font-bold tracking-[0.1em]" style={{ background: "#00C8FF", color: "#080C10", fontFamily: "var(--font-code)" }}>必須</span>
               個人情報の取り扱いに同意します
             </span>
           </label>
@@ -692,17 +692,18 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="w-full sm:w-auto mx-auto flex items-center justify-center gap-3 rounded-xl font-bold text-white transition-all duration-300"
+            className="w-full sm:w-[420px] sm:max-w-full mx-auto flex items-center justify-center gap-3 rounded-[4px] font-bold transition-all duration-300 hover:brightness-110"
             style={{
               padding: "1.1rem 3.5rem",
-              fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
+              fontSize: "clamp(0.95rem, 1.4vw, 1.05rem)",
               letterSpacing: "0.03em",
+              color: "#080C10",
               background: status === "submitting"
                 ? "rgba(0,200,255,0.4)"
-                : "linear-gradient(90deg, #00C8FF 0%, #7B5EFF 100%)",
+                : "#00C8FF",
               boxShadow: status === "submitting"
                 ? "none"
-                : "0 0 28px rgba(0,200,255,0.4), 0 0 70px rgba(0,200,255,0.15), 0 8px 28px rgba(0,0,0,0.4)",
+                : "0 0 40px rgba(0,200,255,0.45)",
               cursor: status === "submitting" ? "not-allowed" : "pointer",
               opacity: status === "submitting" ? 0.7 : 1,
             }}

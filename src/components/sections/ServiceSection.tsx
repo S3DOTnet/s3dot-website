@@ -1,8 +1,5 @@
 "use client";
 
-import { useRef, useState } from "react";
-import Link from "next/link";
-import { motion, useInView } from "framer-motion";
 import {
   MessageCircle,
   Settings,
@@ -10,6 +7,7 @@ import {
   Sparkles,
   Code2,
 } from "lucide-react";
+import { Btn, Reveal, Ring, SectionHead, SideLabel, TextLink } from "@/components/ui/design";
 
 const services = [
   {
@@ -18,7 +16,6 @@ const services = [
     sub: "「何から始めればいいか」から一緒に考える",
     body: "企業ごとの課題に合わせて、AI活用の方法をご提案します。",
     tags: ["無料相談あり", "課題整理", "導入計画"],
-    color: "#00C8FF",
     href: "/ai",
   },
   {
@@ -27,7 +24,6 @@ const services = [
     sub: "今のやり方に、AIをうまく組み込む",
     body: "既存の業務の流れを変えずに、AIを自然に取り入れ、負担を軽くします。",
     tags: ["フロー最適化", "コスト削減", "ミス削減"],
-    color: "#7B5EFF",
     href: undefined,
   },
   {
@@ -36,7 +32,6 @@ const services = [
     sub: "繰り返しをなくす。それだけで会社は変わる。",
     body: "日々の事務作業や定型業務をAIで効率化します。",
     tags: ["時間削減", "省人化", "RPA"],
-    color: "#00E5A0",
     href: undefined,
   },
   {
@@ -45,7 +40,6 @@ const services = [
     sub: "コンテンツ制作を、速く・安く・大量に。",
     body: "画像・動画・文章・音声など、広告やSNSに使えるコンテンツ制作をAIで支援します。",
     tags: ["画像生成", "動画制作", "テキスト生成"],
-    color: "#00C8FF",
     href: undefined,
   },
   {
@@ -54,159 +48,97 @@ const services = [
     sub: "あなたの会社専用のAIを作る。",
     body: "会社独自の業務に合わせたAIツールを開発します。",
     tags: ["オーダーメイド", "API連携", "運用サポート"],
-    color: "#7B5EFF",
     href: undefined,
   },
 ];
 
-function ServiceCard({
-  icon: Icon,
-  label,
-  sub,
-  body,
-  tags,
-  color,
-  href,
-  index,
-}: (typeof services)[0] & { index: number }) {
-  const [hovered, setHovered] = useState(false);
-
+/* 目玉カード（01 AI導入支援）: 光が一周する枠線 */
+function FeaturedCard({ s }: { s: (typeof services)[0] }) {
+  const Icon = s.icon;
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 44, scale: 0.96 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        border: hovered
-          ? `1px solid ${color}40`
-          : "1px solid rgba(30,45,61,0.8)",
-        boxShadow: hovered
-          ? `0 0 30px ${color}15, 0 8px 32px rgba(0,0,0,0.3)`
-          : "0 4px 16px rgba(0,0,0,0.2)",
-        transform: hovered ? "translateY(-4px)" : "translateY(0)",
-      }}
-      className="card-luxury card-shine rounded-xl p-5 md:p-7 flex flex-col gap-4 md:gap-5 cursor-default"
-    >
-      {/* Icon — 発光グラス */}
-      <div
-        className="w-11 h-11 rounded-xl flex items-center justify-center"
-        style={{
-          background: `radial-gradient(circle, ${color}24 0%, ${color}08 100%)`,
-          border: `1px solid ${color}32`,
-          boxShadow: `0 0 16px ${color}1A, inset 0 1px 0 rgba(255,255,255,0.08)`,
-        }}
+    <Reveal className="nx-glow-wrap md:col-span-2 lg:col-span-1 lg:row-span-2">
+      <i className="nx-conic" aria-hidden="true" />
+      <article
+        className="relative flex-1 overflow-hidden rounded-[5px] p-6 md:p-11 flex flex-col justify-between gap-6 md:gap-10"
+        style={{ background: "linear-gradient(160deg, var(--nx-accent-soft), rgba(8,12,20,0.98) 60%)" }}
       >
-        <Icon size={20} style={{ color, filter: `drop-shadow(0 0 5px ${color}99)` }} />
+        <div className="hidden md:block absolute right-[-120px] top-[-120px] w-[380px] h-[380px] opacity-80" aria-hidden="true">
+          <Ring d={380} dash="1 6" cls="nx-spin" dur={50} accent />
+          <Ring d={300} dash="30 10" cls="nx-spinr" dur={70} accent />
+        </div>
+        <div className="relative flex flex-col gap-4 md:gap-6">
+          <div className="flex items-center gap-3.5">
+            <span className="w-12 h-12 md:w-14 md:h-14 rounded-md flex items-center justify-center" style={{ background: "var(--nx-accent)", color: "#080C10", boxShadow: "0 0 30px var(--nx-accent-glow)" }}>
+              <Icon size={26} strokeWidth={1.6} />
+            </span>
+            <span className="nx-code text-xs tracking-[0.2em]" style={{ color: "var(--nx-accent)" }}>MODULE 01 / 05</span>
+          </div>
+          <h3 className="font-black leading-[1.15] tracking-[-0.03em] text-s3-text" style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.9rem)" }}>{s.label}</h3>
+          <p className="text-base md:text-[22px] font-bold leading-[1.6] text-s3-text">{s.sub}</p>
+          <p className="text-[13px] md:text-base leading-[1.9]" style={{ color: "var(--nx-soft)" }}>{s.body}</p>
+        </div>
+        <div className="relative flex flex-col gap-5 md:gap-6">
+          <div className="flex flex-wrap gap-2">
+            {s.tags.map((t) => (
+              <span key={t} className="nx-chip" style={{ borderColor: "var(--nx-accent-line)", color: "#E8EDF2" }}>#{t}</span>
+            ))}
+          </div>
+          {s.href && <Btn href={s.href}>無料AI業務改善診断を見る</Btn>}
+        </div>
+      </article>
+    </Reveal>
+  );
+}
+
+function ServiceCard({ s, index }: { s: (typeof services)[0]; index: number }) {
+  const Icon = s.icon;
+  return (
+    <Reveal
+      as="article"
+      delay={index * 0.08}
+      className="nx-panel hover p-6 md:p-8 flex flex-col justify-between gap-5 md:gap-6"
+    >
+      <div className="flex flex-col gap-3.5">
+        <div className="nx-meta">
+          <Icon size={28} strokeWidth={1.4} style={{ color: "var(--nx-accent)" }} />
+          <span>MODULE 0{index + 1}</span>
+        </div>
+        <h3 className="text-[22px] md:text-[27px] font-black tracking-[-0.02em] text-s3-text">{s.label}</h3>
+        <p className="text-sm md:text-base font-bold leading-[1.6] text-s3-text">{s.sub}</p>
+        <p className="text-[13px] md:text-sm leading-[1.9] text-s3-muted">{s.body}</p>
       </div>
-
-      {/* Text */}
-      <div>
-        <h3 className="text-base font-bold text-s3-text mb-1">{label}</h3>
-        <p className="text-xs text-s3-muted leading-relaxed">{sub}</p>
-      </div>
-      <p className="text-sm text-s3-muted leading-relaxed flex-1">{body}</p>
-
-      {/* LP導線 */}
-      {href && (
-        <Link
-          href={href}
-          className="group/lp inline-flex items-center gap-1 text-xs font-semibold w-fit transition-colors duration-200 hover:brightness-125"
-          style={{ color }}
-        >
-          無料AI業務改善診断を見る
-          <span className="transition-transform duration-200 group-hover/lp:translate-x-0.5">→</span>
-        </Link>
-      )}
-
-      {/* Tags */}
-      <div className="flex flex-wrap gap-2">
-        {tags.map((t) => (
-          <span
-            key={t}
-            className="px-2.5 py-0.5 rounded-full text-[11px] font-medium"
-            style={{
-              color,
-              background: `${color}12`,
-              border: `1px solid ${color}25`,
-            }}
-          >
-            #{t}
-          </span>
+      <div className="flex flex-wrap gap-1.5">
+        {s.tags.map((t) => (
+          <span key={t} className="nx-chip">#{t}</span>
         ))}
       </div>
-
-      {/* Bottom line */}
-      <div
-        className="h-px transition-all duration-500"
-        style={{
-          background: `linear-gradient(90deg, ${color}, transparent)`,
-          opacity: hovered ? 1 : 0,
-        }}
-      />
-    </motion.div>
+    </Reveal>
   );
 }
 
 export default function ServiceSection({ hideHeading = false }: { hideHeading?: boolean }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="service" className="relative py-16 md:py-28 bg-s3-bg overflow-hidden section-grid noise-overlay">
-      {/* BG — Purple 左グロー (Conceptと差別化) */}
-      <div className="hidden sm:block" style={{ position:"absolute", left:"-10%", top:"50%", transform:"translateY(-50%)", width:700, height:700, background:"radial-gradient(ellipse, rgba(123,94,255,0.07) 0%, rgba(123,94,255,0.015) 50%, transparent 70%)", filter:"blur(70px)", pointerEvents:"none" }} />
-      <div className="hidden sm:block" style={{ position:"absolute", right:"-5%", bottom:"10%", width:400, height:400, background:"radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 70%)", filter:"blur(60px)", pointerEvents:"none" }} />
-      {/* 上部アクセントライン */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background:"linear-gradient(90deg,transparent,rgba(123,94,255,0.3),transparent)" }} />
-
-      <div className="relative max-w-[1200px] mx-auto px-6">
-        {/* Heading */}
+    <section id="service" className="nx nx-grid relative py-20 md:py-32 bg-s3-bg overflow-hidden">
+      {!hideHeading && <SideLabel text="SEC.02 — SERVICES" />}
+      <div className="relative max-w-[1248px] mx-auto px-5 md:px-6 xl:px-12">
         {!hideHeading && (
-          <div ref={ref} className="mb-10 md:mb-16 text-center">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="text-xs tracking-[0.3em] text-s3-blue uppercase font-mono mb-4"
-            >
-              Services
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl md:text-5xl font-bold text-s3-text"
-            >
-              S3DOTの<span className="gradient-text">できること</span>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-5 text-s3-muted text-lg"
-            >
-              AIで「変えられる」ことは、想像以上に多い。
-            </motion.p>
-          </div>
+          <SectionHead
+            num="02"
+            label="SERVICES"
+            title="S3DOTのできること"
+            desc={<>AIで「変えられる」ことは、<br className="hidden md:inline" /><strong className="text-s3-text font-bold">想像以上に多い。</strong></>}
+            link={<TextLink href="/service">サービス一覧を見る</TextLink>}
+          />
         )}
 
-        {/* Service cards: 3 + 2 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 mb-3 md:mb-5">
-          {services.slice(0, 3).map((s, i) => (
-            <ServiceCard key={s.label} {...s} index={i} />
-          ))}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 md:max-w-[calc(66.666%+10px)] mx-auto md:mx-0 md:ml-auto md:mr-auto">
-          {services.slice(3).map((s, i) => (
-            <ServiceCard key={s.label} {...s} index={i + 3} />
+        {/* ベント配置: 01 を大きく、残り4つを周りに */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-3 md:gap-5">
+          <FeaturedCard s={services[0]} />
+          {services.slice(1).map((s, i) => (
+            <ServiceCard key={s.label} s={s} index={i + 1} />
           ))}
         </div>
       </div>
-
-      <div className="section-divider mt-16 md:mt-32" />
     </section>
   );
 }
