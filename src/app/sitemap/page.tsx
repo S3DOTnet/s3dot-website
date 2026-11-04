@@ -100,6 +100,16 @@ const siteGroups: SiteGroup[] = [
         desc:  "当社サービスをご利用いただくための利用規約・禁止事項・免責事項です。",
       },
       {
+        label: "S3 NIGHT OS プライバシーポリシー",
+        href:  "/s3-night-os/privacy",
+        desc:  "店舗運営管理サービス「S3 NIGHT OS」に関する当社のプライバシーポリシーです。",
+      },
+      {
+        label: "S3 NIGHT OS 利用規約",
+        href:  "/s3-night-os/terms",
+        desc:  "店舗運営管理サービス「S3 NIGHT OS」の利用条件とデータの取扱いを掲載しています。",
+      },
+      {
         label: "特定商取引法に基づく表記",
         href:  "/legal",
         desc:  "特定商取引法に基づく販売事業者情報・料金・支払方法・キャンセルポリシー等です。",
@@ -209,7 +219,7 @@ export default function SitemapPage() {
                 className="text-xs"
                 style={{ color: "rgba(74,96,112,0.7)", letterSpacing: "0.02em" }}
               >
-                最終更新日：2026年7月14日　／　S3DOT — AIを、もっと身近に。
+                最終更新日：2026年11月4日　／　S3DOT — AIを、もっと身近に。
               </p>
             </div>
           </div>

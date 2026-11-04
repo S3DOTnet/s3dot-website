@@ -22,6 +22,8 @@ const legalLinks = [
   { label: "お問い合わせ",           href: "/contact" },
   { label: "プライバシーポリシー",   href: "/privacy"  },
   { label: "利用規約",               href: "/terms"    },
+  { label: "S3 NIGHT OS プライバシーポリシー", href: "/s3-night-os/privacy" },
+  { label: "S3 NIGHT OS 利用規約", href: "/s3-night-os/terms" },
   { label: "特定商取引法に基づく表記", href: "/legal"  },
   { label: "サイトマップ",           href: "/sitemap"  },
 ];

@@ -16,6 +16,8 @@ const pages: Array<{
   { path: "/company", changeFrequency: "yearly",  priority: 0.6 },
   { path: "/privacy", changeFrequency: "yearly",  priority: 0.4 },
   { path: "/terms",   changeFrequency: "yearly",  priority: 0.4 },
+  { path: "/s3-night-os/privacy", changeFrequency: "yearly", priority: 0.5 },
+  { path: "/s3-night-os/terms", changeFrequency: "yearly", priority: 0.5 },
   { path: "/legal",   changeFrequency: "yearly",  priority: 0.4 },
   { path: "/sitemap", changeFrequency: "monthly", priority: 0.3 },
 ];
